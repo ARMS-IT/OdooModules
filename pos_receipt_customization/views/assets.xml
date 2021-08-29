@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="inherit_assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pos_receipt_customization/static/lib/qrcode.min.js"/>
+            <link rel="stylesheet" href="/pos_receipt_customization/static/src/css/custom.css" />
+        </xpath>
+    </template>
+</odoo>

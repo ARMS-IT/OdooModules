@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_contract_report_wizard" model="ir.ui.view">
+        <field name="name">contract.report.wizard.form</field>
+        <field name="model">contract.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string ="Contract Date">
+                <group style="width:50%%">
+                    <field name="start_date" required='True'/>
+                    <field name="end_date" required='True'/>
+                </group>
+                <footer>
+                    <button string='View Expiry Contracts' name="expiry_contracts" type='object' class='btn-primary'/>
+	            <button string="Download Report" name="check_report" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string='Cancel' class='btn-default' special="cancel"/>	
+                </footer>
+            </form>		
+        </field>
+    </record>
+
+    <record id="action_contract_report_wizard" model="ir.actions.act_window">
+        <field name="name">Near by Completion Contract Report</field>
+        <field name="res_model">contract.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_contract_report_wizard"/>	
+    </record>
+
+</odoo>

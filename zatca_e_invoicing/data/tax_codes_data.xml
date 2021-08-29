@@ -1,0 +1,58 @@
+<odoo>
+	<data>
+		<record id="tax_code_AE" model="account.tax.codes">
+			<field name="code">AE</field>
+			<field name="name">Vat Reverse Charge</field>
+			<field name="description">Code specifying that the standard VAT rate is levied from the invoicee.</field>
+		</record>
+
+		<record id="tax_code_E" model="account.tax.codes">
+			<field name="code">E</field>
+			<field name="name">Exempt from Tax</field>
+			<field name="description">Code specifying that taxes are not applicable.</field>
+		</record>
+
+		<record id="tax_code_S" model="account.tax.codes">
+			<field name="code">S</field>
+			<field name="name">Standard rate</field>
+			<field name="description">Code specifying the standard rate.</field>
+		</record>
+
+		<record id="tax_code_Z" model="account.tax.codes">
+			<field name="code">Z</field>
+			<field name="name">Zero rated goods</field>
+			<field name="description">Code specifying that the goods are at a zero rate.</field>
+		</record>
+
+		<record id="tax_code_G" model="account.tax.codes">
+			<field name="code">G</field>
+			<field name="name">Free export item, VAT not charged</field>
+			<field name="description">Code specifying that the item is free export and taxes are not charged.</field>
+		</record>
+
+		<record id="tax_code_O" model="account.tax.codes">
+			<field name="code">O</field>
+			<field name="name">Services outside scope of tax</field>
+			<field name="description">Code specifying that taxes are not applicable to the services.</field>
+		</record>
+
+		<record id="tax_code_K" model="account.tax.codes">
+			<field name="code">K</field>
+			<field name="name">VAT exempt for EEA intra-community supply of goods and services</field>
+			<field name="description">A tax category code indicating the item is VAT exempt due to an intra-community supply in the European Economic Area.</field>
+		</record>
+
+		<record id="tax_code_L" model="account.tax.codes">
+			<field name="code">L</field>
+			<field name="name">Canary Islands general indirect tax</field>
+			<field name="description">Impuesto General Indirecto Canario (IGIC) is an in direct tax levied on goods and services supplied in the Canary Islands (Spain) by traders and professionals, as well as on import of goods.</field>
+		</record>
+
+		<record id="tax_code_M" model="account.tax.codes">
+			<field name="code">M</field>
+			<field name="name">Tax for production, services and importation in Ceuta and Melilla</field>
+			<field name="description">Impuesto sobre la Producción, los Servicios y la Importación (IPSI) is an indirect municipal tax, levied on the production, processing and import of all kinds of movable tangible property, the supply of services and the transfer of immovable property located in the cities of Ceuta and Melilla.</field>
+		</record>
+
+	</data>
+</odoo>

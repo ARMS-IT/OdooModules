@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_filter_invoice_tree" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="view_id" ref="account.view_invoice_tree"/>
+        <field name="context">{'type':'out_invoice'}</field>
+        <field name="domain">[]</field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+    </record>
+
+    <record id="view_property_maintenance_tree" model="ir.ui.view">
+        <field name="name">property.maintenance.tree</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <tree string="Property Maintenance">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="maintenance_type"/>
+                <field name="action"/>
+                <field name="assign_to"/>
+                <field name="cost"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_form" model="ir.ui.view">
+        <field name="name">property.maintenance.form</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Property Maintenance">
+                <header>
+                    <button string='Create Invoice' name="create_invoice" type='object' class='btn-primary' attrs="{'invisible': [('invoice_id','!=', False)]}"/>
+                    <field name="state" clickable="True" widget='statusbar' statusbar_visible='new,in_progress,done' default='new'/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="date"/>
+                            <field name="maintenance_type" required="1"/>
+                        </group>
+                        <group>
+                            <field name="action" required="1"/>
+                            <field name="assign_to" required="1"/>
+                            <field name="cost" required="1"/>
+                            <field name="invoice_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_maintenance" model="ir.actions.act_window">
+        <field name="name">Property Maintenances</field>
+        <field name="res_model">property.maintenance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_property_maintenance_tree"/>	
+    </record>
+
+    <record id="action_filter_property_maintenance" model="ir.actions.act_window">
+        <field name="name">Property Maintenance</field>
+        <field name="res_model">property.maintenance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('name', '=', active_id)]</field>
+        <field name="view_id" ref="view_property_maintenance_tree"/>	
+    </record>
+
+    <record id="property_oe_button_property_maintenance_on_form_view" model="ir.ui.view">
+        <field name="name">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/div[hasclass('oe_button_box')]" position="inside">
+                <button name="%(abs_property_management.action_filter_property_maintenance)d" type="action"
+                        icon="fa-wrench" class="oe_stat_button">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="total_maintenance"/></span>
+                            <span class="o_stat_text">Maintenance</span>
+                        </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!--MENU [Maintenance]-->
+    <menuitem
+        id="main_property_maintenance"
+        name="Property Maintenance"
+        parent="root_menu_property_management"        
+        action="abs_property_management.action_property_maintenance"
+        sequence="6"/>
+
+</odoo>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--MENU [Configuration]-->
+    <menuitem
+        id="main_property_report"
+        name="Reports"
+        parent="root_menu_property_management"
+        groups="abs_property_management.group_company"
+        sequence="7"/>
+
+    <record id="view_property_contract_graph" model="ir.ui.view">
+       <field name="name">property.contract.graph</field>
+       <field name="model">property.contract</field>
+       <field name="arch" type="xml">
+            <graph string="Contract expiry dates">
+                <field name="end_date" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_property_contract_report" model="ir.actions.act_window">
+        <field name="name">Contract Report</field>
+        <field name="res_model">property.contract</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="domain">[]</field>
+        <field name="view_id" ref="abs_property_management.view_property_contract_graph"/>	
+    </record>
+
+    <!--MENU [Contract]-->
+    <menuitem
+        id="menu_tenancy_contract_expiry"
+        name="Tenancy Contract Expiry"
+        parent="main_property_report"
+        action="abs_property_management.action_property_contract_report"
+        sequence="1"
+        groups="abs_property_management.group_user_tenant,abs_property_management.group_company"/>
+
+    <!--MENU [Contract]-->
+    <menuitem
+        id="menu_contract_report"
+        name="Contract Report"
+        parent="main_property_report"
+        action="abs_property_management.action_contract_report_wizard"
+        sequence="2"/>
+</odoo>
+

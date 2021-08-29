@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceiptInh" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//t[@t-if='receipt.company.logo']" position="replace">
+            <div class="pos-receipt-center-align main_title">
+                <strong>ﻓﺎﺗﻮﺭﺓ ﺿﺮﻳﺒﻴﺔ ﻣﺒﺴﻄﺔ</strong><br />
+                <strong>Simplified Tax Invoice</strong>
+            </div>
+            <table class='receipt-orderlines tbl-1'>
+                <tr>
+                    <td class="td-1">
+                        <strong>Invoice Number</strong>
+                    </td>
+                    <td class="td-2">
+                        <span>
+                            <t t-esc="receipt.name" /></span>
+                    </td>
+                    <td class="td-2">
+                        <span>
+                            <t t-esc="receipt.name" /></span>
+                    </td>
+                    <td class="td-3 black">
+                        ﺭﻗﻢ اﻟﻔﺎﺗﻮﺭﺓ
+                    </td>
+                </tr>
+            </table>
+            <table class='receipt-orderlines tbl-1'>
+                <tr>
+                    <td class="td-1">
+                        <strong>Invoice Issue Date</strong>
+                    </td>
+                    <td class="td-2">
+                        <span>
+                            <t t-esc="receipt.date.localestring" /></span>
+                    </td>
+                    <td class="td-2">
+                        <span>
+                            <t t-esc="receipt.date.localestring" /></span>
+                    </td>
+                    <td class="td-3 black">
+                        ﺗﺎﺭﻳﺦ ﺇﺻﺪاﺭ اﻟﻔﺎﺗﻮﺭﺓ
+                    </td>
+                </tr>
+            </table>
+            <table class='receipt-orderlines tbl-1 tbl-3'>
+                <tr class="white">
+                    <th class="bg_black">Nature of goods or services ﻃﺒﻴﻌﺔ اﻟﺴﻠﻊ ﺃﻭ اﻟﺨﺪﻣﺎﺕ</th>
+                    <th class="bg_black" width="25%">Unit Price ﺳﻌﺮ اﻟﻮﺣﺪﺓ</th>
+                    <th class="bg_black">Quantity ﺔﻴﻤﻛ</th>
+                    <th class="bg_black">Item Subtotal (Including VAT) (ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ﺎًﻨﻤﻀﺘﻣ) ﺪﻨﺒﻠﻟ ﻲﻋﺮﻔﻟا ﻉﻮﻤﺠﻤﻟا</th>
+                </tr>
+                <tr t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+                    <td>
+                        <span>
+                            <t t-esc="line.product_name_wrapped[0]" /></span>
+                    </td>
+                    <td class="pos-receipt-center-align">
+                        <span t-esc="env.pos.format_currency(line.price)" class="price_display" />
+                    </td>
+                    <td class="pos-receipt-center-align">
+                        <span>
+                            <t t-esc="line.quantity" /></span>
+                    </td>
+                    <td>
+                        <span t-esc="env.pos.format_currency(line.price_with_tax)" class="price_display pos-receipt-right-align" />
+                    </td>
+                </tr>
+            </table>
+            <table class='receipt-orderlines tbl-4'>
+                <tr>
+                    <td class="black">
+                        <span>Total Taxable Amount (Excluding VAT)</span>
+                    </td>
+                    <td class="w110">
+                        <span>(ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ءﺎﻨﺜﺘﺳﺎﺑ) ﺔﺒﻳﺮﻀﻠﻟ ﻊﺿﺎﺨﻟا ﻎﻠﺒﻤﻟا ﻲﻟﺎﻤﺟﺇ</span>
+                    </td>
+                    <td class="td-2 black">
+                        <span t-esc="env.pos.format_currency(receipt.total_without_tax)" class="price_display pos-receipt-right-align" />
+                    </td>
+                </tr>
+            </table>
+            <table class="tbl-5">
+                <tr>
+                    <td class="td-1 black">
+                        <span>Total VAT</span>
+                    </td>
+                    <td class="w110">
+                        <span>ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ﻲﻟﺎﻤﺟﺇ</span>
+                    </td>
+                    <td class="td-2 black">
+                        <span t-esc="env.pos.format_currency(receipt.total_tax)" class="price_display pos-receipt-right-align" />
+                    </td>
+                </tr>
+            </table>
+            <div t-attf-id="#{receipt.qr_string}"></div>
+            <div id="qrcode"></div>
+            <script type="text/javascript">
+                var receipt_name = "<t t-esc="receipt.name"/>";
+                new QRCode(document.getElementById("qrcode"), receipt_name);
+            </script>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="replace">
+        </xpath>
+        <xpath expr="//div[hasclass('orderlines')]" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-if='!receipt.company.logo']" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-if='!isTaxIncluded']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-right-align']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-amount']" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-if='receipt.total_rounded != receipt.total_with_tax']" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-foreach='receipt.paymentlines']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-amount receipt-change']" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-if='receipt.total_discount']" position="replace">
+        </xpath>
+        <xpath expr="//t[@t-if='isTaxIncluded']" position="replace">
+        </xpath>
+        <xpath expr="//div[@t-if='receipt.footer_html']" position="replace">
+        </xpath>
+        <xpath expr="//div[@t-if='!receipt.footer_html and receipt.footer']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='after-footer']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-order-data']" position="replace">
+        </xpath>
+    </t>
+</templates>

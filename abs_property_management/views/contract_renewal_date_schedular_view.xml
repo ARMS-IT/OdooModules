@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--- create schedular for Contract_renewal_date -->
+    <record forcecreate="True" id="contract_renewal_date_sheduler_action" model="ir.cron">
+        <field name="name">Send email to customer for reminder of contract renewal date</field>
+        <field name="model_id" ref="model_property_contract"/>
+        <field name="state">code</field>
+        <field name="code">model._send_customer_contract_renewal_date_email()</field>	
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+</odoo>

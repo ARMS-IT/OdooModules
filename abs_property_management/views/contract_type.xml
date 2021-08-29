@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_contract_type_tree" model="ir.ui.view">
+        <field name="name">contract.type.tree</field>
+        <field name="model">contract.type</field>
+        <field name="arch" type="xml">
+            <tree string="Contracts Type">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_contract_type_form" model="ir.ui.view">
+        <field name="name">contract.type.form</field>
+        <field name="model">contract.type</field>
+        <field name="arch" type="xml">
+            <form string="Contract Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_contract_type" model="ir.actions.act_window">
+        <field name="name">Contract Type</field>
+        <field name="res_model">contract.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_contract_type_tree"/>	
+    </record>
+
+    <menuitem
+        id="main_contract_type"
+        name="Contract Type"
+        parent="main_menu_configuration"        
+        action="abs_property_management.action_contract_type"
+        sequence="2"/>
+</odoo>
+
