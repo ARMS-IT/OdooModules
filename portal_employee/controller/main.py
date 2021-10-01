@@ -9,6 +9,7 @@ from io import BytesIO
 from base64 import b64decode
 from datetime import datetime
 
+
 class CustomerPortal(CustomerPortal):
 
     @http.route(['/employee/profile/update_json'], type='json', auth="public", methods=['POST'], website=True)
@@ -54,6 +55,52 @@ class CustomerPortal(CustomerPortal):
             })
         return value
 
+    @http.route(['/manager/employee/profile/update_json'], type='json', auth="public", methods=['POST'], website=True)
+    def manager_employee_profile_update(self, **kw):
+        value = {}
+        employee_id = request.env['hr.employee'].sudo().browse(int(kw.get('employee_id')))
+        value['render_employee_form'] = request.env['ir.ui.view']._render_template("portal_employee.manager_portal_employee_form", {'employee_id': employee_id})
+        return value
+
+    @http.route(['/save/employee/profile/update_json'], type='json', auth="public", methods=['POST'], website=True)
+    def save_employee_profile_update(self, **kw):
+        value = {}
+        gender = False
+        marital_status = False
+        if kw.get('gender') == 'Male':
+            gender = 'male'
+        if kw.get('gender') == 'Female':
+            gender = 'female'
+        if kw.get('gender') == 'Other':
+            gender = 'other'
+        if kw.get('marital_status') == 'Single':
+            marital_status = 'single'
+        if kw.get('marital_status') == 'Married':
+            marital_status = 'married'
+        employee_id = request.env['hr.employee'].sudo().search([('id', '=', int(kw.get('emp_id')))], limit=1)
+        country_id = request.env['res.country'].sudo().search([('id', '=', int(kw.get('private_country_id')))], limit=1)
+        state_id = request.env['res.country.state'].sudo().search([('id', '=', int(kw.get('private_state_id')))], limit=1)
+        if kw.get('image'):
+            image = BytesIO(b64decode(kw.get('image').split(',')[1]))
+            employee_id.update({'image_1920': base64.b64encode(image.read()).decode('utf-8')})
+        employee_id.update({
+                'name': kw.get('name'),
+                'identification_id': kw.get('identification_id'),
+                'passport_id': kw.get('passport_id'),
+                'birthday': kw.get('birthday'),
+                'gender': gender,
+                'marital': marital_status,
+            })
+        employee_id.address_home_id.update({
+                'street': kw.get('private_street'),
+                'street2': kw.get('private_street2'),
+                'zip': kw.get('private_zip'),
+                'state_id': state_id.id,
+                'country_id': country_id.id,
+            })
+        value['render_o_organizational_chart'] = request.env['ir.ui.view']._render_template("portal_employee.o_organizational_chart", {})
+        return value
+
     @http.route(['/leave/update_json'], type='json', auth="public", methods=['POST'], website=True)
     def leave_update_json(self, **kw):
         value = {}
@@ -97,3 +144,21 @@ class CustomerPortal(CustomerPortal):
                 return request.redirect('/my')
             if report_type in ('html', 'pdf', 'text'):
                 return self._show_report(model=payslip, report_type=report_type, report_ref='hr_payroll_community.action_report_payslip', download=download)
+
+    @http.route(['/approve/leave_update_json'], type='json', auth="public", methods=['POST'], website=True)
+    def approve_leave(self, **kw):
+        value = {}
+        leave_id = request.env['hr.leave'].sudo().browse(int(kw.get('leave_id')))
+        leave_id.action_approve()
+        value['leave_data'] = request.env['ir.ui.view']._render_template("portal_employee.leave_data", {
+            })
+        return value
+
+    @http.route(['/refuse/leave_update_json'], type='json', auth="public", methods=['POST'], website=True)
+    def refuse_leave(self, **kw):
+        value = {}
+        leave_id = request.env['hr.leave'].sudo().browse(int(kw.get('leave_id')))
+        leave_id.action_refuse()
+        value['leave_data'] = request.env['ir.ui.view']._render_template("portal_employee.leave_data", {
+            })
+        return value

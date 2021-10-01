@@ -3,6 +3,7 @@
     <template id="assets_frontend" inherit_id="website.assets_frontend">
         <xpath expr="//link[last()]" position="after">
             <link rel="stylesheet" type="text/scss" href="/portal_employee/static/src/css/style.css" />
+            <link rel="stylesheet" type="text/scss" href="/portal_employee/static/src/scss/chart_view.scss"/>
         </xpath>
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/portal_employee/static/src/js/custom.js"></script>

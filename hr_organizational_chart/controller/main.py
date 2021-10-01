@@ -24,7 +24,8 @@
 from odoo import http
 from odoo.exceptions import UserError
 from odoo.http import request
-
+import base64
+from odoo.modules.module import get_module_resource
 
 class EmployeeChart(http.Controller):
 
@@ -78,11 +79,11 @@ class EmployeeChart(http.Controller):
             for child in child_ids:
                 child_table = """<td colspan='""" + str(2) + """'>
                     <table><tr><td><div>"""
-                view = """ <div id='""" + str(child.id) + """' class='o_level_1'><a>
+                view = """<div id='""" + str(child.id) + """' class='o_level_1'><a>
                     <div id='""" + str(child.id) + """' class="o_employee_border">
-                    <img src='/web/image/hr.employee.public/""" + str(child.id) + """/image_1024/'/></div>
-                    <div class='employee_name'><p>""" + str(child.name) + """</p>
-                    <p>""" + str(child.job_id.name) + """</p></div></a></div>"""
+                    <img src='data:image/png;base64,""" + child.image_1024.decode('ascii') + """'/></div>
+                    <div t-att-data-employee-id='""" + str(child.id) + """' class='update_profile_info'><div class='employee_name' ><p>""" + str(child.name) + """</p>
+                    <p>""" + str(child.job_id.name) + """</p></div></div></a></div>"""
                 child_nodes += child_table + view + """</div></td></tr></table></td>"""
             nodes = child_nodes + """</tr>"""
             return nodes

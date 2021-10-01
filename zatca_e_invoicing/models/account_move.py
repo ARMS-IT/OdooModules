@@ -71,10 +71,11 @@ class SequenceMixin(models.AbstractModel):
         format, format_values = self._get_sequence_format_param(last_sequence)
 
         if self._name == 'account.move':
-            if self.invoice_type == 'vat':
-                format_values['prefix1'] = 'EINV'
-            elif self.invoice_type == 'simple':
-                format_values['prefix1'] = 'SINV'
+            if self.move_type == 'out_invoice':
+                if self.invoice_type == 'vat':
+                    format_values['prefix1'] = 'EINV'
+                elif self.invoice_type == 'simple':
+                    format_values['prefix1'] = 'SINV'
 
             elif self.move_type == 'out_refund':
                 format_values['prefix1'] = 'CRN'
@@ -172,7 +173,7 @@ class AccountMove(models.Model):
         ('simple', 'Simplified E-Invoice'),
         # ('debit', 'Debit Note'),
         # ('credit', 'Credit Note'),
-        ], default="", required=False)
+        ], default="vat", required=False)
 
     # move_type = fields.Selection(selection=[
     #         ('entry', 'Journal Entry'),
@@ -286,6 +287,18 @@ class AccountMove(models.Model):
 
             inv.invoice_tx_code = invoice_tx_code
 
+    @api.depends('move_type','invoice_type')
+    def _compute_inv_type_code(self):
+        for invoice in self:
+            invoice.invoice_type_code = ''
+            if invoice.move_type == 'out_invoice':
+                invoice.invoice_type_code = '388'
+            elif invoice.move_type == 'out_refund':
+                invoice.invoice_type_code = '381'
+
+            elif invoice.move_type == 'in_refund':
+                invoice.invoice_type_code = '383'
+
 
 
     invoice_type_code = fields.Selection([
@@ -301,7 +314,7 @@ class AccountMove(models.Model):
         ("389", '389 Self-billed invoice'),
         ("390", '390 Delcredere invoice'),
         ("394", '394 Lease invoice'),
-        ("395", '395 Consignment invoice')], string="Invoice Type Code")
+        ("395", '395 Consignment invoice')], string="Invoice Type Code", compute="_compute_inv_type_code")
     invoice_tx_code = fields.Char(string="Invoice Transaction Code", compute="_compute_invoice_tx_code")
 
     contract_ref = fields.Char("Contract ID")
@@ -325,8 +338,12 @@ class AccountMove(models.Model):
             if move.invoice_time:
                 move.invoice_date = move.invoice_time.date()
 
+    def _compute_invoice_datetime(self):
+        for move in self:
+            move.invoice_time = fields.Datetime.now()
+
     # Invoice Date (using Default)
-    invoice_time = fields.Datetime("Invoice Time", default=fields.Datetime.now(), required=True)
+    invoice_time = fields.Datetime("Invoice Time", readonly=False, required=False)
     invoice_date = fields.Date(compute="_compute_invoice_date")
 
     supply_date = fields.Date("Supply Date")
@@ -371,12 +388,7 @@ class AccountMove(models.Model):
     # Customer Addres (using default)
     customer_vat = fields.Char(related="partner_id.vat", string="Customer VAT Number")
     customer_confirmation_msg = fields.Text("Customer Confirmation Message for VAT Calculation.")
-    debit_credit_note_reason = fields.Selection([
-            ('cancel', 'Cancel import after import or partially imported.'),
-            ('change', 'Change in import result to change in VAT'),
-            ('import', 'Import amount changed after sales.'),
-            ('return', 'Return or Partial return.'),
-        ], string="Debit/Credit Note Reason")
+    debit_credit_note_reason = fields.Text(string="Debit/Credit Note Reason", ondelete=False)
 
     po_number = fields.Char(string='Purchase Number')
     
@@ -436,6 +448,7 @@ class AccountMove(models.Model):
         """
         vals['uuid_number'] = uuid.uuid4()
         vals['invoice_hash_number'] = self.get_hash(vals.get('uuid_number'))
+        vals['invoice_time'] = datetime.now()
         res = super(AccountMove, self).create(vals)
         return res
 
@@ -451,11 +464,12 @@ class AccountMove(models.Model):
         self.export_invoice = False
         self.short_invoice = False
         if self.invoice_type == 'simple':
+            self.special_billing_agreement = False
             self.inv_payment_type = 'b2c'
             self.payment_mean_id = self.env.ref("zatca_e_invoicing.payment_mean_30").id
         if self.invoice_type == 'vat':
             self.inv_payment_type = 'b2b-b2g'
-            self.payment_mean_id = self.env.ref("zatca_e_invoicing.payment_mean_10").id
+            self.payment_mean_id = self.env.ref("zatca_e_invoicing.payment_mean_30").id
 
     # @api.constrains('third_party_invoice', 'debit_credit_note', 'on_vendor_behalf', 'short_invoice', 'virtual_import', 'export_invoice')
     # def check_bool_data(self):
@@ -618,7 +632,7 @@ class Company(models.Model):
     zip = fields.Char(required=True, size=5)
     state_id = fields.Many2one('res.country.state', required=True)
     neighborhood = fields.Char(required=True)
-
+    mobile = fields.Char()
     vat = fields.Char(required=True)
 
 class CompanyIdentities(models.Model):
@@ -640,3 +654,108 @@ class CompanyIdentities(models.Model):
         ], "ID Type")
     id_number = fields.Char("ID Number")
     company_id = fields.Many2one('res.company', string='Company Reference', required=True, ondelete='cascade', index=True, copy=False)
+
+
+class AccountMoveReversal(models.TransientModel):
+    """
+    Account move reversal wizard, it cancel an account move by reversing it.
+    """
+    _inherit = 'account.move.reversal'
+    
+    def reverse_moves(self):
+        self.ensure_one()
+        moves = self.move_ids
+        # Create default values.
+        default_values_list = []
+        for move in moves:
+            reversal_data_vals = self._prepare_default_reversal(move)
+            reversal_data_vals.update({
+                    'debit_credit_note_reason':self.reason,
+                })
+            default_values_list.append(reversal_data_vals)
+
+        batches = [
+            [self.env['account.move'], [], True],   # Moves to be cancelled by the reverses.
+            [self.env['account.move'], [], False],  # Others.
+        ]
+        for move, default_vals in zip(moves, default_values_list):
+            is_auto_post = bool(default_vals.get('auto_post'))
+            is_cancel_needed = not is_auto_post and self.refund_method in ('cancel', 'modify')
+            batch_index = 0 if is_cancel_needed else 1
+            batches[batch_index][0] |= move
+            batches[batch_index][1].append(default_vals)
+
+
+        # Handle reverse method.
+        moves_to_redirect = self.env['account.move']
+        for moves, default_values_list, is_cancel_needed in batches:
+            new_moves = moves._reverse_moves(default_values_list, cancel=is_cancel_needed)
+
+            if self.refund_method == 'modify':
+                moves_vals_list = []
+                for move in moves.with_context(include_business_fields=True):
+                    moves_vals_list.append(move.copy_data({'date': self.date if self.date_mode == 'custom' else move.date})[0])
+                new_moves = self.env['account.move'].create(moves_vals_list)
+
+            moves_to_redirect |= new_moves
+
+        self.new_move_ids = moves_to_redirect
+
+        # Create action.
+        action = {
+            'name': _('Reverse Moves'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+        }
+        if len(moves_to_redirect) == 1:
+            action.update({
+                'view_mode': 'form',
+                'res_id': moves_to_redirect.id,
+            })
+        else:
+            action.update({
+                'view_mode': 'tree,form',
+                'domain': [('id', 'in', moves_to_redirect.ids)],
+            })
+        return action
+
+
+class AccountDebitNote(models.TransientModel):
+    """
+    Add Debit Note wizard: when you want to correct an invoice with a positive amount.
+    Opposite of a Credit Note, but different from a regular invoice as you need the link to the original invoice.
+    In some cases, also used to cancel Credit Notes
+    """
+    _inherit = 'account.debit.note'
+
+    def create_debit(self):
+        self.ensure_one()
+        new_moves = self.env['account.move']
+        for move in self.move_ids.with_context(include_business_fields=True): #copy sale/purchase links
+            default_values = self._prepare_default_values(move)
+            default_values.update({
+                    'debit_credit_note_reason':self.reason,
+                })
+            new_move = move.copy(default=default_values)
+            move_msg = _(
+                "This debit note was created from:") + " <a href=# data-oe-model=account.move data-oe-id=%d>%s</a>" % (
+                       move.id, move.name)
+            new_move.message_post(body=move_msg)
+            new_moves |= new_move
+
+        action = {
+            'name': _('Debit Notes'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            }
+        if len(new_moves) == 1:
+            action.update({
+                'view_mode': 'form',
+                'res_id': new_moves.id,
+            })
+        else:
+            action.update({
+                'view_mode': 'tree,form',
+                'domain': [('id', 'in', new_moves.ids)],
+            })
+        return action

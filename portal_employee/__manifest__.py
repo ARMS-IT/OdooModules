@@ -8,10 +8,11 @@
     'author': 'TraceNcode',
     'company': 'TraceNcode',
     'website': "https://tracencode.com",
-    'depends': ['portal', 'website', 'hr_payroll_community'],
+    'depends': ['portal', 'website', 'hr_payroll_community', 'hr_organizational_chart'],
     'data': [
         'views/assets.xml',
         'views/template.xml',
+        'views/view.xml',
     ],
     'installable': True,
     'auto_install': False,

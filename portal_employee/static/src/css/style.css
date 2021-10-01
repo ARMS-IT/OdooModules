@@ -167,3 +167,31 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .link_color{
   color: #2d8685;
 }
+#chart-container {
+  display: inline-block;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  overflow: auto;
+
+}
+.sroll_table{
+    display: block;
+    overflow-x: auto;
+    width: 1200px;
+}
+
+.manager_employee_profile_form{
+  margin-left: 85px;
+}
+
+.leave_data_section .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: unset;
+    -webkit-overflow-scrolling: touch;
+}
+
+#refuse_leave{
+  width: -webkit-fill-available;
+}

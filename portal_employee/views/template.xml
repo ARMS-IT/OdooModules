@@ -11,6 +11,9 @@
                             <a class="nav-link" id="leaves-tab" data-toggle="pill" href="#leaves" role="tab" aria-controls="leaves" aria-selected="false">Leaves</a>
                             <a class="nav-link" id="payslips-tab" data-toggle="pill" href="#payslips" role="tab" aria-controls="payslips" aria-selected="false">Payslips</a>
                             <a class="nav-link" id="letter_request-tab" data-toggle="pill" href="#letter_request" role="tab" aria-controls="letter_request" aria-selected="false">Letter Request</a>
+                            <t t-if="user_id.user_has_groups('hr.group_hr_manager')">
+                                <a class="nav-link" id="my_team-tab" data-toggle="pill" href="#my_team" role="tab" aria-controls="my_team" aria-selected="false">My Team</a>
+                            </t>
                         </div>
                     </div>
                     <div id="o_my_sidebar" class="col-12 col-md col-lg-9 col-xl-9 o_my_sidebar px-4">
@@ -325,7 +328,18 @@
                                                     <t t-esc="leave.number_of_days" />
                                                 </td>
                                                 <td class="pd8 text-center"><span class="leave_status">
-                                                        <t t-esc="leave_state[leave.state]" /></span></td>
+                                                        <t t-esc="leave_state[leave.state]" /></span>
+                                                </td>
+                                                <t t-if="leave.state == 'confirm' and request.env.user.employee_type == 'manager'">
+                                                    <td class="pd8 text-center">
+                                                        <a class="btn btn-primary" id="approve_leave" href="#" t-att-data-leave-id="leave.id">Approve</a>
+                                                    </td>
+                                                </t>
+                                                <t t-if="request.env.user.employee_type == 'manager'">
+                                                    <td class="pd8 text-center">
+                                                        <a class="btn btn-primary" id="refuse_leave" href="#" t-att-data-leave-id="leave.id">Refuse</a>
+                                                    </td>
+                                                </t>
                                             </tr>
                                         </t>
                                     </t>
@@ -408,12 +422,59 @@
                             </div>
                             <!-- Letter Request -->
                             <div class="o_portal_my_security tab-pane fade" id="letter_request" role="tabpanel" aria-labelledby="letter_request-tab">
-                                <span class="h5 tab_label"><strong>Your Letter Request</strong></span>
+                                <span class="h5 tab_label"><strong>Your Letter Request</strong></span><br/>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-3 form-check">
+                                          <input type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked="true"/>
+                                          <label class="form-check-label" for="flexRadioDefault1">
+                                            English
+                                          </label>
+                                        </div>
+                                        <div class="col-3 form-check">
+                                          <input type="radio" name="flexRadioDefault" id="flexRadioDefault2"/>
+                                          <label class="form-check-label" for="flexRadioDefault2">
+                                            Arabic
+                                          </label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row form-group col-10">
+                                        <textarea class="form-control" id="letter_to" name="letter_to" rows="2" placeholder="Introduction Letter to"></textarea>
+                                            </div>
+                                            <div class="row form-group col-10">
+                                                <select id="position" class="form-control">
+                                                    <option>Iqama Position</option>
+                                                    <option>Company Position</option>
+                                                </select>
+                                            </div>
+                                            <div class="row form-group col-10">
+                                                <input type="checkbox" name="salary" id="salary" />
+                                                <label class="form-check-label" for="salary" style="margin: 10px;margin-top: -4px;">Salary</label>
+                                            </div>
+                                            <div class="row form-group col-10">
+                                                <input type="checkbox" name="chamber_of_commerce " id="salary" />
+                                                <label class="form-check-label" for="chamber_of_commerce" style="margin: 10px;margin-top: -4px;">Chamber of Commerce</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                    </form>
+                                </div>
+                                <!-- My Team -->
+                                <t t-if="user_id.user_has_groups('hr.group_hr_manager')">
+                                    <div class="o_portal_my_security tab-pane fade" id="my_team" role="tabpanel" aria-labelledby="my_team-tab">
+                                        <div id="o_organizational_chart">
+                                            <h4 class="o_org_chart_title mb16 mt0" align="center">Your All Team</h4>
+                                            <center class="sroll_table">
+                                                <div id="o_parent_employee" class="empchart">
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </t>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </xpath>
     </template>
     <template id="leave_form">
@@ -451,8 +512,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label>Duration</label>
-                        <br/>
-                        <span class="duration" >0.0</span> <span>Days</span>
+                        <br />
+                        <span class="duration">0.0</span> <span>Days</span>
                     </div>
                 </div>
                 <br />
@@ -500,6 +561,17 @@
                         <td class="pd8"><span t-field="leave.request_date_to"/></td>
                         <td class="pd8 text-center"><t t-esc="leave.number_of_days"/></td>
                         <td class="pd8 text-center"><span class="leave_status"><t t-esc="leave_state[leave.state]"/></span></td>
+                        <t t-if="leave.state == 'confirm' and request.env.user.employee_type == 'manager'">
+                            <td class="pd8 text-center">
+                                <a class="btn btn-primary" id="approve_leave" href="#" t-att-data-leave-id="leave.id">Approve</a>
+                            </td>
+                        </t>
+                        <t t-if="request.env.user.employee_type == 'manager'">
+                            <td class="pd8 text-center">
+                                <t t-esc="request.env.user.employee_type"/>
+                                <a class="btn btn-primary" id="refuse_leave" href="#" t-att-data-leave-id="leave.id">Refuse</a>
+                            </td>
+                        </t>
                     </tr>
                 </t>
             </t>
@@ -703,6 +775,218 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </template>
+    <template id="manager_portal_employee_form" name="Manager Portal Employee Form">
+        <div id="o_organizational_chart">
+            <div class="manager_employee_profile_form">
+                <t t-set="employee_id" t-value="employee_id" />
+                <t t-set="country_id" t-value="user_id.env['res.country'].sudo().search([])" />
+                <t t-set="state_id" t-value="user_id.env['res.country.state'].sudo().search([])" />
+                <div style="display:flex;">
+                    <span class="h5 tab_label"><strong>Your Profile</strong></span> <i style="background-color: #DEE2E6;border-radius: 0.25rem;display: block;padding: 0.5rem 1rem;height: 40px;margin-top: 15px;margin-left: 5px;cursor: pointer;" class="fa fa-save save_profiles" />
+                </div>
+                <form>
+                    <input type="hidden" class="form-control" name="employee_id"  t-att-value="employee_id.id"/>
+                    <input type="hidden" class="form-control" name="image_base64"  />
+                    <div style="border: 4px solid;border-radius: 10px;margin-bottom: 15px;">
+                        <h2 style="margin-left: 25px;position:absolute;top: 90px;">
+                            <div class="input_field">
+                                <input type="text" name="name" placeholder="Name" class="form-control" t-att-value="employee_id.name" />
+                            </div>
+                        </h2>
+                        <div class="oe_avatar">
+                            <div class="col-12 col-sm-auto mb-3 image_change_profile">
+                                <div class="mx-auto custom_dp_change" style="width: 100px;height: 100px;">
+                                    <input type="file" class="d-none manager_o_forum_file_upload" name="ufile" accept="image/*"/>
+                                    <div class="col-12">
+                                        <a href="#" class="float-left manager_o_forum_profile_pic_edit" aria-label="Edit">
+                                            <i class="fa fa-pencil fa-1g" title="Edit" style="color: gray;"></i>
+                                        </a>
+                                        <a href="#" class="float-right manager_o_forum_profile_pic_clear" title="Clear" aria-label="Clear">
+                                            <i class="fa fa-trash-o fa-1g" style="color: gray;"></i>
+                                        </a>
+                                        <img class="img img-fluid manager_o_forum_avatar_img" t-attf-src="data:image/*;base64,{{employee_id.image_1920}}" t-att-title="employee_id.name" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile_details">
+                        <div class="row">
+                            <div class="col-lg-6" style="border-right: 2px solid #b0b3b5;">
+                                <p class="h4" style="font-weight: 700;">Work Information</p>
+                                <strong class="h5" style="">Working Address</strong> -
+                                <div class="o_address_format">
+                                    <div class="address_input_field">
+                                        <input type="text" name="street" placeholder="street..." class="form-control" t-att-value="employee_id.address_id.street" readonly="True" />
+                                    </div>
+                                    <div class="address_input_field">
+                                        <input type="text" name="street2" placeholder="street2..." class="form-control" t-att-value="employee_id.address_id.street2" readonly="True" />
+                                    </div>
+                                    <div class="address_input_field">
+                                        <input type="text" name="city" placeholder="City" class="form-control" t-att-value="employee_id.address_id.city" readonly="True" />
+                                    </div>
+                                    <div class="address_input_field">
+                                        <input type="text" name="state" placeholder="State" class="form-control" t-att-value="employee_id.address_id.state_id.name" readonly="True" />
+                                    </div>
+                                    <div class="address_input_field">
+                                        <input type="text" name="zip" placeholder="ZIP" class="form-control" t-att-value="employee_id.address_id.zip" readonly="True" />
+                                    </div>
+                                    <div class="address_input_field">
+                                        <input type="text" name="country_id" class="form-control" t-att-value="employee_id.address_id.country_id.name" readonly="True" />
+                                    </div>
+                                </div>
+                                <br />
+                                <strong class="h5" style="font-size: 20px;">Work Phone</strong>
+                                <div class="input_field">
+                                    <input type="text" name="work_phone" class="form-control" t-att-value="employee_id.work_phone" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Work Email</strong>
+                                <div class="input_field">
+                                    <input type="text" name="work_email" class="form-control" t-att-value="employee_id.work_email" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Work Location</strong>
+                                <div class="input_field">
+                                    <input type="text" name="work_location" class="form-control" t-att-value="employee_id.work_location" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Department</strong>
+                                <div class="input_field">
+                                    <input type="text" name="department_id" class="form-control" t-att-value="employee_id.department_id.name" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Manager</strong>
+                                <div class="input_field">
+                                    <input type="text" name="manager_id" class="form-control" t-att-value="employee_id.parent_id.name" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Coach</strong>
+                                <div class="input_field">
+                                    <input type="text" name="coach_id" class="form-control" t-att-value="employee_id.coach_id.name" readonly="True" />
+                                </div>
+                                <br /><br />
+                                <strong class="h5" style="font-size: 20px;">Working Time</strong>
+                                <div class="input_field">
+                                    <input type="text" name="working_time" class="form-control" t-att-value="employee_id.resource_calendar_id.name" readonly="True" />
+                                </div>
+                                <br />
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="margin-left: 20px;">
+                                    <p class="h4" style="font-weight: 700;">Private Information</p>
+                                    <strong class="h5" style="">Home Address</strong> -
+                                    <div class="o_address_format">
+                                        <div class="address_input_field">
+                                            <input type="text" name="private_street" placeholder="street..." class="form-control" t-att-value="employee_id.address_home_id.street" />
+                                        </div>
+                                        <div class="address_input_field">
+                                            <input type="text" name="private_street2" placeholder="street2..." class="form-control" t-att-value="employee_id.address_home_id.street2" />
+                                        </div>
+                                        <div class="address_input_field">
+                                            <input type="text" name="private_city" placeholder="City" class="form-control" t-att-value="employee_id.address_home_id.city" />
+                                        </div>
+                                        <div class="address_input_field">
+                                            <select id="state_id" name="private_state_id" class=" form-control">
+                                                <t t-foreach="state_id" t-as="s">
+                                                    <option t-att-value="s.id">
+                                                        <t t-esc="s.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="address_input_field">
+                                            <input type="text" name="private_zip" placeholder="ZIP" class="form-control" t-att-value="employee_id.address_home_id.zip" />
+                                        </div>
+                                        <div class="address_input_field">
+                                            <select id="country_id" name="private_country_id" class=" form-control">
+                                                <t t-foreach="country_id" t-as="c">
+                                                    <option t-att-value="c.id">
+                                                        <t t-esc="c.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <strong class="h5" style="font-size: 20px;">Identification No</strong>
+                                    <div class="input_field">
+                                        <input type="text" name="identification_id" class="form-control" t-att-value="employee_id.identification_id" />
+                                    </div>
+                                    <br /><br />
+                                    <strong class="h5" style="font-size: 20px;">Passport No</strong>
+                                    <div class="input_field">
+                                        <input type="text" name="passport_id" class="form-control" t-att-value="employee_id.passport_id" />
+                                    </div>
+                                    <br /><br />
+                                    <strong class="h5" style="font-size: 20px;">Bank A/C No</strong>
+                                    <div class="input_field">
+                                        <input type="text" name="acc_number" class="form-control" t-att-value="employee_id.bank_account_id.acc_number" placeholder="Account Number" />
+                                        <input type="text" name="bank_name" class="form-control" t-att-value="employee_id.bank_account_id.bank_id.name" placeholder="Bank" />
+                                    </div>
+                                    <br /><br />
+                                    <strong class="h5" style="font-size: 20px;">Gender</strong>
+                                    <div class="input_field">
+                                        <t t-if="employee_id.gender == 'male'">
+                                            <select name="gender" class="form-control">
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </t>
+                                        <t t-if="employee_id.gender == 'female'">
+                                            <select name="gender" class="form-control">
+                                                <option>Female</option>
+                                                <option>Male</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </t>
+                                        <t t-if="employee_id.gender == 'other'">
+                                            <select name="gender" class="form-control">
+                                                <option>Other</option>
+                                                <option>Female</option>
+                                                <option>Male</option>
+                                            </select>
+                                        </t>
+                                    </div>
+                                    <br /><br />
+                                    <strong class="h5" style="font-size: 20px;">Marital Status</strong>
+                                    <div class="input_field">
+                                        <t t-if="employee_id.marital == 'single'">
+                                            <select name="marital_status" class="form-control">
+                                                <option>Single</option>
+                                                <option>Married</option>
+                                            </select>
+                                        </t>
+                                        <t t-if="employee_id.marital == 'married'">
+                                            <select name="marital_status" class="form-control">
+                                                <option>Married</option>
+                                                <option>Single</option>
+                                            </select>
+                                        </t>
+                                    </div>
+                                    <br /><br />
+                                    <strong class="h5" style="font-size: 20px;">Birthday</strong>
+                                    <div class="input_field">
+                                        <input type="date" name="birthday" class="form-control" t-att-value="employee_id.birthday" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+    <template id="o_organizational_chart" name="Organizational Chart">
+        <div id="o_organizational_chart">
+            <h4 class="o_org_chart_title mb16 mt0" align="center">Your All Team</h4>
+            <center class="sroll_table">
+                <div id="o_parent_employee" class="empchart">
+                </div>
+            </center>
         </div>
     </template>
     <template id="portal_employee_data" name="Portal Employee Data">
