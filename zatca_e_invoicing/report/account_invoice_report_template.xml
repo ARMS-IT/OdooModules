@@ -19,7 +19,7 @@
                                     <tr>
                                         <td width="25%"><strong>Seller:</strong></td>
                                         <td width="25%">
-                                            <span t-field="o.company_id.partner_id" t-options='{"widget": "contact", "fields": ["name", "phone",,"address"], "no_marker": true}'/>
+                                            <span t-field="o.company_id.partner_id" t-options='{"widget": "contact", "fields": ["name", "phone","address"], "no_marker": true}'/>
                                         </td>
                                         <td width="25%" t-if="o.company_id.vat"><strong>VAT:</strong></td>
                                         <td width="25%"><t t-esc="o.company_id.vat"/></td>
