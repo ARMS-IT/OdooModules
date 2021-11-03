@@ -634,6 +634,17 @@ class Company(models.Model):
     neighborhood = fields.Char(required=True)
     mobile = fields.Char()
     vat = fields.Char(required=True)
+    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2')], string="E-Invoice Report Format", default="format_1", required=True)
+
+    def get_other_ids(self):
+        """
+        """
+        if self.identities_ids:
+            if len(self.identities_ids) <= 2:
+                return ','.join([x.id_number for x in self.identities_ids])
+            else:
+                return ','.join([x.id_number for x in self.identities_ids[:2]])
+        return str()
 
 class CompanyIdentities(models.Model):
     

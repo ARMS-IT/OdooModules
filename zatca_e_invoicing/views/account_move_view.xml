@@ -216,6 +216,7 @@
         <field name="arch" type="xml">
             <field name="vat" position="after">
                 <field name="group_vat_reg"/>
+                <field name="einv_report_format"/>
             </field>
              <field name="street" position="before">
                 <field name="building_number" placeholder="Building No."/>
