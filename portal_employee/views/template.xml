@@ -532,6 +532,7 @@
             </form>
         </div>
     </template>
+
     <template id="leave_data">
         <div class="leave_data_section">
             <t t-set="employee_id" t-value="user_id.env['hr.employee'].sudo().search([('user_id', '=', user_id.id)], limit=1)" />

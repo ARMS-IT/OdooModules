@@ -1,156 +1,822 @@
 <odoo>
-  	<data>
+	<data>
 
 		<record model="ir.ui.view" id="purchase_order_form_inherited">
-		  	<field name="name">Purchase Order Form</field>
-		  	<field name="model">purchase.order</field>
-		  	<field name="inherit_id" ref="purchase.purchase_order_form"/>
-		  	<field name="arch" type="xml">
+			<field name="name">Purchase Order Form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet/group" position="inside">
+					<group>
+						<field name="po_approved_asked_by_executice" invisible="1"/>
+						<field name="po_executive_personal" options="{'no_create': True,'no_edit': True}" attrs="{'invisible': [('po_approved_asked_by_executice','=',False)]}"/>
+						<field name="date_executive_approval" widget="date" options="{'no_create': True,'no_edit': True}" attrs="{'invisible': [('po_approved_asked_by_executice','=',False)]}"/>
+						<field name="revision_changes"/>
+					</group>
+					<group>
+						<field name="po_approved_asked_by_financier" invisible="1"/>
+						<field name="po_financier_personal" options="{'no_create': True,'no_edit': True}" attrs="{'invisible': [('po_approved_asked_by_financier','=',False)]}"/>
+						<field name="date_financier_approval" widget="date" options="{'no_create': True,'no_edit': True}" attrs="{'invisible': [('po_approved_asked_by_financier','=',False)]}"/>
+					</group>
+				</xpath>
 				<field name="partner_ref" position="after">
 					<field name="request_number"/>
 					<field name="contract_number"/>
 				</field>
-		  	</field>
+
+
+				<!-- Approval Process -->
+				<!-- Added btn for PO approval -->
+				<button name="button_confirm" position="before">
+					<button name="button_ask_for_approval" type="object" string="Ask For Approval" class="oe_highlight" attrs="{'invisible': [('state','in',['approval_by_executive','approval_by_financier','approved','purchase','done','cancel'])]}"/>
+					<button name="button_approval_by_financier" type="object" string="Approval By Finance Manager" class="oe_highlight" groups="custom_purchase.finance_user" attrs="{'invisible': [('state','not in',['approval_by_financier'])]}"/>
+					<button name="button_approval_by_executive" type="object" string="Approval By Executive" class="oe_highlight" groups="custom_purchase.management_user" attrs="{'invisible': [('state','not in',['approval_by_executive'])]}"/>
+					<field name="po_financier_personal" invisible="1"/>
+				</button>
+				<!-- Hide confirm order btn before approval -->
+				<xpath expr="//button[@id='bid_confirm']" position="replace">
+					<button name="button_confirm" type="object" string="Confirm Order" class="oe_highlight" id="bid_confirm" attrs="{'invisible': ['|',('po_financier_personal','=',True),('state','not in',['sent'])]}"/>
+				</xpath>
+				<xpath expr="//button[@id='draft_confirm']" position="replace">
+					<button name="button_confirm" type="object" string="Confirm Order" id="draft_confirm" attrs="{'invisible': ['|',('po_financier_personal','=',False),('state','not in',['draft','approved'])]}"/>
+				</xpath>
+				<!-- Show btns while approving  -->
+				<!-- case -->
+				<!-- <xpath expr="//button[@name='print_quotation']" position="attributes">
+                    <attribute name="states">draft,asked_to_approve</attribute>
+                </xpath> -->
+				<!-- <xpath expr="//button[@name='print_quotation']" position="attributes">
+                    <attribute name="states">sent,asked_to_approve</attribute>
+                </xpath> -->
+				<xpath expr="//button[@name='action_rfq_send']" position="attributes">
+					<attribute name="states">draft,approval_by_executive,approval_by_financier,approved</attribute>
+				</xpath>
+				<xpath expr="//button[@name='button_cancel']" position="attributes">
+					<attribute name="states">draft,to approve,sent,purchase,approval_by_executive,approval_by_financier,approved</attribute>
+				</xpath>
+				<!-- To approve state -->
+				<field name="state" position="replace">
+					<field name="state" widget="statusbar" statusbar_visible="draft,sent,approval_by_executive,approval_by_financier,approved,purchase" readonly="1"/>
+				</field>
+
+
+
+				<!-- remove time fromdate time  -->
+				<field name="date_approve" position="replace">
+					<field name="date_approve" widget="date"/>
+				</field>
+				<field name="date_order" position="replace">
+					<field name="date_order" widget="date" attrs="{'invisible': [('state','=','purchase')]}"/>
+				</field>
+				<field name="date_planned" position="replace">
+					<field name="date_planned" widget="date" attrs="{'readonly': [('state', 'not in', ('draft', 'sent', 'to approve', 'purchase'))]}"/>
+				</field>
+
+				<!-- serial number added in p.o.l. -->
+				<field name="product_id" position="before">
+					<field name="new_seq_num"/>
+				</field>
+
+			</field>
 		</record>
 
-		<template id="inherited_report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
-			<xpath expr="//div[@class='page']" position="replace">
-				<div class="page">
-		            <div class="oe_structure"/>
-		            <div id="informations" class="row mt32 mb32">
-		                <div t-if="o.user_id" class="col-3 bm-2">
-		                    <strong>Purchase Representative:</strong>
-		                    <p t-field="o.user_id" class="m-0"/>
-		                </div>
-		                <div t-if="o.partner_ref" class="col-3 bm-2">
-		                    <strong>Your Order Reference:</strong>
-		                    <p t-field="o.partner_ref" class="m-0"/>
-		                </div>
-		                <div t-if="o.date_order" class="col-3 bm-2">
-		                    <strong>Order Date:</strong>
-		                    <p t-field="o.date_order" class="m-0"/>
-		                </div>
-		            </div>
-
-		            <table class="table table-sm o_main_table">
-		                <thead>
-		                    <tr>
-		                        <th name="th_description"><strong>Description</strong></th>
-		                        <th name="th_taxes"><strong>Taxes</strong></th>
-		                        <th name="th_date_req" class="text-center"><strong>Date Req.</strong></th>
-		                        <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
-		                        <th name="th_price_unit" class="text-right"><strong>Unit Price</strong></th>
-		                        <th name="th_amount" class="text-right"><strong>Amount</strong></th>
-		                    </tr>
-		                </thead>
-		                <tbody>
-		                    <t t-set="current_subtotal" t-value="0"/>
-		                    <t t-foreach="o.order_line" t-as="line">
-		                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-		                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
-
-		                        <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
-		                            <t t-if="not line.display_type">
-		                                <td id="product">
-		                                    <span t-field="line.name"/>
-		                                </td>
-		                                <td name="td_taxes">
-		                                    <span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
-		                                </td>
-		                                <td class="text-center">
-		                                    <span t-field="line.date_planned"/>
-		                                </td>
-		                                <td class="text-right">
-		                                    <span t-field="line.product_qty"/>
-		                                    <span t-field="line.product_uom.name" groups="uom.group_uom"/>
-		                                </td>
-		                                <td class="text-right">
-		                                    <span t-field="line.price_unit"/>
-		                                </td>
-		                                <td class="text-right">
-		                                    <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-		                                </td>
-		                            </t>
-		                            <t t-if="line.display_type == 'line_section'">
-		                                <td colspan="99" id="section">
-		                                    <span t-field="line.name"/>
-		                                </td>
-		                                <t t-set="current_section" t-value="line"/>
-		                                <t t-set="current_subtotal" t-value="0"/>
-		                            </t>
-		                            <t t-if="line.display_type == 'line_note'">
-		                                <td colspan="99" id="note">
-		                                    <span t-field="line.name"/>
-		                                </td>
-		                            </t>
-		                        </tr>
-		                        <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
-		                            <tr class="is-subtotal text-right">
-		                                <td colspan="99" id="subtotal">
-		                                    <strong class="mr16">Subtotal</strong>
-		                                    <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-		                                </td>
-		                            </tr>
-		                        </t>
-		                    </t>
-		                </tbody>
-		            </table>
-
-		            <div id="total" class="row justify-content-end">
-		                <div class="col-4">
-		                    <table class="table table-sm">
-		                        <tr class="border-black">
-		                            <td name="td_subtotal_label"><strong>Subtotal</strong></td>
-		                            <td class="text-right">
-		                                <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                            <td name="td_taxes_label">Taxes</td>
-		                            <td class="text-right">
-		                                <span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-		                            </td>
-		                        </tr>
-		                        <tr class="border-black o_total">
-		                            <td name="td_amount_total_label"><strong>Total</strong></td>
-		                            <td class="text-right">
-		                                <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-		                            </td>
-		                        </tr>
-		                    </table>
-		                </div>
-		            </div>
-
-		            <p t-field="o.notes"/>
-		            <div class="oe_structure"/>
-		        </div>
-			</xpath>
-			<xpath expr="//div[@class='oe_structure']" position="after">
-				<div style="position: absolute;top: 0px;">
-					<div t-if="o.name" class="col-12" style="padding-left:0px;">
-	                    <h4 t-if="o.state == 'draft'">Request for Quotation #<span t-field="o.name"/></h4>
-			            <h4 t-if="o.state in ['sent', 'to approve']">Purchase Order #<span t-field="o.name"/></h4>
-			            <h4 t-if="o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/></h4>
-			            <h4 t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/></h4>
-	                </div>
-	                <div t-if="o.request_number" class="col-12" style="padding-left:0px;">
-	                    <strong>Req. No.:</strong>
-	                    <span t-field="o.request_number" class="m-0"/>
-	                </div>
-	                <div t-if="o.contract_number" class="col-12" style="padding-left:0px;">
-	                    <strong>Contract No.:</strong>
-	                    <span t-field="o.contract_number" class="m-0"/>
-	                </div>
-	                <div t-if="o.payment_term_id" class="col-12" style="padding-left:0px;">
-	                    <strong>Terms of Payment:</strong>
-	                    <span t-field="o.payment_term_id" class="m-0"/>
-	                </div>
-	            </div>
-	            <br/><br/>
+		<template id="inherited_address_layout" inherit_id="web.address_layout">
+			<xpath expr="//t[@t-if='address']" position="before">
+				<t t-if="po_info">
+					<t t-raw="po_info"/>
+				</t>
 			</xpath>
 		</template>
 
 
+		<template id="inherited_report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
+
+			<xpath expr="//div[@t-field='o.dest_address_id']" position="replace">
+				<div t-field="o.dest_address_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
+			</xpath>
+
+			<xpath expr="//t[@t-set='address']" position="replace">
+				<t t-set="address">
+					<div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone","email", "website"], "no_marker": True, "phone_icons": True}'/>
+					<p t-if="o.partner_id.vat">
+						<t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>:<span t-field="o.partner_id.vat"/>
+					</p>
+				</t>
+			</xpath>
+
+			<xpath expr="//t[@t-set='address']" position="after">
+				<t t-set="po_info">
+					<div class="row">
+						<div t-if="o.name" class="col-12"  style="display:flex; flex-direction:row;margin-bottom: 10px;"> 
+							<h5 t-if="o.state == 'draft'">Request for Quotation #<span t-field="o.name"/>
+							</h5>
+							<h5 t-if="o.state in ['sent', 'to approve','approval_by_executive','approval_by_financier', 'approved']">Purchase Order #<span t-field="o.name"/>
+							</h5>
+							<h5 t-if="o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/>
+							</h5>
+							<h5 t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/>
+							</h5>
+							<div t-if="o.request_number">
+								<strong>Req. No.:</strong>
+								<span t-field="o.request_number" class="m-0"/>
+							</div>
+							<div t-if="o.contract_number">
+								<strong>Contract No.:</strong>
+								<span t-field="o.contract_number" class="m-0"/>
+							</div>
+							<div t-if="o.payment_term_id">
+								<strong>Terms of Payment:</strong>
+								<span t-field="o.payment_term_id" class="m-0"/>
+							</div>
+						</div>
+					</div>
+				</t>
+			</xpath>
+
+			<xpath expr="//div[@class='page']" position="replace">
+
+				<div class="page">
+					<div class="oe_structure"/>
+					<div id="informations" class="row mt32 mb32">
+						<div t-if="o.user_id" class="col-4 bm-2">
+							<strong>Purchase Representative:</strong>
+							<p style="font-size:16px;" t-field="o.user_id" class="m-0"/>
+							<p t-field="o.user_id.email" class="m-0"/>
+						</div>
+						<div t-if="o.partner_ref" class="col-3 bm-2">
+							<strong>Reference:</strong>
+							<p t-field="o.partner_ref" class="m-0"/>
+						</div>
+						<div t-if="o.date_order" class="col-3 bm-2">
+							<strong>Order Date:</strong>
+							<p t-field="o.date_order" t-options="{'widget':'date'}" class="m-0"/>
+						</div>
+					</div>
+
+					<table class="table table-sm o_main_table">
+						<thead>
+							<tr>
+								<th name="th_serial_no" style="width:10%;">
+									<strong>S No.</strong>
+								</th>
+								<th name="th_description">
+									<strong>Description</strong>
+								</th>
+								<th name="th_taxes">
+									<strong>Taxes</strong>
+								</th>
+								<th name="th_date_req" class="text-center">
+									<strong>Date Req.</strong>
+								</th>
+								<th name="th_quantity" class="text-right">
+									<strong>Qty</strong>
+								</th>
+								<th name="th_price_unit" class="text-right">
+									<strong>Unit Price</strong>
+								</th>
+								<th name="th_amount" class="text-right">
+									<strong>Amount</strong>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<t t-set="current_subtotal" t-value="0"/>
+							<t t-foreach="o.order_line" t-as="line">
+								<t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+								<t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+								<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+									<t t-if="not line.display_type">
+										<td id="serial_number" style="10%">
+											<span t-field="line.new_seq_num"/>
+										</td>
+										<td id="product">
+											<span t-field="line.name"/>
+										</td>
+										<td name="td_taxes">
+											<span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
+										</td>
+										<td class="text-center">
+											<span t-field="line.date_planned" t-options="{'widget':'date'}"/>
+										</td>
+										<td class="text-right">
+											<span t-field="line.product_qty"/>
+											<span t-field="line.product_uom.name" groups="uom.group_uom"/>
+										</td>
+										<td class="text-right">
+											<span t-field="line.price_unit"/>
+										</td>
+										<td class="text-right">
+											<span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+										</td>
+									</t>
+									<t t-if="line.display_type == 'line_section'">
+										<td colspan="99" id="section">
+											<span t-field="line.name"/>
+										</td>
+										<t t-set="current_section" t-value="line"/>
+										<t t-set="current_subtotal" t-value="0"/>
+									</t>
+									<t t-if="line.display_type == 'line_note'">
+										<td colspan="99" id="note">
+											<span t-field="line.name"/>
+										</td>
+									</t>
+								</tr>
+								<t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+									<tr class="is-subtotal text-right">
+										<td colspan="99" id="subtotal">
+											<strong class="mr16">Subtotal</strong>
+											<span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+										</td>
+									</tr>
+								</t>
+							</t>
+						</tbody>
+					</table>
+
+					<div id="total" class="row justify-content-end">
+						<div class="col-4">
+							<table class="table table-sm">
+								<tr class="border-black">
+									<td name="td_subtotal_label">
+										<strong>Subtotal</strong>
+									</td>
+									<td class="text-right">
+										<span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+									</td>
+								</tr>
+								<tr>
+									<td name="td_taxes_label">Taxes</td>
+									<td class="text-right">
+										<span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+									</td>
+								</tr>
+								<tr class="border-black o_total">
+									<td name="td_amount_total_label">
+										<strong>Total</strong>
+									</td>
+									<td class="text-right">
+										<span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+					<p t-field="o.notes"/>
+					<div class="oe_structure"/>
+
+				</div>
+
+			</xpath>
+
+			<xpath expr="//t[@t-call='web.external_layout']" position="inside">
+				<div class="row my-5" style="width: 100%;max-width:100%;font-size: 16px;">
+					<div t-if="o.po_executive_personal" class="col-3">
+						<div t-if="o.po_executive_personal" class="">
+							<strong>Executive Manager</strong>
+							<br/>
+							<span t-field="o.po_executive_personal.name" class="m-0"/>
+							<br/>
+							<p t-field="o.date_executive_approval" t-options="{'widget': 'date'}" class="m-0"/>
+						</div>
+					</div>
+					<div class="col-6">
+					</div>
+					<div t-if="o.po_financier_personal" class="col-3">
+						<div t-if="o.po_financier_personal" class="">
+							<strong>Finance Manager</strong>
+							<br/>
+							<span t-field="o.po_financier_personal.name" class="m-0"/>
+							<br/>
+							<p t-field="o.date_financier_approval" t-options="{'widget': 'date'}" class="m-0"/>
+						</div>
+					</div>
+				</div>
+			</xpath>
+
+		</template>
+
+		<record id="model_sale_order_report_arabic" model="ir.actions.report">
+			<field name="name">Print SO/Quotation in Arabic</field>
+			<field name="model">sale.order</field>
+			<field name="binding_model_id" ref="sale.model_sale_order"/>
+			<field name="binding_type">report</field>
+			<field name="binding_view_types">form,list</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">custom_purchase.so_arabic_report_saleorder_document</field>
+			<field name="report_file">custom_purchase.so_arabic_report_saleorder_document</field>
+		</record>
+
+		<!-- Arabic SO Reoprt -->
+
+
+		<template id="so_arabic_report_saleorder_document">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="custom_purchase.arabic_report_saleorder_document" t-lang="'ar_001'"/>
+				</t>
+			</t>
+		</template>
+
+		<template id="arabic_report_saleorder_document">
+
+
+			<t t-call="web.external_layout">
+				<div class="row align-items-end">
+					<div class="order_date col-12 text-right align-self-end">
+						<div class='d-flex 	justify-content-end'>
+							<div>
+								<span t-field="doc.date_order" t-options="{'widget':'date'}"/>
+							</div>
+							<div>
+								<span> : تاريخ الطلب</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-32 align-items-endd">
+					<div class="quotation_date col-12 text-right align-self-end">
+						<span t-field="doc.name"/>
+						<span> : عرض أسعار رقم</span>
+					</div>
+				</div>
+				<t t-set="doc" t-value="doc.with_context(lang='ar_001')" />
+
+				<div class="page">
+					<div class="oe_structure"/>
+
+					<div class="container customer_details text-right" style="margin: 32px 0px; padding: 0px;">
+						<div class="row">
+							<!-- <div class="col-6 text-right">
+								<span>اسم العميل</span>
+							</div> -->
+							<div class="col-12 text-right">
+								<span t-field="doc.partner_id.name"/>
+								<span>/ اسم العميل</span>
+							</div>
+						</div>
+						<!-- <div class="row">
+							<div class="col-6 text-right">
+								<span>اسم العميل</span>
+							</div>
+							<div class="col-6 text-right">
+								<span> / اسم العميل</span>
+							</div>
+						</div> -->
+						<!-- <div class="row" style="margin: 32px 8px 0px 0px;">
+							<div class="col">
+								<span class="text-right" style="margin: 0px 0px 32px 0px;">السالم عليكم ورحمة هللا وبركاته،وبعـــد</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<span class="text-right ">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود الدوت أ ما تليت أت يناد العرض اسـت سـامكم</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<span class="text-right ">وراا م وأت يكات ذلكردايةلتعاوت تثمرفيما ريننا</span>
+							</div>
+						</div> -->
+					</div>
+
+					<t t-set="display_discount" t-value="any(l.discount for l in doc.order_line)"/>
+
+					<table class=" table o_main_table">
+						<thead style="display: table-row-group">
+							<tr>
+								<th name="th_subtotal" class="text-right">
+									<span groups="account.group_show_line_subtotals_tax_excluded">المجموع الفرعي</span>
+									<span groups="account.group_show_line_subtotals_tax_included">المجموع</span>
+								</th>
+								<th name="th_taxes" class="text-right">15% الضريبة</th>
+								<th name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+									<span>%خصم</span>
+								</th>
+								<th name="th_priceunit" class="text-right">سعر الوحده</th>
+								<th name="th_quantity" class="text-right">الكمية</th>
+								<th name="th_description" class="text-right">وصف الا ة</th>
+							</tr>
+						</thead>
+						<tbody class="sale_tbody">
+
+							<t t-set="current_subtotal" t-value="0"/>
+
+							<t t-foreach="doc.order_line" t-as="line">
+
+								<t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+								<t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+								<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+									<t t-if="not line.display_type">
+										<td name="td_subtotal" class="text-right o_price_total">
+											<span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+											<span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+										</td>
+										<td name="td_taxes" class="text-right">
+											<span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+										</td>
+										<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+											<span t-field="line.discount"/>
+										</td>
+										<td name="td_priceunit" class="text-right">
+											<span t-field="line.price_unit"/>
+										</td>
+										<td name="td_quantity" class="text-right">
+											<span t-field="line.product_uom_qty"/>
+											<!-- <span t-field="line.product_uom"/> -->
+										</td>
+										<td name="td_name" class="text-right">
+											<span t-field="line.name"/>
+										</td>
+									</t>
+									<t t-if="line.display_type == 'line_section'">
+										<td name="td_section_line" colspan="99">
+											<span t-field="line.name"/>
+										</td>
+										<t t-set="current_section" t-value="line"/>
+										<t t-set="current_subtotal" t-value="0"/>
+									</t>
+									<t t-if="line.display_type == 'line_note'">
+										<td name="td_note_line" colspan="99">
+											<span t-field="line.name"/>
+										</td>
+									</t>
+								</tr>
+
+								<t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
+									<tr class="is-subtotal text-right">
+										<td name="td_section_subtotal" colspan="99">
+											<strong class="mr16">المجموع الفرعي</strong>
+											<span t-esc="current_subtotal" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+										</td>
+									</tr>
+								</t>
+							</t>
+							<tr class="border-black o_subtotal" style="">
+								<td name="td_amount_untaxed" class="text-right">
+									<span t-field="doc.amount_untaxed"/>
+								</td>
+								<td name="td_amount_untaxed_label" class="text-right" colspan="100">
+									<strong>المجموع الفرعي</strong>
+								</td>
+							</tr>
+							<tr class="border-black o_subtotal" style="">
+								<td name="td_amount_untaxed" class="text-right">
+									<span t-field="doc.total_discount"/>
+								</td>
+								<td name="td_amount_untaxed_label" class="text-right" colspan="100">
+									<strong>المجموع الفرعي</strong>
+								</td>
+							</tr>
+							<t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+								<tr style="" class="border-black">
+									<t t-if="amount_by_group[5] == 1 and doc.amount_untaxed == amount_by_group[2]">
+										<td name="td_amount_by_group_3" class="text-right o_price_total">
+											<span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+										</td>
+										<td name="td_amount_by_group_label_3" class="text-right o_price_total" colspan="100">
+											<span><b>قیمة الضریبة (SAR)</b></span>
+											<!-- <span t-esc="amount_by_group[0]"/>
+											<span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+											</span> -->
+										</td>
+									</t>
+									<t t-else ="">
+										<td name="td_amount_by_group" class="text-right o_price_total">
+											<span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+										</td>
+										<td name="td_amount_by_group_label" class="text-right" colspan="100">
+											<span t-esc="amount_by_group[0]"/>
+										</td>
+									</t>
+								</tr>
+							</t>
+							<tr class="border-black o_total">
+								<td name="td_amount_total" class="text-right">
+									<span t-field="doc.amount_total"/>
+								</td>
+								<td name="td_amount_total_label" class="text-right" colspan="100">
+									<strong>المجموع</strong>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</t>
+			<!-- style="page-break-after: always;" -->
+
+			<!-- <div class="page">
+					<div class="oe_structure"/>
+					<div class="row align-items-end">
+						<div class="order_date col-12 text-right align-self-end" style="margin-top: 25px;">
+							<div class='d-flex 	justify-content-end'>
+								<div>
+									<span t-field="doc.date_order" t-options="{'widget':'date'}"/>
+								</div>
+								<div>
+									<span> : تاريخ الطلب</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end" style="margin-bottom: 32px;">
+						<div class="quotation_date col-12 text-right align-self-end">
+							<span t-field="doc.name"/>
+							<span> : عرض أسعار رقم</span>
+						</div>
+					</div>
+					<div class="container customer_details text-right" style="margin: 32px 0px; padding: 0px; border-bottom: 2px solid #000;">
+						<div class="row" style="margin: 32px 0px 0px 0px;">
+							<div class="col">
+								<span class="text-right" style="text-decoration: underline;">: رروط العرض</span>
+							</div>
+						</div>
+						<div class="row" style="margin: 16px 0px;">
+							<div class="col">
+								<ul>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row" style="margin: 32px 0px 0px 0px;">
+							<div class="col">
+								<span class="text-right" style="text-decoration: underline;">: رروط العرض</span>
+							</div>
+						</div>
+						<div class="row" style="margin: 16px 0px;">
+							<div class="col">
+								<ul>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row" style="margin: 32px 0px 0px 0px;">
+							<div class="col">
+								<span class="text-right" style="text-decoration: underline;">: رروط العرض</span>
+							</div>
+						</div>
+						<div class="row" style="margin: 16px 0px;">
+							<div class="col">
+								<ul>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+									<li style="direction: rtl;">تتشـر رـر ةر رالعرأل ظمةمتتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دودةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div> -->
+			<!-- <html t-att-lang="'ar_001'" t-att-data-report-margin-top="data_report_margin_top" t-att-data-report-header-spacing="data_report_header_spacing" t-att-data-report-dpi="data_report_dpi" t-att-data-report-landscape="data_report_landscape" t-att-web-base-url="web_base_url">
+					<head>
+						<meta charset="utf-8"/>
+						<meta name="viewport" content="initial-scale=1"/>
+						<title><t t-esc="title or 'Odoo Report'"/></title>
+						<t t-call-assets="web.report_assets_common" t-js="false"/>
+						<t t-call-assets="web.assets_common" t-css="false"/>
+						<t t-call-assets="web.report_assets_common" t-css="false"/>
+					</head>
+					<body t-att-class="container">
+						<div id="wrapwrap">
+							<main>
+								<t t-if="not o" t-set="o" t-value="doc"/>
+
+								<t t-if="not company">
+									
+									<t t-if="company_id">
+										<t t-set="company" t-value="company_id"/>
+									</t>
+									<t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+										<t t-set="company" t-value="o.company_id.sudo()"/>
+									</t>
+									<t t-else="else">
+										<t t-set="company" t-value="res_company"/>
+									</t>
+								</t>
+								<div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+									<div class="row">
+										<div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+										<div class="col-3 mb4">
+											<img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 85px;" alt="Logo"/>
+										</div>
+									</div>
+									<div t-if="company.logo or company.report_header" class="row zero_min_height">
+										<div class="col-12">
+											<div style="border-bottom: 1px solid black;"/>
+										</div>
+									</div>
+									
+								</div>
+
+								<div t-attf-class="article o_company_#{company.id}_layout container-fluid" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" data-oe-lang="'ar_001'">
+									<t t-set="doc" t-value="doc.with_context(lang='ar_001')" />
+									<div class="row mb-32 align-items-end">
+										<div class="order_date col-12 text-right align-self-end">
+											<div class='d-flex 	justify-content-end'>
+												<div>
+													<span t-field="doc.date_order" t-options="{'widget':'date'}"/>
+												</div>
+												<div>
+													<span> : تاريخ الطلب</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mb-32 align-items-endd">
+										<div class="quotation_date col-12 text-right align-self-end">
+											<span t-field="doc.name"/>
+											<span> : عرض أسعار رقم</span>
+										</div>
+									</div>
+
+									<div class="page">
+										<div class="oe_structure"/>
+
+										<div class="container customer_details text-right" style="margin: 32px 0px; padding: 0px;">
+											<div class="row">
+												<div class="col-6 text-right">
+													<span>اسم العميل</span>
+												</div>
+												<div class="col-6 text-right">
+													<span t-field="doc.partner_id.name"/>
+													<span>/ اسم العميل</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-6 text-right">
+													<span>اسم العميل</span>
+												</div>
+												<div class="col-6 text-right">
+													<span> / اسم العميل</span>
+												</div>
+											</div>
+											<div class="row" style="margin: 32px 8px 0px 0px;">
+												<div class="col">
+													<span class="text-right" style="margin: 0px 0px 32px 0px;">السالم عليكم ورحمة هللا وبركاته،وبعـــد</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<span class="text-right ">تتشـر رـر ةر رالعرأل ظمةمةالعلاتابر ت تتمدم لكم رعراـاا اص اسحسـجاص دود الدوت أ ما تليت أت يناد العرض اسـت سـامكم</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<span class="text-right ">وراا م وأت يكات ذلكردايةلتعاوت تثمرفيما ريننا</span>
+												</div>
+											</div>
+										</div>
+
+										<t t-set="display_discount" t-value="any(l.discount for l in doc.order_line)"/>
+
+										<table class=" table o_main_table border container">
+											<thead style="display: table-row-group">
+												<tr>
+													<th name="th_subtotal" class="text-right">
+														<span groups="account.group_show_line_subtotals_tax_excluded">كمية</span>
+														<span groups="account.group_show_line_subtotals_tax_included">السعر الكلي</span>
+													</th>
+													<th name="th_taxes" class="text-right">ضريبة</th>
+													<th name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+														<span>%خصم</span>
+													</th>
+													<th name="th_priceunit" class="text-right">سعر الاحدة</th>
+													<th name="th_quantity" class="text-right">الكمية</th>
+													<th name="th_description" class="text-right">وصف الا ة</th>
+												</tr>
+											</thead>
+											<tbody class="sale_tbody">
+
+												<t t-set="current_subtotal" t-value="0"/>
+
+												<t t-foreach="doc.order_line" t-as="line">
+
+													<t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+													<t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+													<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+														<t t-if="not line.display_type">
+															<td name="td_subtotal" class="text-right o_price_total">
+																<span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+																<span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+															</td>
+															<td name="td_taxes" class="text-right">
+																<span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+															</td>
+															<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+																<span t-field="line.discount"/>
+															</td>
+															<td name="td_priceunit" class="text-right">
+																<span t-field="line.price_unit"/>
+															</td>
+															<td name="td_quantity" class="text-right">
+																<span t-field="line.product_uom_qty"/>
+																<span t-field="line.product_uom"/>
+															</td>
+															<td name="td_name" class="text-right">
+																<span t-field="line.name"/>
+															</td>
+														</t>
+														<t t-if="line.display_type == 'line_section'">
+															<td name="td_section_line" colspan="99">
+																<span t-field="line.name"/>
+															</td>
+															<t t-set="current_section" t-value="line"/>
+															<t t-set="current_subtotal" t-value="0"/>
+														</t>
+														<t t-if="line.display_type == 'line_note'">
+															<td name="td_note_line" colspan="99">
+																<span t-field="line.name"/>
+															</td>
+														</t>
+													</tr>
+
+													<t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
+														<tr class="is-subtotal text-right">
+															<td name="td_section_subtotal" colspan="99">
+																<strong class="mr16">Subtotal</strong>
+																<span t-esc="current_subtotal" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+															</td>
+														</tr>
+													</t>
+												</t>
+												<tr class="border-black o_subtotal" style="">
+													<td name="td_amount_untaxed" class="text-right">
+														<span t-field="doc.amount_untaxed"/>
+													</td>
+													<td name="td_amount_untaxed_label" class="text-right" colspan="100">
+														<strong>Subtotal</strong>
+													</td>
+												</tr>
+												<t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+													<tr style="" class="border-black">
+														<t t-if="amount_by_group[5] == 1 and doc.amount_untaxed == amount_by_group[2]">
+															<td name="td_amount_by_group_3" class="text-right o_price_total">
+																<span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+															</td>
+															<td name="td_amount_by_group_label_3" class="text-right" colspan="100">
+																<span t-esc="amount_by_group[0]"/>
+																<span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+																</span>
+															</td>
+														</t>
+														<t t-else ="">
+															<td name="td_amount_by_group" class="text-right o_price_total">
+																<span t-esc="amount_by_group[1]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+															</td>
+															<td name="td_amount_by_group_label" class="text-right" colspan="100">
+																<span t-esc="amount_by_group[0]"/>
+															</td>
+														</t>
+													</tr>
+												</t>
+												<tr class="border-black o_total">
+													<td name="td_amount_total" class="text-right">
+														<span t-field="doc.amount_total"/>
+													</td>
+													<td name="td_amount_total_label" class="text-right" colspan="100">
+														<strong>Total</strong>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+								<div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+									<div class="text-center" style="">
+										<div t-if="report_type == 'pdf'" class="text-muted">
+											Page: <span class="page"/> / <span class="topage"/>
+										</div>
+									</div>
+									<div class="text-center" style="border-top: 1px solid black;">
+										<ul class="list-inline mb4">
+											<li t-if="company.phone" class="list-inline-item d-inline"><span class="o_force_ltr" t-field="company.phone"/></li>
+											<li t-if="company.email" class="list-inline-item d-inline"><span t-field="company.email"/></li>
+											<li t-if="company.website" class="list-inline-item d-inline"><span t-field="company.website"/></li>
+											<li t-if="company.vat" class="list-inline-item d-inline"><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>
+										</ul>
+
+										<div name="financial_infos">
+											<span t-field="company.report_footer"/>
+										</div>
+
+									</div>
+								</div>
+							</main>
+						</div>
+					</body>
+				</html> -->
+		</template>
 
 
 	</data>

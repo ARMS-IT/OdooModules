@@ -151,17 +151,18 @@
                 <page string="Zatca QR Code">
                     <group>
                         <group>
-                            <field name="qr_seller_name" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                            <field name="qr_seller_vat" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                            <field name="qr_invoice_time" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            <field name="qr_seller_name"/>
+                            <field name="qr_seller_vat"/>
+                            <field name="qr_invoice_time"/>
                         </group>
                         <group>
-                            <field name="qr_amount_total" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                            <field name="qr_tax_total" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            <field name="qr_amount_total"/>
+                            <field name="qr_tax_total" />
                         </group>
                     </group>
                     <group>
-                        <field name="qr_string" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="qr_string"/>
+                        <field name="qr_fail_reason"/>                        
                     </group>
                     <field name="qr_image_zatca" widget="image" class="oe_avatar" nolabel="1" attrs="{'invisible':[('qr_image_zatca','=',False)]}"/>
                 </page>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--  Letter Request  -->
+
+    <record id="employee_letter_request_view_search" model="ir.ui.view">
+        <field name="name">employee.letter.request.search</field>
+        <field name="model">employee.letter.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Employee Letter Request">
+                <field name="name" string="Name"/>
+                <field name="employee_id" string="Employee"/>
+                <field name="position" string="Position"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="employee_letter_request_view_tree" model="ir.ui.view">
+        <field name="name">employee.letter.request.tree</field>
+        <field name="model">employee.letter.request</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Letter Request">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="ltype" widget="radio"/>
+                <field name="position"/>
+                <field name="salary"/>
+                <field name="chamber_of_commerce"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_letter_request_view_form" model="ir.ui.view">
+        <field name="name">employee.letter.request.form</field>
+        <field name="model">employee.letter.request</field>
+        <field name="arch" type="xml">
+            <form string="Employee Letter Request">
+                <header>
+                    <button name="action_approve" string="Approve" class="oe_highlight" type="object"
+                            attrs="{'invisible': ['|', ('can_approve', '=', False), ('state', '!=', 'draft')]}"/>
+                    <button name="action_refuse" string="Refuse" class="oe_highlight" type="object"
+                            attrs="{'invisible': ['|', ('can_approve', '=', False), ('state', '!=', 'draft')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class= "oe_read_only">
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <!--                    <group>-->
+                    <!--                        <label for="name" string="Refernce" />-->
+                    <!--                        <field name="name" nolabel="1"  />-->
+                    <!--                    </group>-->
+                    <group>
+                        <group>
+                            <field attrs="{'readonly': [('state', '!=', 'draft')]}" name="employee_id" options='{"no_open": True,"no_create": True,"no_edit": True}'/>
+                        </group>
+                        <group>
+                            <field name="position" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="can_approve" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="salary" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="chamber_of_commerce" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="ltype" widget="radio" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Introduction Letter to" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee_letter_request" model="ir.actions.act_window">
+        <field name="name">My Letter Requests</field>
+        <field name="res_model">employee.letter.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+        <field name="search_view_id" ref="employee_letter_request_view_search"/>
+    </record>
+
+     <record id="action_manager_letter_request" model="ir.actions.act_window">
+        <field name="name">Letter Requests</field>
+        <field name="res_model">employee.letter.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="employee_letter_request_view_search"/>
+    </record>
+
+    <menuitem
+            id="mainmenu_hr_employee_letter_request"
+            parent="hr.menu_hr_root"
+            name="Letter Request"
+            sequence="3"
+    />
+
+    <menuitem
+            id="menu_hr_employee_letter_request"
+            action="action_employee_letter_request"
+            parent="mainmenu_hr_employee_letter_request"
+            sequence="4"
+    />
+
+     <menuitem
+            id="menu_manager_employee_letter_request"
+            action="action_manager_letter_request"
+            parent="mainmenu_hr_employee_letter_request"
+            groups="hr.group_hr_user,group_regional_letters_officer"
+            sequence="5"
+    />
+
+</odoo>

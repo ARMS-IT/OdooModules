@@ -13,7 +13,7 @@ from odoo.addons.ehcs_qr_code_base.models.qr_code_base import generate_qr_code
 import uuid
 from odoo.exceptions import ValidationError
 import codecs
-
+from .fatoorah import Fatoora
 
 VAT_CHECKBOX_FIELDS = [
     'third_party_invoice',
@@ -122,12 +122,18 @@ class AccountMove(models.Model):
         return invoice_timestamp
 
     def get_qr_string(move):
-        qr_string = "{} {} {} {} {}".format(move.qr_seller_name, move.qr_seller_vat, move.qr_invoice_time, move.qr_amount_total, move.qr_tax_total)
-        hex_string = qr_string.encode("utf-8").hex()
-        qr_string = codecs.encode(codecs.decode(hex_string, 'hex'), 'base64').decode()
-        return qr_string
+        try:
+            fatoorah_obj =  Fatoora(seller_name=move.qr_seller_name,tax_number=move.qr_seller_vat, invoice_date=move.qr_invoice_time, total_amount=move.qr_amount_total, tax_amount=move.qr_tax_total)
+            qr_string = fatoorah_obj.base64
+            move.qr_string = qr_string
+            move.qr_fail_reason = str()
+            # qr_string = codecs.encode(codecs.decode(hex_string, 'hex'), 'base64').decode()
+            return qr_string
+        except Exception as e:
+            move.qr_fail_reason = e
+            return e
 
-    @api.depends('invoice_date', 'invoice_time', 'amount_by_group', 'company_id', 'amount_total', 'vendor_id')
+    @api.depends('invoice_date', 'invoice_time', 'amount_by_group', 'company_id', 'amount_total', 'vendor_id', 'vendor_vat')
     def _compute_qr_vals(self):
         for move in self:
             if self.special_billing_agreement == 'third_party':
@@ -147,10 +153,17 @@ class AccountMove(models.Model):
             move.qr_invoice_time = qr_invoice_time
             move.qr_amount_total = qr_amount_total
             move.qr_tax_total = qr_tax_total
-            move.qr_string = move.get_qr_string()
+            move.get_qr_string()
             base_domain = self.env['ir.config_parameter'].sudo().get_param('web.base.domain')
             move.qr_image = self.generate_qr("{}{}".format(base_domain,move.get_portal_url()))
-            move.qr_image_zatca = self.generate_qr(move.get_qr_string())
+            data = {
+                'Seller Name':qr_seller_name,
+                'Seller VAT':qr_seller_vat,
+                'Issue Date':qr_invoice_time,
+                'Total Amount (Tax Incl.)':qr_amount_total,
+                'Vat Amount':qr_tax_total,
+            }
+            move.qr_image_zatca = self.generate_qr(data)
 
     def generate_qr(self, data):
         qr_code = str()
@@ -220,7 +233,7 @@ class AccountMove(models.Model):
     qr_invoice_time = fields.Char("Invoice Timestamp (Date and Time)", compute="_compute_qr_vals")
     qr_amount_total = fields.Char("Electronic Invoice Total (With VAT)", compute="_compute_qr_vals")
     qr_tax_total = fields.Char("VAT Total", compute="_compute_qr_vals")
-
+    qr_fail_reason = fields.Text("QR Failure Reason", compute="_compute_qr_vals")
     qr_string = fields.Char(compute="_compute_qr_vals", string="QR Base64 String")
 
     is_acknowledged = fields.Boolean("Acknowledged")
@@ -634,7 +647,7 @@ class Company(models.Model):
     neighborhood = fields.Char(required=True)
     mobile = fields.Char()
     vat = fields.Char(required=True)
-    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2')], string="E-Invoice Report Format", default="format_1", required=True)
+    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2'), ('format_3', 'Report Layout 3'), ], string="E-Invoice Report Format", default="format_1", required=True)
 
     def get_other_ids(self):
         """

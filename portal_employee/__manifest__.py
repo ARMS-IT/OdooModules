@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 {
     'name': 'Portal Employee',
     'version': '14.0',
@@ -10,11 +9,18 @@
     'website': "https://tracencode.com",
     'depends': ['portal', 'website', 'hr_payroll_community', 'hr_organizational_chart'],
     'data': [
+        'security/groups_view.xml',
+        'security/ir.model.access.csv',
+        'data/sequence_data.xml',
         'views/assets.xml',
-        'views/template.xml',
-        'views/view.xml',
+        'views/email_template_view.xml',
+        'views/employee_view.xml',
+        'views/letter_request_view.xml',
+        'views/employee_region_view.xml',
+        'views/dashboard_template_view.xml',
     ],
     'installable': True,
+    "external_dependencies": {"python": ["python-docx"]},
     'auto_install': False,
     'application': False,
 }
