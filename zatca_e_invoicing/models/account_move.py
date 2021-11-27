@@ -111,7 +111,7 @@ class AccountMove(models.Model):
             move.total_discount = total_discount_amount
 
     def action_generate_report(self):
-        return self.env.ref('zatca_e_invoicing.account_invoices').report_action(self)
+        return self.env.ref('zatca_e_invoicing.zatca_account_invoices').report_action(self)
 
     def convert_datetime_to_timestamp(self):
         """

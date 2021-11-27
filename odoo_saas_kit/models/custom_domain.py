@@ -14,14 +14,21 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+STATUS = [
+    ('active', 'ACTIVE'),
+    ('revoked', 'REVOKED')
+    ]
+
 class CustomDomain(models.Model):
     _name = 'custom.domain'
 
     name = fields.Char(string="Domain Name")
     contract_id = fields.Many2one(comodel_name='saas.contract', string="Contract")
     setup_date = fields.Date(string="Setup Date")
+    status = fields.Selection(selection=STATUS, default="active")
     revoke_date = fields.Date(string="Revoke Date")
 
     def revoke_subdomain(self):
         response = self.contract_id.revoke_subdomain(self.name)
         self.revoke_date = fields.Date.today()
+        self.status = 'revoked'

@@ -755,7 +755,7 @@ class SaasContract(models.Model):
         compose_form = self.env.ref('mail.email_compose_message_wizard_form')
 
 
-        if self.plan_id.use_specific_user_template:
+        if self.saas_client:
             try:
                 token = generate_token()
                 self.sudo().set_user_data(token=token)
@@ -834,7 +834,7 @@ class SaasContract(models.Model):
         subdomain_name = self.domain_name
         if not self.use_separate_domain:
             subdomain_name += "."+self.saas_domain_url
-        response = generate_ssl_custom_domain.main_add(subdomain_name, domain, is_ssl, module_path)
+        response = generate_ssl_custom_domain.main_add(subdomain_name.lower(), domain.lower(), is_ssl, module_path)
         if response.get('status'):
             vals = dict()
             vals['name'] = domain

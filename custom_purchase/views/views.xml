@@ -275,7 +275,7 @@
 				<div class="row my-5" style="width: 100%;max-width:100%;font-size: 16px;">
 					<div t-if="o.po_executive_personal" class="col-3">
 						<div t-if="o.po_executive_personal" class="">
-							<strong>Executive Manager</strong>
+							<strong>Executive Approved By</strong>
 							<br/>
 							<span t-field="o.po_executive_personal.name" class="m-0"/>
 							<br/>
@@ -286,7 +286,7 @@
 					</div>
 					<div t-if="o.po_financier_personal" class="col-3">
 						<div t-if="o.po_financier_personal" class="">
-							<strong>Finance Manager</strong>
+							<strong>Financial Approved By</strong>
 							<br/>
 							<span t-field="o.po_financier_personal.name" class="m-0"/>
 							<br/>

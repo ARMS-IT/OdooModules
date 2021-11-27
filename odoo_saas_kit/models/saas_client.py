@@ -191,9 +191,9 @@ class SaasClient(models.Model):
             else:
                 raise UserError("Can't Inactive a Running Client") 
 
-    def unlink(self):
-       for obj in self:
-           raise Warning("Can't Delete Instances")
+#    def unlink(self):
+#       for obj in self:
+#           raise Warning("Can't Delete Instances")
     
     def drop_db(self):
         for obj in self:
