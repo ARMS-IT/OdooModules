@@ -556,7 +556,18 @@ class AccountMoveLine(models.Model):
     discount_amount = fields.Monetary(compute="_compute_discount_amount")
     tax_amount = fields.Monetary(compute="_compute_tax_amount")
     peppol_code = fields.Char("PEPPOL Code", related="product_id.peppol_code")
+    move_type = fields.Selection(selection=[
+            ('entry', 'Journal Entry'),
+            ('out_invoice', 'Customer Invoice'),
+            ('out_refund', 'Customer Credit Note'),
+            ('in_invoice', 'Vendor Bill'),
+            ('in_refund', 'Vendor Credit Note'),
+            ('out_receipt', 'Sales Receipt'),
+            ('in_receipt', 'Purchase Receipt'),
+        ], string='Type', required=True, store=True, index=True, readonly=True, tracking=True,
+        default="entry", change_default=True, related="move_id.move_type")
 
+    
     @api.depends("discount_amount")
     def _compute_discount_allowance(self):
         for inv in self:
@@ -647,7 +658,7 @@ class Company(models.Model):
     neighborhood = fields.Char(required=True)
     mobile = fields.Char()
     vat = fields.Char(required=True)
-    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2'), ('format_3', 'Report Layout 3'), ], string="E-Invoice Report Format", default="format_1", required=True)
+    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2'), ('format_3', 'Report Layout 3'), ('format_4', 'Report Layout 4')], string="E-Invoice Report Format", default="format_1", required=True)
 
     def get_other_ids(self):
         """
