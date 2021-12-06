@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import pytz
 import hashlib
 import base64
@@ -14,6 +15,7 @@ import uuid
 from odoo.exceptions import ValidationError
 import codecs
 from .fatoorah import Fatoora
+from .xml_generator import generate_einvoice_xml
 
 VAT_CHECKBOX_FIELDS = [
     'third_party_invoice',
@@ -163,7 +165,7 @@ class AccountMove(models.Model):
                 'Total Amount (Tax Incl.)':qr_amount_total,
                 'Vat Amount':qr_tax_total,
             }
-            move.qr_image_zatca = self.generate_qr(data)
+            move.qr_image_zatca = self.generate_qr(move.qr_string)
 
     def generate_qr(self, data):
         qr_code = str()
@@ -225,8 +227,8 @@ class AccountMove(models.Model):
     previous_invoice_hash_number = fields.Char(string='Previous Hash Invoice Number', compute="get_previous_invoice_hash_number", readonly=True)
 
     # QR-Code related fields
-    qr_image = fields.Binary("QR Code", copy=False, compute='_compute_qr_vals')
-    qr_image_zatca = fields.Binary("Zatca QR Code", copy=False, compute='_compute_qr_vals')
+    qr_image = fields.Binary("QR Code", copy=False, compute='_compute_qr_vals', store=False)
+    qr_image_zatca = fields.Binary("Zatca QR Code", copy=False, compute='_compute_qr_vals', store=False)
 
     qr_seller_name = fields.Char("Seller's Name", compute="_compute_qr_vals")
     qr_seller_vat = fields.Char("Seller's Vat", compute="_compute_qr_vals")
@@ -239,6 +241,168 @@ class AccountMove(models.Model):
     is_acknowledged = fields.Boolean("Acknowledged")
 
     business_process_type = fields.Text("Business Process Type", required=True, default="reporting:1.0")
+
+
+    def _compute_xml_json_str(self):
+        """
+        """
+        for move in self:
+            res = dict()
+            res["ProfileID"] = move.business_process_type
+            res["ID"] = move.id
+            res["IssueDate"] = move.uuid_number
+            res["IssueDate"] = move.invoice_time.date().strftime("%Y-%M-%d")
+            res["IssueTime"] = move.invoice_time.time().strftime("%H:%M:%S")
+            res["InvoiceTypeCode"] = move.invoice_type_code
+            res["DocumentCurrencyCode"] = move.currency_id.name
+            res["TaxCurrencyCode"] = move.currency_id.name
+            res["AdditionalDocumentReference"] = [
+                {
+                    "ID": "ICV", 
+                    "UUID": move.id,
+                },
+                {
+                    "ID": "PIH", 
+                    "Attachment": {
+                        "EmbeddedDocumentBinaryObject": move.previous_invoice_hash_number,
+                    }
+                },
+                {
+                    "ID": "QR",
+                    "Attachment": {
+                        "EmbeddedDocumentBinaryObject": move.qr_string,
+                    }
+                }
+            ]
+
+            res["AccountingSupplierParty"] = [
+                {
+                    "Party": {
+                        "PostalAddress": {
+                            "StreetName": (move.partner_id.street + move.partner_id.street2) if move.partner_id.street2 else move.partner_id.street,
+                            "BuildingNumber": move.partner_id.building_number,
+                            "CityName": move.partner_id.city,
+                            "CountrySubentity": move.partner_id.country_id.name,
+                            "Country": {
+                                "IdentificationCode": move.partner_id.country_id.code
+                            }
+                        },
+                        "PartyTaxScheme": {
+                            "CompanyID": move.partner_id.company_id.vat,
+                            "TaxScheme": {
+                                "ID": "VAT"
+                            }
+                        },
+                        "PartyLegalEntity": {
+                            "RegistrationName": move.partner_id.name,
+                        }
+                    }
+                },
+            ]
+
+            vendor = move.company_id.partner_id
+            if move.special_billing_agreement == 'third_party':
+                vendor = move.vendor_id
+
+            res["AccountingCustomerParty"] = [
+                {
+                    "Party": {
+                        "PostalAddress": {
+                            "StreetName": (vendor.street + vendor.street2) if vendor.street2 else vendor.street,
+                            "BuildingNumber": vendor.building_number,
+                            "PlotIdentification": vendor.additional_number,
+                            "CitySubdivisionName": vendor.district,
+                            "CityName": vendor.city,
+                            "PostalZone": vendor.zip,
+                            "CountrySubentity": vendor.country_id.name,
+                            "Country": {
+                                "IdentificationCode": vendor.country_id.code,
+                            }
+                        },
+                        "PartyTaxScheme": {
+                            "CompanyID": move.company_id.vat,
+                            "TaxScheme": {
+                                "ID": "VAT"
+                            }
+                        },
+                        "PartyLegalEntity": {
+                            "RegistrationName": vendor.name,
+                        }
+                    }
+                },
+            ]
+
+            res["Delivery"] = {
+                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d"), 
+                "LatestDeliveryDate": move.supply_end_date.strftime("%Y-%m-%d"),
+            }
+            res["PaymentMeans"] = {
+                "PaymentMeansCode": move.payment_mean_id.name
+            }
+            res["TaxTotal"] = [
+                {
+                    "TaxAmount": move.amount_tax,
+                    "TaxSubtotal": {
+                        "TaxableAmount": move.amount_untaxed,#--Subtotal
+                        "TaxSubtotalTaxAmount": move.amount_tax,
+                        "TaxCategory": { #tODISCUSS
+                            "ID": "S",
+                            "Percent": 15,
+                            "TaxScheme": {
+                                "ID": "VAT"
+                            }
+                        }
+                    }
+                },
+                {
+                    "TaxAmount": move.amount_tax,
+                },
+            ]
+            res["LegalMonetaryTotal"] = {
+                "LineExtensionAmount": move.amount_untaxed,
+                "TaxExclusiveAmount": move.amount_untaxed,
+                "TaxInclusiveAmount": move.amount_total,
+                "AllowanceTotalAmount": 0,
+                "PayableAmount": move.amount_total,
+            }
+            invoice_lines = list()
+            for line in move.invoice_line_ids:
+                invoice_lines.append({
+                    "ID": line.id,
+                    "InvoicedQuantity": line.quantity,
+                    "LineExtensionAmount": line.price_subtotal,
+                    "TaxTotal": {
+                        "TaxAmount": line.tax_amount,
+                        "RoundingAmount": line.price_total,
+                    },
+                    "Item": {
+                        "Name": line.product_id.name,
+                        "ClassifiedTaxCategory": [{
+                            "ID": "S",
+                            "Percent": tax_info.amount,
+                            "TaxScheme": {
+                                "ID": "VAT"
+                            }
+                        } for tax_info in line.tax_ids]
+                    },
+                    "Price": {
+                        "PriceAmount": line.price_total
+                    }
+                })
+            res["InvoiceLine"] = invoice_lines
+            xml_json_str = json.dumps(res, indent=4)
+            clean_xml_data = generate_einvoice_xml(res)
+            
+            move.update({
+                    'xml_json_str':xml_json_str,
+                    'invoice_xml_document':base64.b64encode(clean_xml_data.encode('utf-8')),
+                    'invoice_xml_document_filename': "E-Invoice{}.xml".format(move.id)
+                })
+
+    xml_json_str = fields.Text("JSON For XML", compute="_compute_xml_json_str")
+    invoice_xml_document = fields.Binary("Invoice XML Document", compute="_compute_xml_json_str")
+    invoice_xml_document_filename = fields.Char("Invoice XML Document Filename", compute="_compute_xml_json_str")
+    
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
