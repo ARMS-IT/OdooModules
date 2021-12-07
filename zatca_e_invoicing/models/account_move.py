@@ -333,8 +333,8 @@ class AccountMove(models.Model):
             ]
 
             res["Delivery"] = {
-                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d"), 
-                "LatestDeliveryDate": move.supply_end_date.strftime("%Y-%m-%d"),
+                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else "" 
+                "LatestDeliveryDate": move.supply_end_date.strftime("%Y-%m-%d") if move.supply_end_date else "",
             }
             res["PaymentMeans"] = {
                 "PaymentMeansCode": move.payment_mean_id.name
