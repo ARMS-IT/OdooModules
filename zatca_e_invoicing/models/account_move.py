@@ -251,8 +251,8 @@ class AccountMove(models.Model):
             res["ProfileID"] = move.business_process_type
             res["ID"] = move.id
             res["IssueDate"] = move.uuid_number
-            res["IssueDate"] = move.invoice_time.date().strftime("%Y-%M-%d")
-            res["IssueTime"] = move.invoice_time.time().strftime("%H:%M:%S")
+            res["IssueDate"] = move.invoice_time.date().strftime("%Y-%M-%d") if move.invoice_time else "",
+            res["IssueTime"] = move.invoice_time.time().strftime("%H:%M:%S") if move.invoice_time else "",
             res["InvoiceTypeCode"] = move.invoice_type_code
             res["DocumentCurrencyCode"] = move.currency_id.name
             res["TaxCurrencyCode"] = move.currency_id.name
@@ -515,12 +515,12 @@ class AccountMove(models.Model):
             if move.invoice_time:
                 move.invoice_date = move.invoice_time.date()
 
-    def _compute_invoice_datetime(self):
-        for move in self:
-            move.invoice_time = fields.Datetime.now()
+    # def _compute_invoice_datetime(self):
+    #     for move in self:
+    #         move.invoice_time = fields.Datetime.now()
 
     # Invoice Date (using Default)
-    invoice_time = fields.Datetime("Invoice Time", readonly=False, required=False)
+    invoice_time = fields.Datetime("Invoice Time", readonly=False, required=False, compute=False)
     invoice_date = fields.Date(compute="_compute_invoice_date")
 
     supply_date = fields.Date("Supply Date")
@@ -600,7 +600,7 @@ class AccountMove(models.Model):
             if inv.total_discount > 0:
                 inv.discount_allowance = True
 
-    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean")
+    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", default=lambda self:self.env.ref("zatca_e_invoicing.payment_mean_30").id, domain=[('code','in',[10, 30, 42, 48, 1])])
     discount_allowance = fields.Boolean("Allowance (Discount)", compute="_compute_discount_allowance")
 
     @api.constrains('special_billing_agreement')
@@ -625,7 +625,7 @@ class AccountMove(models.Model):
         """
         vals['uuid_number'] = uuid.uuid4()
         vals['invoice_hash_number'] = self.get_hash(vals.get('uuid_number'))
-        vals['invoice_time'] = datetime.now()
+        # vals['invoice_time'] = datetime.now()
         res = super(AccountMove, self).create(vals)
         return res
 

@@ -29,7 +29,8 @@ class PortalAccountCustom(PortalAccount):
             return request.redirect('/my')
         
         if report_type in ('html', 'pdf', 'text'):
-            return self._show_report(model=invoice_sudo, report_type=report_type, report_ref='zatca_e_invoicing.account_invoices', download=download)
+            # return self._show_report(model=invoice_sudo, report_type=report_type, report_ref='zatca_e_invoicing.account_invoices', download=download)
+              return self._show_report(model=invoice_sudo, report_type=report_type, report_ref='zatca_e_invoicing.zatca_account_invoices', download=download)
 
         values = self._invoice_get_page_view_values(invoice_sudo, access_token, **kw)
         acquirers = values.get('acquirers')
