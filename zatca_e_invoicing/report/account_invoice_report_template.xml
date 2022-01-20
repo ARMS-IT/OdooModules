@@ -39,8 +39,8 @@
                             </tr>
                             <tr>
                                 <td style="padding:0" width="20%">Customer Name:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.partner_id"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.partner_id"/></td>
+                                <td style="padding:0" width="20%"><span t-field="o.partner_id.name"/></td>
+                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.partner_id.name"/></td>
                                 <td style="padding:0;text-align: right;direction: rtl;" width="20%">اسم العميل:</td>
                             </tr>
                             <tr>
@@ -55,8 +55,8 @@
                         <table class="table table-borderless">
                             <tr>
                                 <td style="padding:0" class="text-center w-50">
-                                    <div>E-INV</div>
-                                    <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                    <div>E-INV</div>-->
+<!--                                    <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                 </td>
                                 <td style="padding:0" class="text-center w-50">
                                     <div>Zatca</div>
@@ -444,8 +444,8 @@
                         <table class="table table-borderless">
                             <tr>
                                 <td style="padding:0" class="text-center">
-                                    E-INV
-                                    <span t-field="o.qr_image" style="width:20px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                    E-INV-->
+<!--                                    <span t-field="o.qr_image" style="width:20px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                 </td>
                                 <td style="padding:0" class="text-center">
                                     Zatca
@@ -828,7 +828,7 @@
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
-                        <div class="text-center">
+                         <div class="text-center" style="margin-top:5px!important;">
                             <h6 style="direction:rtl;">فاتورة إلكترونية بسيطة</h6>
                             <h4>Simplified Tax Invoice</h4>
                         </div>
@@ -864,13 +864,8 @@
                                     </tr>
                                     <tr>
                                         <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
-                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>
+                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id.name"/></td>
                                         <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">اسم العميل:</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Other Buyer ID:</td>
-                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><t t-esc="o.partner_id.get_other_ids()"/></td>
-                                        <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">ببیانات المشتري:</td>
                                     </tr>
                                 </table>
                             </div>
@@ -1039,8 +1034,8 @@
                                     <table class="table table-borderless">
                                         <tr>
                                             <td style="padding:0" class="text-center w-50">
-                                                <div>E-INV</div>
-                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                                <div>E-INV</div>-->
+<!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                             </td>
                                             <td style="padding:0" class="text-center w-50">
                                                 <div>Zatca</div>
@@ -1319,8 +1314,8 @@
                                     <table class="table table-borderless">
                                         <tr>
                                             <td style="padding:0" class="text-center w-50">
-                                                <div>E-INV</div>
-                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                                <div>E-INV</div>-->
+<!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                             </td>
                                             <td style="padding:0" class="text-center w-50">
                                                 <div>Zatca</div>
@@ -1343,7 +1338,7 @@
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
-                        <div class="text-center">
+                         <div class="text-center" style="margin-top:5px!important;">
                             <h6 style="direction:rtl;">فاتورة إلكترونية بسيطة</h6>
                             <h4>Simplified Tax Invoice</h4>
                         </div>
@@ -1373,14 +1368,14 @@
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
-                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>
-                                        <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">اسم العميل:</td>
+                                        <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Date of Supply:</td>
+                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.supply_date"/></td>
+                                        <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">تاريخ التوريد:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Other Buyer ID:</td>
-                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><t t-esc="o.partner_id.get_other_ids()"/></td>
-                                        <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">ببیانات المشتري:</td>
+                                        <td class="text-start text-info" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
+                                        <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id.name"/></td>
+                                        <td class="text-info" style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">اسم العميل:</td>
                                     </tr>
                                 </table>
                             </div>
@@ -1389,8 +1384,8 @@
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
                                         <td style="padding:0" class="text-center w-50">
-                                            <div>E-INV</div>
-                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                            <div>E-INV</div>-->
+<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                         </td>
                                         <td style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
@@ -1649,8 +1644,8 @@
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
                                         <td style="padding:0" class="text-center w-50">
-                                            <div>E-INV</div>
-                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                            <div>E-INV</div>-->
+<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                         </td>
                                         <td style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
@@ -1932,7 +1927,7 @@
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
-                        <div class="text-center">
+                        <div class="text-center" style="margin-top:5px!important;">
                             <h6 style="direction:rtl;">فاتورة إلكترونية بسيطة</h6>
                             <h4>Simplified Tax Invoice</h4>
                         </div>
@@ -1962,15 +1957,20 @@
                                         <td class="" style="color:#000 !important;text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
                                     </tr>
                                     <tr>
+                                        <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Date of Supply:</td>
+                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.supply_date"/></td>
+                                        <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">تاريخ التوريد:</td>
+                                    </tr>
+                                     <tr>
                                         <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
-                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>
+                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id.name"/></td>
                                         <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">اسم العميل:</td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Other Buyer ID:</td>
-                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><t t-esc="o.partner_id.get_other_ids()"/></td>
-                                        <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">ببیانات المشتري:</td>
-                                    </tr>
+<!--                                    <tr>-->
+<!--                                        <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>-->
+<!--                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>-->
+<!--                                        <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">اسم العميل:</td>-->
+<!--                                    </tr>-->
                                 </table>
                             </div>
                             <div class="col-sm-6 col-md-6 col-6 align-items-end flex-column d-flex justify-content-end">
@@ -1978,8 +1978,8 @@
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
                                         <td style="padding:0" class="text-center w-50">
-                                            <div>E-INV</div>
-                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                            <div>E-INV</div>-->
+<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                         </td>
                                         <td style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
@@ -2235,8 +2235,8 @@
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
                                         <td style="padding:0" class="text-center w-50">
-                                            <div>E-INV</div>
-                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+<!--                                            <div>E-INV</div>-->
+<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
                                         </td>
                                         <td style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>

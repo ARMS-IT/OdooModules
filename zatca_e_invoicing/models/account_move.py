@@ -16,6 +16,7 @@ from odoo.exceptions import ValidationError
 import codecs
 from .fatoorah import Fatoora
 from .xml_generator import generate_einvoice_xml
+import pytz
 
 VAT_CHECKBOX_FIELDS = [
     'third_party_invoice',
@@ -123,6 +124,21 @@ class AccountMove(models.Model):
             invoice_timestamp = datetime.timestamp(self.invoice_time)
         return invoice_timestamp
 
+    def convert_datetime_to_iso(self):
+        """
+        """
+        invoice_time_iso = str()
+        if self.invoice_time:
+            from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+            DEFAULT_SERVER_DATETIME_FORMAT = DEFAULT_SERVER_DATETIME_FORMAT.replace(' ','T')
+            if self.env.user.tz:
+                tz = pytz.timezone(self.env.user.tz) or pytz.utc
+                invoice_time = pytz.utc.localize(self.invoice_time).astimezone(tz)
+            else:
+                invoice_time = self.invoice_time
+            invoice_time_iso = invoice_time.strftime("{}Z".format(DEFAULT_SERVER_DATETIME_FORMAT))
+        return invoice_time_iso
+
     def get_qr_string(move):
         try:
             fatoorah_obj =  Fatoora(seller_name=move.qr_seller_name,tax_number=move.qr_seller_vat, invoice_date=move.qr_invoice_time, total_amount=move.qr_amount_total, tax_amount=move.qr_tax_total)
@@ -145,7 +161,8 @@ class AccountMove(models.Model):
                 qr_seller_name = move.company_id.name
                 qr_seller_vat = move.company_id.vat or ''
             
-            qr_invoice_time = move.convert_datetime_to_timestamp()
+            # qr_invoice_time = move.convert_datetime_to_timestamp()
+            qr_invoice_time = move.convert_datetime_to_iso()
             qr_amount_total = move.amount_total
             qr_tax_total = move.amount_tax
             
@@ -156,7 +173,7 @@ class AccountMove(models.Model):
             move.qr_amount_total = qr_amount_total
             move.qr_tax_total = qr_tax_total
             move.get_qr_string()
-            base_domain = self.env['ir.config_parameter'].sudo().get_param('web.base.domain')
+            base_domain = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             move.qr_image = self.generate_qr("{}{}".format(base_domain,move.get_portal_url()))
             data = {
                 'Seller Name':qr_seller_name,
@@ -520,9 +537,8 @@ class AccountMove(models.Model):
     #         move.invoice_time = fields.Datetime.now()
 
     # Invoice Date (using Default)
-    invoice_time = fields.Datetime("Invoice Time", readonly=False, required=False, compute=False)
-    invoice_date = fields.Date(compute="_compute_invoice_date")
-
+    invoice_time = fields.Datetime("Invoice Time", default=lambda self: fields.Datetime.now())
+    invoice_date = fields.Date(compute="_compute_invoice_date", store=True)
     supply_date = fields.Date("Supply Date")
     supply_end_date = fields.Date("Supply End Date")
 

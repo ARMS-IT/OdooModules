@@ -27,3 +27,8 @@ class PosConfigImage(models.Model):
     _inherit = 'pos.config'
 
     image = fields.Binary(string='Image')
+    branch_company_id = fields.Many2one(
+        'res.company',
+        string='Branch Company',
+        default=lambda self: self.env.user.company_id,
+    )

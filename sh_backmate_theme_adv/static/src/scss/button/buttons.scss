@@ -399,7 +399,7 @@
 	.o_FormRenderer_chatterContainer .o_ChatterContainer .o_Chatter .o_Chatter_fixedPanel .o_ChatterTopbar_rightSection .o_ChatterTopbar_button.o_ChatterTopbar_buttonAttachments:hover{color: #fff !important;}
 	.o_action .o_content .o_form_view .o_form_statusbar > .o_statusbar_status > .btn.o_arrow_button:last-child{border-top-left-radius: 15px !important;border-bottom-left-radius: 15px !important;}
 	.tooltip .tooltip-inner .oe_tooltip_string,.o_list_view .table-responsive .o_list_table .o_field_x2many_list_row_add a{border-radius: 30px !important;}
-	.o_form_view .oe_avatar > img{border-radius: 100%;box-shadow: 0 5px 5px -3px rgba(82, 63, 104, 0.06), 0 8px 10px 1px rgba(82, 63, 104, 0.04), 0 3px 14px 2px rgba(82, 63, 104, 0.04) !important;}
+	.o_form_view .oe_avatar > img{border-radius: 10%;box-shadow: 0 5px 5px -3px rgba(82, 63, 104, 0.06), 0 8px 10px 1px rgba(82, 63, 104, 0.04), 0 3px 14px 2px rgba(82, 63, 104, 0.04) !important;}
 	
 	
 	@media only screen and (max-width: 576px){

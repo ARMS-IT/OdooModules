@@ -18,7 +18,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'om_account_accountant', 'ehcs_qr_code_base', 'account_debit_note'],
+    'depends': ['base', 'account', 'ehcs_qr_code_base', 'account_debit_note'],
 
     # always loaded
     'data': [

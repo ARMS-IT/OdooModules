@@ -2,7 +2,48 @@
 <templates id="template" xml:space="preserve">
     <t t-name="OrderReceiptInh" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
         <xpath expr="//t[@t-if='receipt.company.logo']" position="replace">
+            <!-- <div class="pos-receipt-contact">
+                <t t-if="receipt.company.contact_address">
+                    <div><t t-esc="receipt.company.contact_address" /></div>
+                </t>
+                <t t-if="receipt.company.phone">
+                    <div>Tel:<t t-esc="receipt.company.phone" /></div>
+                </t>
+                <t t-if="receipt.company.website">
+                    <div><t t-esc="receipt.company.website" /></div>
+                </t>
+            </div> -->
             <div class="pos-receipt-center-align main_title">
+                <t t-if="receipt.company.contact_address">
+                    <strong><div><t t-esc="receipt.company.contact_address" /></div></strong>
+                </t>
+                <t t-if="receipt.company.street">
+                    <div><t t-esc="receipt.company.street" /></div>
+                </t>
+                <t t-if="receipt.company.street2">
+                    <div><t t-esc="receipt.company.street2" /></div>
+                </t>
+                <t t-if="receipt.company.city">
+                    <div><t t-esc="receipt.company.city" /></div>
+                </t>
+                <t t-if="receipt.company.country">
+                    <div><t t-esc="receipt.company.country" /></div>
+                </t>
+                <t t-if="receipt.company.vat">
+                    <div><t t-esc="receipt.company.vat_label"/>:<t t-esc="receipt.company.vat" /></div>
+                </t>
+                <t t-if="receipt.company.email">
+                    <div><t t-esc="receipt.company.email" /></div>
+                </t>
+                <t t-if="receipt.company.phone">
+                    <div>Tel:<t t-esc="receipt.company.phone" /></div>
+                </t>
+                <t t-if="receipt.header_html">
+                    <t t-raw="receipt.header_html" />
+                </t>
+                <t t-if="!receipt.header_html and receipt.header">
+                    <div><t t-esc="receipt.header" /></div>
+                </t>
                 <strong>ﻓﺎﺗﻮﺭﺓ ﺿﺮﻳﺒﻴﺔ ﻣﺒﺴﻄﺔ</strong><br />
                 <strong>Simplified Tax Invoice</strong>
             </div>
@@ -65,28 +106,32 @@
             </table>
             </t>
             <table class='receipt-orderlines tbl-1 tbl-3'>
-                <tr class="white">
-                    <th class="bg_black">Nature of goods or services ﻃﺒﻴﻌﺔ اﻟﺴﻠﻊ ﺃﻭ اﻟﺨﺪﻣﺎﺕ</th>
-                    <th class="bg_black" width="25%">Unit Price ﺳﻌﺮ اﻟﻮﺣﺪﺓ</th>
-                    <th class="bg_black">Quantity ﺔﻴﻤﻛ</th>
-                    <th class="bg_black">Item Subtotal (Including VAT) (ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ﺎًﻨﻤﻀﺘﻣ) ﺪﻨﺒﻠﻟ ﻲﻋﺮﻔﻟا ﻉﻮﻤﺠﻤﻟا</th>
-                </tr>
-                <tr t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
-                    <td>
-                        <span>
-                            <t t-esc="line.product_name_wrapped[0]" /></span>
-                    </td>
-                    <td class="pos-receipt-center-align">
-                        <span t-esc="env.pos.format_currency(line.price)" class="price_display" />
-                    </td>
-                    <td class="pos-receipt-center-align">
-                        <span>
-                            <t t-esc="line.quantity" /></span>
-                    </td>
-                    <td>
-                        <span t-esc="env.pos.format_currency(line.price_with_tax)" class="price_display pos-receipt-right-align" />
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th class="bordered-row">Nature of goods or services <span style="float:right; direction:rtl; text-align:right !important;">ﻃﺒﻴﻌﺔ اﻟﺴﻠﻊ ﺃﻭ اﻟﺨﺪﻣﺎﺕ</span></th>
+                        <th class="bordered-row" width="25%">Unit Price <span style="float:right; direction:rtl; text-align:right !important;">ﺳﻌﺮ اﻟﻮﺣﺪﺓ</span></th>
+                        <th class="bordered-row">Quantity <span style="float:right; direction:rtl; text-align:right !important;">كمية</span></th>
+                        <th class="bordered-row">Item Subtotal (Including VAT) <span>المجموع الفرعي للبند (متضمنًا ضريبة القيمة المضافة)</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+                        <td>
+                            <span>
+                                <t t-esc="line.product_name_wrapped[0]" /></span>
+                        </td>
+                        <td class="pos-receipt-center-align">
+                            <span t-esc="env.pos.format_currency(line.price)" class="price_display" />
+                        </td>
+                        <td class="pos-receipt-center-align">
+                            <span>
+                                <t t-esc="line.quantity" /></span>
+                        </td>
+                        <td>
+                            <span t-esc="env.pos.format_currency(line.price_with_tax)" class="price_display pos-receipt-right-align" />
+                        </td>
+                    </tr>
+                </tbody>
             </table>
             <table class='receipt-orderlines tbl-4'>
                 <tr>
@@ -94,7 +139,7 @@
                         <span>Total Taxable Amount (Excluding VAT)</span>
                     </td>
                     <td class="w110">
-                        <span>(ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ءﺎﻨﺜﺘﺳﺎﺑ) ﺔﺒﻳﺮﻀﻠﻟ ﻊﺿﺎﺨﻟا ﻎﻠﺒﻤﻟا ﻲﻟﺎﻤﺟﺇ</span>
+                        <span>إجمالي المبلغ الخاضع للضريبة (باستثناء ضريبة القيمة المضافة)</span>
                     </td>
                     <td class="td-2 black">
                         <span t-esc="env.pos.format_currency(receipt.total_without_tax)" class="price_display pos-receipt-right-align" />
@@ -107,7 +152,7 @@
                         <span>Total VAT</span>
                     </td>
                     <td class="w110">
-                        <span>ﺔﻓﺎﻀﻤﻟا ﺔﻤﻴﻘﻟا ﺔﺒﻳﺮﺿ ﻲﻟﺎﻤﺟﺇ</span>
+                        <span>إجمالي ضريبة القيمة المضافة</span>
                     </td>
                     <td class="td-2 black">
                         <span t-esc="env.pos.format_currency(receipt.total_tax)" class="price_display pos-receipt-right-align" />
@@ -117,7 +162,7 @@
             <div t-attf-id="#{receipt.qr_string}"></div>
             <div id="qrcode"></div>
             <script type="text/javascript">
-                var receipt_name = "<t t-esc="receipt.name"/>";
+                var receipt_name = "<t t-esc="receipt.zatca_qr_code"/>";
                 new QRCode(document.getElementById("qrcode"), receipt_name);
             </script>
         </xpath>

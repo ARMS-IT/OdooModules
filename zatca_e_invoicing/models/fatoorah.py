@@ -19,7 +19,7 @@ class Fatoora:
         self,
         seller_name: str,
         tax_number: float,
-        invoice_date: float,
+        invoice_date: str,
         total_amount: float,
         tax_amount: float,
         tags: TLV = TLV(),
@@ -98,12 +98,12 @@ class Fatoora:
 
     @property
     def invoice_date(self) -> datetime:
-        return datetime.fromtimestamp(float(self.tags[3]))
+        return self.tags[3] #datetime.fromtimestamp(float(self.tags[3]))
 
     @invoice_date.setter
     @validate_arguments
     def invoice_date(self, new_value: str) -> None:
-        self.tags[0x03] = "{:.4f}".format(float(new_value))
+        self.tags[0x03] = new_value #"{:.4f}".format(float(new_value))
 
     @property
     def total_amount(self) -> str:
