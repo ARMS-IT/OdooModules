@@ -11,67 +11,121 @@
                     </div>
                 </div>
                 <div class="row py-3" style="font-size:12px !important;">
-                    <div class="col-8" width="50%">
-                        <table class="table table-bordered" style="padding: 0; margin: 0;">
-                            <tr>
-                                <td style="padding:0">Invoice Number:</td>
-                                <td style="padding:0"><t t-esc="o.name"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><t t-esc="o.name"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">رقم الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Purchase Number:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.po_number"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.po_number"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">رقم الشراء:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Transaction Code</td>
-                                <td style="padding:0" width="20%"><span t-field="o.invoice_tx_code"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_tx_code"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">رمز معاملة الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Invoice Issue Date:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.invoice_time"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_time"/></td>
-                                <td style="padding:0;text-align: right; direction: rtl;" width="20%">تاريخ إصدار الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Customer Name:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.partner_id.name"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.partner_id.name"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">اسم العميل:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Other Buyer ID:</td>
-                                <td style="padding:0" width="20%"><t t-esc="o.partner_id.get_other_ids()"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><t t-esc="o.partner_id.get_other_ids()"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">ببیانات المشتري:</td>
-                            </tr>
-                        </table>
+                    <div class="row" style="margin: 0px 0px;">
+                        <div class="col-sm-9 col-9 col-md-9">
+                            <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Invoice Number:</td>
+                                    <td class="text-center"  style="border-color: #dee2e6;" width="350"><span t-field="o.name"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم الفاتورة:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Purchase Number:</td>
+                                    <td class="text-center"  style="border-color: #dee2e6;" width="350"><span t-field="o.po_number"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم طلب الشراء:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Transaction Code:</td>
+                                    <td class="text-center"  style="border-color: #dee2e6;" width="350"><span t-field="o.invoice_tx_code"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;"> رمز معاملة الفاتورة: </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Invoice Issue Date:</td>
+                                    <td class="text-center"  style="border-color: #dee2e6;" width="350"><span t-field="o.invoice_time"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Date of Supply:</td>
+                                    <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;" width="350"><span t-field="o.supply_date"/></td>
+                                    <td  style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">تاريخ التوريد:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
+                                    <td class="text-center" style="border-color: #dee2e6; background-color:white; color: #333;" width="350"><span t-field="o.partner_id.name"/></td>
+                                    <td style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">اسم العميل:</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
+                            <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
+                            <table class="table table-borderless" style="width: 50%">
+                                <tr>
+                                    <div style="padding:0" class="text-center w-50">
+                                        <!--                                            <div>E-INV</div>-->
+                                        <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                    </div>
+                                    <div style="padding:0" class="text-center w-50">
+                                        <div>Zatca</div>
+                                        <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+                                    </div>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td style="padding:0" class="text-center w-50">
-<!--                                    <div>E-INV</div>-->
-<!--                                    <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                </td>
-                                <td style="padding:0" class="text-center w-50">
-                                    <div>Zatca</div>
-                                    <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <!--                    <div class="col-9" width="50%">-->
+                    <!--                        <table class="table table-bordered" style="padding: 0; margin: 0;">-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0">Invoice Number:</td>-->
+                    <!--                                <td style="padding:0"><t t-esc="o.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><t t-esc="o.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">رقم الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0" width="20%">Purchase Number:</td>-->
+                    <!--                                <td style="padding:0" width="20%"><span t-field="o.po_number"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.po_number"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">رقم الشراء:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0" width="20%">Transaction Code</td>-->
+                    <!--                                <td style="padding:0" width="20%"><span t-field="o.invoice_tx_code"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_tx_code"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">رمز معاملة الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0" width="20%">Invoice Issue Date:</td>-->
+                    <!--                                <td style="padding:0" width="20%"><span t-field="o.invoice_time"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_time"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right; direction: rtl;background-color:white;" width="20%">تاريخ إصدار الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0" width="20%">Customer Name:</td>-->
+                    <!--                                <td style="padding:0" width="20%"><span t-field="o.partner_id.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.partner_id.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">اسم العميل:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0" width="20%">Other Buyer ID:</td>-->
+                    <!--                                <td style="padding:0" width="20%"><t t-esc="o.partner_id.get_other_ids()"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%"><t t-esc="o.partner_id.get_other_ids()"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">ببیانات المشتري:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                            </tr>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="col-3">-->
+                    <!--                        <table class="table table-borderless">-->
+                    <!--                            <tr>-->
+                    <!--                                <div style="padding:0" class="text-center w-50">-->
+                    <!--                                    &lt;!&ndash;                                    <div>E-INV</div>&ndash;&gt;-->
+                    <!--                                    &lt;!&ndash;                                    <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>&ndash;&gt;-->
+                    <!--                                </div>-->
+                    <!--                                <div style="padding:0" class="text-center w-50">-->
+                    <!--                                    <div>Zatca</div>-->
+                    <!--                                    <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                    <!--                                </div>-->
+                    <!--                            </tr>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
                 </div>
+
                 <div class="row" style="font-size:12px !important;">
                     <div class="col-xs-12 col-12" style="padding-right: 0;">
                         <table class="table table-bordered" style="table-layout: fixed">
                             <tr style="background:gray; color:#fff">
                                 <td style="padding:0" colspan="2" ><strong>Seller:</strong></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end"  colspan="2"><strong> بيانات البائع:</strong></td>
+                                <td style="padding:0;text-align: right;direction: rtl;background:gray; color:#fff;" class="align-self-end"  colspan="2"><strong> بيانات البائع:</strong></td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Name:</td>
@@ -86,7 +140,7 @@
                                     </t>
                                 </td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الأسم:</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الأسم:</td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Address:</td>
@@ -102,7 +156,7 @@
                                     <span><t t-esc="vendor.zip"/></span>
                                     <span><t t-esc="vendor.additional_number"/></span>
                                 </td>
-                                <td style="padding:0;text-align: right;direction: rtl;"> العنوان :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;"> العنوان :</td>
                             </tr>
                             <!--                            <tr>-->
                             <!--                                <td style="padding:0">Additional No.:</td>-->
@@ -114,14 +168,14 @@
                                 <td style="padding:0">VAT Number:</td>
                                 <td style="padding:0"><t t-esc="vendor.vat"/></td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الرقم الضريبي :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الرقم الضريبي :</td>
                             </tr>
-                            <!--                            <tr>-->
-                            <!--                                <td style="padding:0">Other Seller ID:</td>-->
-                            <!--                                <td style="padding:0"><t t-esc="vendor.get_other_ids()"/></td>-->
-                            <!--                                <td style="padding:0"></td>-->
-                            <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
-                            <!--                            </tr>-->
+                            <tr>
+                                <!--                                <td style="padding:0">Other Seller ID:</td>-->
+                                <!--                                <td style="padding:0"><t t-esc="vendor.get_other_ids()"/></td>-->
+                                <!--                                <td style="padding:0"></td>-->
+                                <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -134,20 +188,20 @@
                         <!--                                </tr>-->
                         <!--                            </table>-->
                         <table class="table table-sm table-bordered mb-0 mt-2" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="4" width="50%"><strong>Line Items:</strong></td>
-                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;"><strong>البنود:</strong></td>
+                            <tr style="background:gray; color:#fff;">
+                                <td style="padding:0;background:gray; color:#fff;" colspan="4" width="50%"><strong>Line Items:</strong></td>
+                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;background:gray; color:#fff;"><strong>البنود:</strong></td>
                             </tr>
                         </table>
                         <t t-set="i" t-value="1" />
-                        <table class="table table-bordered" style="table-layout: fixed">
+                        <table class="table table-bordered" style="table-layout: fixed;">
                             <!--                            <tr style="background:gray; color:#fff">-->
                             <!--                                <td style="padding:0" colspan="4" width="50%"><strong>Line Items:</strong></td>-->
                             <!--                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;"><strong>البنود:</strong></td>-->
                             <!--                            </tr>-->
                             <thead>
-                                <tr class="text-center" style="background:#4c4c4c; color:#fff">
-                                    <td style="padding:0"  colspan="1">
+                                <tr class="text-center">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="1">
                                         <span>
                                             Seq
                                         </span>
@@ -156,7 +210,7 @@
                                             فيما يليها
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="4">
                                         <span>
                                             Nature of Goods or Services
                                         </span>
@@ -165,7 +219,7 @@
                                             طبيعة السلع أو الخدمات
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Unit Price
                                         </span>
@@ -174,7 +228,7 @@
                                             سعر الوحده
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Quantity
                                         </span>
@@ -183,7 +237,7 @@
                                             الكمية
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="4">
                                         <span>
                                             Taxable Amount
                                         </span>
@@ -192,7 +246,7 @@
                                             المبلغ الخاضع للضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Discount
                                         </span>
@@ -201,7 +255,7 @@
                                             الخصم
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Tax Rate
                                         </span>
@@ -210,7 +264,7 @@
                                             نسبة الضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Tax Amount
                                         </span>
@@ -219,7 +273,7 @@
                                             قيمة الضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0;width:15%;">
+                                    <td style="padding:0;width:15%;background:#fff;color:#4c4c4c;">
                                         <span>
                                             Item Subtotal(Including VAT)
                                         </span>
@@ -232,63 +286,60 @@
                             </thead>
                             <tbody>
                                 <tr t-foreach="o.invoice_line_ids" t-as="invoice_line">
-                                    <td style="padding:0;text-align: left;"  colspan="1">
+                                    <td style="padding:0;text-align: left;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="1">
                                         <span t-esc="i"/>
                                         <t t-set="i" t-value="i+1"/>
                                     </td>
-                                    <td style="padding:0" class="text-left"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;border-color: #dee2e6;" class="text-left"  colspan="4">
                                         <span t-field="invoice_line.product_id"></span>
                                         <!-- <span style="text-align: right;direction: rtl;">
                                             العنصر أ -
                                         </span> -->
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2">
                                         <span t-field="invoice_line.price_unit" t-options="{'widget':'monetary'}"/>
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2">
                                         <span t-field="invoice_line.quantity"/></td>
-                                    <td style="padding:0;text-align: right;"  colspan="4">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="4">
                                         <span t-field="invoice_line.price_subtotal" t-options="{'widget':'monetary'}"/>
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><t t-esc="invoice_line.discount_amount"/> (<t t-esc="invoice_line.discount"/> %)</td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><span t-field="invoice_line.tax_ids"/></td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><span t-field="invoice_line.tax_amount"  t-options="{'widget':'monetary'}"/></td>
-                                    <td style="padding:0;text-align: right;"><span t-field="invoice_line.price_total"  t-options="{'widget':'monetary'}"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><t t-esc="invoice_line.discount_amount"/> (<t t-esc="invoice_line.discount"/> %)</td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><span t-field="invoice_line.tax_ids"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><span t-field="invoice_line.tax_amount"  t-options="{'widget':'monetary'}"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"><span t-field="invoice_line.price_total"  t-options="{'widget':'monetary'}"/></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row py-3" style="margin-top:-10px;font-size:12px !important;">
-                    <div class="col-xs-12 col-12" style="padding-right: 0;">
-                        <table class="table table-bordered" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="2" width="50%"><strong>Total Amounts:</strong></td>
-                                <td style="text-align: right;direction: rtl;padding:0; align-self-end" colspan="2" width="50%"><strong>المبلغ الإجمالي:</strong></td>
+                <div class="row">
+                    <div class="col-9 float-center m-auto">
+                        <table class="table table-sm table-bordered mb-0">
+                            <tr>
+                                <th class="text-start" style="background:gray; color:#fff;border-color: #dee2e6;">Total Amounts:</th>
+                                <th class="text-end" style="text-align: right; direction: rtl;background:gray; color:#fff;border-color: #dee2e6;">المبلغ الإجمالی:</th>
+                            </tr>
+                        </table>
+                        <table class="table table-sm table-bordered" style="border-color: #dee2e6;">
+                            <tr>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Amounts:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">المبلغ الإجمالی:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total (Excluding VAT)</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">الإجمالي (باستثناء ضريبة القيمة المضافة)</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Discount:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">الخصم:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Discount</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">الخصم</td>
-                                <td style="padding:0;text-align: right;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Taxable Amount <br/>(Excluding VAT):</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي المبلغ الخاضع للضريبة  <br/>(باستثناء ضريبة القيمة المضافة):</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total Taxable Amount (Excluding VAT)</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">(باستثناء ضريبة القيمة المضافة) إجمالي المبلغ الخاضع للضريبة</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total VAT</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">إجمالي ضريبة القيمة المضافة</td>
-                                <td style="padding:0;text-align: right;">
+                                <td class="text-start" style="border-color: #dee2e6;">Total VAT:</td>
+                                <td class="text-center" style="border-color: #dee2e6;">
                                     <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                         <span style="">
                                             <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
@@ -305,22 +356,85 @@
                                         </span>
                                     </t>
                                 </td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي ضريبة القيمة المضافة:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total Amount Due</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">إجمالي المبلغ المستحق</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Amount Due:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي المبلغ المستحق:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Notes</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">الملاحظات</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.narration"/></td>
+                                <td class="text-start" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;">Notes:</td>
+                                <td class="text-center" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;"><span t-field="o.narration" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;text-align: right; direction: rtl; background-color:#fff;">الملاحظات:</td>
                             </tr>
                         </table>
                     </div>
                 </div>
+                <!--                <div class="row py-3" style="margin-top:-10px;font-size:12px !important;">-->
+                <!--                    <div class="col-xs-12 col-12" style="padding-right: 0;">-->
+                <!--                        <table class="table table-bordered" style="table-layout: fixed">-->
+                <!--                            <tr style="background:gray; color:#fff">-->
+                <!--                                <td style="padding:0;background:gray; color:#fff;" colspan="2" width="50%"><strong>Total Amounts:</strong></td>-->
+                <!--                                <td style="background:gray; color:#fff;text-align: right;direction: rtl;padding:0; align-self-end" colspan="2" width="50%"><strong>المبلغ الإجمالي:</strong></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total (Excluding VAT)</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">الإجمالي (باستثناء ضريبة القيمة المضافة)</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Discount</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">الخصم</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total Taxable Amount (Excluding VAT)</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">(باستثناء ضريبة القيمة المضافة) إجمالي المبلغ الخاضع للضريبة</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total VAT</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">إجمالي ضريبة القيمة المضافة</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;">-->
+                <!--                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">-->
+                <!--                                        <span style="">-->
+                <!--                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[0]"/>-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>-->
+                <!--                                            </t>-->
+                <!--                                            <t t-else="">-->
+                <!--                                                <span t-esc="amount_by_group[0]"/>-->
+                <!--                                                <span class="text-nowrap"> on-->
+                <!--                                                    <t t-esc="amount_by_group[4]"/>-->
+                <!--                                                </span>-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>-->
+                <!--                                            </t>-->
+                <!--                                        </span>-->
+                <!--                                    </t>-->
+                <!--                                </td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total Amount Due</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">إجمالي المبلغ المستحق</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Notes</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">الملاحظات</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.narration"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr></tr>-->
+                <!--                        </table>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
                 <div class="row py-3" style="font-size:12px !important;" t-if="o.move_type in ['in_refund', 'out_refund']">
                     <div class="col-xs-12 col-12" style="padding-right: 0;">
                         <p>
@@ -362,105 +476,158 @@
                     </div>
                 </div>
                 <div class="row py-3" style="font-size:12px !important;">
-                    <div class="col-8" width="50%">
-                        <table class="table table-bordered" style="padding: 0; margin: 0;">
-                            <tr>
-                                <td style="padding:0">Invoice Number:</td>
-                                <td style="padding:0"><t t-esc="o.name"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><t t-esc="o.name"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">رقم الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <t t-if="o.ref">
-                                    <td style="padding:0">Billing Reference ID:</td>
-                                    <td style="padding:0" class="text-right" colspan="100"><t t-esc="o.po_number"/></td>
-                                </t>
-                                <t t-else="">
-                                    <td style="padding:0">Billing Reference ID:</td>
-                                    <td style="padding:0" class="text-right"><t t-esc="o.po_number"/></td>
-                                    <td t-if="o.ref" style="padding:0">Reference Invoice Number</td>
-                                    <td t-if="o.ref" colspan="3" style="padding:0" class="text-right"><t t-esc="o.ref"/></td>
-                                </t>
-                            </tr>
-                            <tr>
-                                <td style="padding:0">Invoice Reference Hash Number:</td>
-                                <td  colspan="3" style="padding:0" class="text-right"><t t-esc="o.invoice_hash_number"/></td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Invoice Issue Date:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.invoice_time"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_time"/></td>
-                                <td style="padding:0;text-align: right; direction: rtl;" width="20%">تاريخ إصدار الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Date of Supply:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.supply_date"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.supply_date"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">تاريخ التوريد:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Invoice Transaction Code</td>
-                                <td style="padding:0" width="20%"><span t-field="o.invoice_tx_code"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.invoice_tx_code"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">رمز معاملة الفاتورة:</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0" width="20%">Supply Date End:</td>
-                                <td style="padding:0" width="20%"><span t-field="o.supply_end_date"/></td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.supply_end_date"/></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">تاريخ انتهاء التوريد:</td>
-                            </tr>
-                            <tr t-if="o.vendor_id.vat">
-                                <td style="padding:0" width="20%">Seller VAT:</td>
-                                <td style="padding:0" width="20%">
-                                    <t t-if="o.special_billing_agreement == 'third_party'">
-                                        <t t-set="vendor" t-value="o.vendor_id"/>
-                                        <t t-esc="o.vendor_id.vat"/>
-                                    </t>
-                                    <t t-else="">
-                                        <t t-set="vendor" t-value="o.company_id.partner_id"/>
-                                        <t t-esc="o.company_id.vat"/>
-                                    </t>
-                                </td>
-                                <td style="padding:0;text-align: right;" width="20%">
-                                    <t t-if="o.special_billing_agreement == 'third_party'">
-                                        <t t-set="vendor" t-value="o.vendor_id"/>
-                                        <t t-esc="o.vendor_id.vat"/>
-                                    </t>
-                                    <t t-else="">
-                                        <t t-set="vendor" t-value="o.company_id.partner_id"/>
-                                        <t t-esc="o.company_id.vat"/>
-                                    </t>
-                                </td>
-                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">ضريبة القيمة المضافة للبائع:</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="padding:0" width="20%">Document Level Allowance Amount Currency:</td>
-                                <td style="padding:0;text-align: right;" width="20%"><span t-field="o.currency_id.name"/></td>
-                            </tr>
-                        </table>
+                    <div class="row" style="margin: 0px 0px;">
+                        <div class="col-sm-9 col-9 col-md-9">
+                            <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Invoice Number:</td>
+                                    <td class="text-center"  width="350" style="border-color: #dee2e6;"><span t-field="o.name"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم الفاتورة:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Purchase Number:</td>
+                                    <td class="text-center"  width="350" style="border-color: #dee2e6;"><span t-field="o.po_number"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم طلب الشراء:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Invoice Reference Hash Number:</td>
+                                    <td class="text-center"  width="350" style="border-color: #dee2e6;"><span t-field="o.invoice_hash_number"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Transaction Code:</td>
+                                    <td class="text-center"  width="350" style="border-color: #dee2e6;"><span t-field="o.invoice_tx_code"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;"> رمز معاملة الفاتورة: </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start"  style="border-color: #dee2e6;">Invoice Issue Date:</td>
+                                    <td class="text-center"  width="350" style="border-color: #dee2e6;"><span t-field="o.invoice_time"/></td>
+                                    <td style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start" style="background-color: white; color: #333;border-right: 1px solid #dee2e6;">Date of Supply:</td>
+                                    <td class="text-center" width="350" style="border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.supply_date"/></td>
+                                    <td  style="background-color:#fff;border-color: #dee2e6; color: #333; text-align: right; direction: rtl;">تاريخ التوريد:</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
+                            <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
+                            <table class="table table-borderless" style="width: 50%">
+                                <tr>
+                                    <div style="padding:0" class="text-center w-50">
+                                        <!--                                            <div>E-INV</div>-->
+                                        <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                    </div>
+                                    <div style="padding:0" class="text-center w-50">
+                                        <div>Zatca</div>
+                                        <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
+                                    </div>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td style="padding:0" class="text-center">
-<!--                                    E-INV-->
-<!--                                    <span t-field="o.qr_image" style="width:20px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                </td>
-                                <td style="padding:0" class="text-center">
-                                    Zatca
-                                    <span t-field="o.qr_image_zatca" style="width:20px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+
+                    <!--                    <div class="col-8" width="50%">-->
+                    <!--                        <table class="table table-bordered" style="padding: 0; margin: 0;">-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;">Invoice Number:</td>-->
+                    <!--                                <td style="padding:0;background-color:white;"><t t-esc="o.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><t t-esc="o.name"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">رقم الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <t t-if="o.ref">-->
+                    <!--                                    <td style="padding:0;background-color:white;">Billing Reference ID:</td>-->
+                    <!--                                    <td style="padding:0;background-color:white;" class="text-right" colspan="100"><t t-esc="o.po_number"/></td>-->
+                    <!--                                </t>-->
+                    <!--                                <t t-else="">-->
+                    <!--                                    <td style="padding:0;background-color:white;">Billing Reference ID:</td>-->
+                    <!--                                    <td style="padding:0;background-color:white;" class="text-right"><t t-esc="o.po_number"/></td>-->
+                    <!--                                    <td t-if="o.ref" style="padding:0;background-color:white;">Reference Invoice Number</td>-->
+                    <!--                                    <td t-if="o.ref" colspan="3" style="padding:0;background-color:white;" class="text-right"><t t-esc="o.ref"/></td>-->
+                    <!--                                </t>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;">Invoice Reference Hash Number:</td>-->
+                    <!--                                <td  colspan="3" style="padding:0;background-color:white;" class="text-right"><t t-esc="o.invoice_hash_number"/></td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%">Invoice Issue Date:</td>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%"><span t-field="o.invoice_time"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><span t-field="o.invoice_time"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right; direction: rtl;background-color:white;" width="20%">تاريخ إصدار الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%">Date of Supply:</td>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%"><span t-field="o.supply_date"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><span t-field="o.supply_date"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">تاريخ التوريد:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%">Invoice Transaction Code</td>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%"><span t-field="o.invoice_tx_code"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><span t-field="o.invoice_tx_code"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">رمز معاملة الفاتورة:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%">Supply Date End:</td>-->
+                    <!--                                <td style="padding:0;background-color:white;" width="20%"><span t-field="o.supply_end_date"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><span t-field="o.supply_end_date"/></td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" width="20%">تاريخ انتهاء التوريد:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr t-if="o.vendor_id.vat">-->
+                    <!--                                <td style="padding:0" width="20%">Seller VAT:</td>-->
+                    <!--                                <td style="padding:0" width="20%">-->
+                    <!--                                    <t t-if="o.special_billing_agreement == 'third_party'">-->
+                    <!--                                        <t t-set="vendor" t-value="o.vendor_id"/>-->
+                    <!--                                        <t t-esc="o.vendor_id.vat"/>-->
+                    <!--                                    </t>-->
+                    <!--                                    <t t-else="">-->
+                    <!--                                        <t t-set="vendor" t-value="o.company_id.partner_id"/>-->
+                    <!--                                        <t t-esc="o.company_id.vat"/>-->
+                    <!--                                    </t>-->
+                    <!--                                </td>-->
+                    <!--                                <td style="padding:0;text-align: right;" width="20%">-->
+                    <!--                                    <t t-if="o.special_billing_agreement == 'third_party'">-->
+                    <!--                                        <t t-set="vendor" t-value="o.vendor_id"/>-->
+                    <!--                                        <t t-esc="o.vendor_id.vat"/>-->
+                    <!--                                    </t>-->
+                    <!--                                    <t t-else="">-->
+                    <!--                                        <t t-set="vendor" t-value="o.company_id.partner_id"/>-->
+                    <!--                                        <t t-esc="o.company_id.vat"/>-->
+                    <!--                                    </t>-->
+                    <!--                                </td>-->
+                    <!--                                <td style="padding:0;text-align: right;direction: rtl;" width="20%">ضريبة القيمة المضافة للبائع:</td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr>-->
+                    <!--                                <td colspan="3" style="padding:0;background-color:white;" width="20%">Document Level Allowance Amount Currency:</td>-->
+                    <!--                                <td style="padding:0;text-align: right;background-color:white;" width="20%"><span t-field="o.currency_id.name"/></td>-->
+                    <!--                            </tr>-->
+                    <!--                            <tr></tr>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="col-4">-->
+                    <!--                        <table class="table table-borderless">-->
+                    <!--                            <tr>-->
+                    <!--                                <div style="padding:0" class="text-center w-50">-->
+                    <!--                                    &lt;!&ndash;                                    <div>E-INV</div>&ndash;&gt;-->
+                    <!--                                    &lt;!&ndash;                                    <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>&ndash;&gt;-->
+                    <!--                                </div>-->
+                    <!--                                <div style="padding:0" class="text-center w-50">-->
+                    <!--                                    <div>Zatca</div>-->
+                    <!--                                    <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                    <!--                                </div>-->
+                    <!--                            </tr>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="row" style="font-size:12px !important;">
                     <div class="col-xs-6 col-6" style="padding-right: 0;">
                         <table class="table table-bordered" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="2" ><strong>Seller:</strong></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end"  colspan="2"><strong> بيانات البائع:</strong></td>
+                            <tr style="background:gray; color:#fff;">
+                                <td style="padding:0;background:gray; color:#fff;" colspan="2" ><strong>Seller:</strong></td>
+                                <td style="padding:0;text-align: right;direction: rtl;background:gray; color:#fff;" class="align-self-end"  colspan="2"><strong> بيانات البائع:</strong></td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Name:</td>
@@ -475,7 +642,7 @@
                                     </t>
                                 </td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الأسم:</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الأسم:</td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Address:</td>
@@ -491,7 +658,7 @@
                                     <span><t t-esc="vendor.zip"/></span>
                                     <span><t t-esc="vendor.additional_number"/></span>
                                 </td>
-                                <td style="padding:0;text-align: right;direction: rtl;"> العنوان :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;"> العنوان :</td>
                             </tr>
                             <!--                            <tr>-->
                             <!--                                <td style="padding:0">Additional No.:</td>-->
@@ -503,21 +670,21 @@
                                 <td style="padding:0">VAT Number:</td>
                                 <td style="padding:0"><t t-esc="vendor.vat"/></td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الرقم الضريبي :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الرقم الضريبي :</td>
                             </tr>
-                            <!--                            <tr>-->
-                            <!--                                <td style="padding:0">Other Seller ID:</td>-->
-                            <!--                                <td style="padding:0"><t t-esc="vendor.get_other_ids()"/></td>-->
-                            <!--                                <td style="padding:0"></td>-->
-                            <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
-                            <!--                            </tr>-->
+                            <tr>
+                                <!--                                <td style="padding:0">Other Seller ID:</td>-->
+                                <!--                                <td style="padding:0"><t t-esc="vendor.get_other_ids()"/></td>-->
+                                <!--                                <td style="padding:0"></td>-->
+                                <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
+                            </tr>
                         </table>
                     </div>
                     <div class="col-xs-6 col-6" style="padding-left: 0;padding-right:0;">
                         <table class="table table-bordered" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="2"><strong>Buyer:</strong></td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end" colspan="2"><strong> بيانات المشتري:</strong></td>
+                            <tr style="background:gray; color:#fff;">
+                                <td style="padding:0;background:gray; color:#fff" colspan="2"><strong>Buyer:</strong></td>
+                                <td style="padding:0;text-align: right;direction: rtl;background:gray; color:#fff;" class="align-self-end" colspan="2"><strong> بيانات المشتري:</strong></td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Name:</td>
@@ -525,7 +692,7 @@
                                     <t t-esc="o.partner_id.name"/>
                                 </td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الأسم:</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الأسم:</td>
                             </tr>
                             <tr>
                                 <td style="padding:0">Address:</td>
@@ -541,7 +708,7 @@
                                     <span><t t-esc="o.partner_id.zip"/></span>
                                     <span><t t-esc="o.partner_id.additional_number"/></span>
                                 </td>
-                                <td style="padding:0;text-align: right;direction: rtl;"> العنوان :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;"> العنوان :</td>
                             </tr>
                             <!-- <tr>
                                 <td style="padding:0">Building No:</td>
@@ -607,34 +774,40 @@
                                 <td style="padding:0">VAT Number:</td>
                                 <td style="padding:0"><t t-esc="o.partner_id.vat"/></td>
                                 <td style="padding:0"></td>
-                                <td style="padding:0;text-align: right;direction: rtl;">الرقم الضريبي :</td>
+                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;">الرقم الضريبي :</td>
                             </tr>
-                            <!--                            <tr>-->
-                            <!--                                <td style="padding:0">Other Buyer ID:</td>-->
-                            <!--                                <td style="padding:0"><t t-esc="o.partner_id.get_other_ids()"/></td>-->
-                            <!--                                <td style="padding:0"></td>-->
-                            <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
-                            <!--                            </tr>-->
+                            <tr>
+                                <!--                                <td style="padding:0">Other Buyer ID:</td>-->
+                                <!--                                <td style="padding:0"><t t-esc="o.partner_id.get_other_ids()"/></td>-->
+                                <!--                                <td style="padding:0"></td>-->
+                                <!--                                <td style="padding:0;text-align: right;direction: rtl;">  معرفات التاجر الاخرى:</td>-->
+                            </tr>
                         </table>
                     </div>
                 </div>
                 <div class="row py-3" style="font-size:12px !important;">
                     <div class="col-xs-12 col-12" style="padding-right: 0;">
+                        <!--                           <table class="table table-sm table-bordered mb-0 mt-2" style="border-color: #dee2e6;">-->
+                        <!--                                <tr class="table-info">-->
+                        <!--                                    <th class="text-start text-info w-50" style="color:#000 !important;border-color: #dee2e6;">Line Items:</th>-->
+                        <!--                                    <td class="text-end text-info" style="text-align: right;direction: rtl; width:50%;color:#000 !important;border-color: #dee2e6;">البنود</td>-->
+                        <!--                                </tr>-->
+                        <!--                            </table>-->
                         <table class="table table-sm table-bordered mb-0 mt-2" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="4" width="50%"><strong>Line Items:</strong></td>
-                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;"><strong>البنود:</strong></td>
+                            <tr style="background:gray; color:#fff;">
+                                <td style="padding:0;background:gray; color:#fff;" colspan="4" width="50%"><strong>Line Items:</strong></td>
+                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;background:gray; color:#fff;"><strong>البنود:</strong></td>
                             </tr>
                         </table>
                         <t t-set="i" t-value="1" />
-                        <table class="table table-bordered" style="table-layout: fixed">
+                        <table class="table table-bordered" style="table-layout: fixed;">
                             <!--                            <tr style="background:gray; color:#fff">-->
                             <!--                                <td style="padding:0" colspan="4" width="50%"><strong>Line Items:</strong></td>-->
                             <!--                                <td colspan="4" width="50%" style="padding:0;text-align: right;direction: rtl;"><strong>البنود:</strong></td>-->
                             <!--                            </tr>-->
                             <thead>
-                                <tr class="text-center" style="background:#4c4c4c; color:#fff">
-                                    <td style="padding:0"  colspan="1">
+                                <tr class="text-center">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="1">
                                         <span>
                                             Seq
                                         </span>
@@ -643,7 +816,7 @@
                                             فيما يليها
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="4">
                                         <span>
                                             Nature of Goods or Services
                                         </span>
@@ -652,7 +825,7 @@
                                             طبيعة السلع أو الخدمات
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Unit Price
                                         </span>
@@ -661,7 +834,7 @@
                                             سعر الوحده
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Quantity
                                         </span>
@@ -670,7 +843,7 @@
                                             الكمية
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="4">
                                         <span>
                                             Taxable Amount
                                         </span>
@@ -679,7 +852,7 @@
                                             المبلغ الخاضع للضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Discount
                                         </span>
@@ -688,7 +861,7 @@
                                             الخصم
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Tax Rate
                                         </span>
@@ -697,7 +870,7 @@
                                             نسبة الضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0"  colspan="2">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;"  colspan="2">
                                         <span>
                                             Tax Amount
                                         </span>
@@ -706,7 +879,7 @@
                                             قيمة الضريبة
                                         </span>
                                     </td>
-                                    <td style="padding:0;width:15%;">
+                                    <td style="padding:0;width:15%;background:#fff;color:#4c4c4c;">
                                         <span>
                                             Item Subtotal(Including VAT)
                                         </span>
@@ -719,63 +892,60 @@
                             </thead>
                             <tbody>
                                 <tr t-foreach="o.invoice_line_ids" t-as="invoice_line">
-                                    <td style="padding:0;text-align: left;"  colspan="1">
+                                    <td style="padding:0;text-align: left;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="1">
                                         <span t-esc="i"/>
                                         <t t-set="i" t-value="i+1"/>
                                     </td>
-                                    <td style="padding:0" class="text-left"  colspan="4">
+                                    <td style="padding:0;background:#fff;color:#4c4c4c;border-color: #dee2e6;" class="text-left"  colspan="4">
                                         <span t-field="invoice_line.product_id"></span>
                                         <!-- <span style="text-align: right;direction: rtl;">
                                             العنصر أ -
                                         </span> -->
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2">
                                         <span t-field="invoice_line.price_unit" t-options="{'widget':'monetary'}"/>
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2">
                                         <span t-field="invoice_line.quantity"/></td>
-                                    <td style="padding:0;text-align: right;"  colspan="4">
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="4">
                                         <span t-field="invoice_line.price_subtotal" t-options="{'widget':'monetary'}"/>
                                     </td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><t t-esc="invoice_line.discount_amount"/> (<t t-esc="invoice_line.discount"/> %)</td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><span t-field="invoice_line.tax_ids"/></td>
-                                    <td style="padding:0;text-align: right;"  colspan="2"><span t-field="invoice_line.tax_amount"  t-options="{'widget':'monetary'}"/></td>
-                                    <td style="padding:0;text-align: right;"><span t-field="invoice_line.price_total"  t-options="{'widget':'monetary'}"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><t t-esc="invoice_line.discount_amount"/> (<t t-esc="invoice_line.discount"/> %)</td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><span t-field="invoice_line.tax_ids"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"  colspan="2"><span t-field="invoice_line.tax_amount"  t-options="{'widget':'monetary'}"/></td>
+                                    <td style="padding:0;text-align: right;background:#fff;color:#4c4c4c;border-color: #dee2e6;"><span t-field="invoice_line.price_total"  t-options="{'widget':'monetary'}"/></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row py-3" style="margin-top:-10px;font-size:12px !important;">
-                    <div class="col-xs-12 col-12" style="padding-right: 0;">
-                        <table class="table table-bordered" style="table-layout: fixed">
-                            <tr style="background:gray; color:#fff">
-                                <td style="padding:0" colspan="2" width="50%"><strong>Total Amounts:</strong></td>
-                                <td style="text-align: right;direction: rtl;padding:0; align-self-end" colspan="2" width="50%"><strong>المبلغ الإجمالي:</strong></td>
+                <div class="row">
+                    <div class="col-9 float-center m-auto">
+                        <table class="table table-sm table-bordered mb-0">
+                            <tr>
+                                <th class="text-start" style="background:gray; color:#fff;border-color: #dee2e6;">Total Amounts:</th>
+                                <th class="text-end" style="text-align: right; direction: rtl;background:gray; color:#fff;border-color: #dee2e6;">المبلغ الإجمالی:</th>
+                            </tr>
+                        </table>
+                        <table class="table table-sm table-bordered" style="border-color: #dee2e6;">
+                            <tr>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Amounts:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">المبلغ الإجمالی:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total (Excluding VAT)</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">الإجمالي (باستثناء ضريبة القيمة المضافة)</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Discount:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">الخصم:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Discount</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">الخصم</td>
-                                <td style="padding:0;text-align: right;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Taxable Amount <br/>(Excluding VAT):</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي المبلغ الخاضع للضريبة  <br/>(باستثناء ضريبة القيمة المضافة):</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total Taxable Amount (Excluding VAT)</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">(باستثناء ضريبة القيمة المضافة) إجمالي المبلغ الخاضع للضريبة</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
-                            </tr>
-                            <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total VAT</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">إجمالي ضريبة القيمة المضافة</td>
-                                <td style="padding:0;text-align: right;">
+                                <td class="text-start" style="border-color: #dee2e6;">Total VAT:</td>
+                                <td class="text-center" style="border-color: #dee2e6;">
                                     <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                         <span style="">
                                             <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
@@ -792,16 +962,78 @@
                                         </span>
                                     </t>
                                 </td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي ضريبة القيمة المضافة:</td>
                             </tr>
                             <tr>
-                                <td style="padding:0"></td>
-                                <td style="padding:0">Total Amount Due</td>
-                                <td style="padding:0;text-align: right;direction: rtl;" class="align-self-end">إجمالي المبلغ المستحق</td>
-                                <td style="padding:0;text-align: right;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-start" style="border-color: #dee2e6;">Total Amount Due:</td>
+                                <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي المبلغ المستحق:</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;">Notes:</td>
+                                <td class="text-center" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;"><span t-field="o.narration" t-options="{'widget':'monetary'}"/></td>
+                                <td class="text-end" style="border-color: #dee2e6;background-color: #fff;color:#4c4c4c;text-align: right; direction: rtl; background-color:#fff;">الملاحظات:</td>
                             </tr>
                         </table>
                     </div>
                 </div>
+                <!--                <div class="row py-3" style="margin-top:-10px;font-size:12px !important;">-->
+                <!--                    <div class="col-xs-12 col-12" style="padding-right: 0;">-->
+                <!--                        <table class="table table-bordered" style="table-layout: fixed">-->
+                <!--                            <tr style="background:gray; color:#fff;">-->
+                <!--                                <td style="padding:0;background:gray; color:#fff;" colspan="2" width="50%"><strong>Total Amounts:</strong></td>-->
+                <!--                                <td style="background:gray; color:#fff;text-align: right;direction: rtl;padding:0; align-self-end" colspan="2" width="50%"><strong>المبلغ الإجمالي:</strong></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total (Excluding VAT)</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">الإجمالي (باستثناء ضريبة القيمة المضافة)</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Discount</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">الخصم</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><t t-if="o.total_discount">(<span t-field="o.total_discount" t-options="{'widget':'monetary'}"/>)</t></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total Taxable Amount (Excluding VAT)</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">(باستثناء ضريبة القيمة المضافة) إجمالي المبلغ الخاضع للضريبة</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total VAT</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">إجمالي ضريبة القيمة المضافة</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;">-->
+                <!--                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">-->
+                <!--                                        <span style="">-->
+                <!--                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[0]"/>-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>-->
+                <!--                                            </t>-->
+                <!--                                            <t t-else="">-->
+                <!--                                                <span t-esc="amount_by_group[0]"/>-->
+                <!--                                                <span class="text-nowrap"> on-->
+                <!--                                                    <t t-esc="amount_by_group[4]"/>-->
+                <!--                                                </span>-->
+                <!--                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>-->
+                <!--                                            </t>-->
+                <!--                                        </span>-->
+                <!--                                    </t>-->
+                <!--                                </td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <td style="padding:0"></td>-->
+                <!--                                <td style="padding:0">Total Amount Due</td>-->
+                <!--                                <td style="padding:0;text-align: right;direction: rtl;background-color:white;" class="align-self-end">إجمالي المبلغ المستحق</td>-->
+                <!--                                <td style="padding:0;text-align: right;background-color:white;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>-->
+                <!--                            </tr>-->
+                <!--                            <tr></tr>-->
+                <!--                        </table>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div class="row py-3" style="font-size:12px !important;" t-if="o.move_type in ['in_refund', 'out_refund']">
                     <div class="col-xs-12 col-12" style="padding-right: 0;">
                         <p>
@@ -828,14 +1060,14 @@
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
-                         <div class="text-center" style="margin-top:5px!important;">
+                        <div class="text-center" style="margin-top:5px!important;">
                             <h6 style="direction:rtl;">فاتورة إلكترونية بسيطة</h6>
                             <h4>Simplified Tax Invoice</h4>
                         </div>
                     </div>
                     <div class="" style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Number:</td>
@@ -869,7 +1101,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 mt-2 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 mt-2 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                             </div>
                         </div>
@@ -923,11 +1155,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -974,7 +1206,7 @@
                                 </tbody>
                             </table>
                             <div class="row">
-                                <div class="col-8 float-start">
+                                <div class="col-9 float-start">
                                     <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                         <tr class="table-info">
                                             <th class="text-start text-info w-50" style="color:#000!important;">Total Amounts:</th>
@@ -1030,17 +1262,17 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-4 mt-2 float-start text-end">
+                                <div class="col-3 mt-2 float-start text-end">
                                     <table class="table table-borderless">
                                         <tr>
-                                            <td style="padding:0" class="text-center w-50">
-<!--                                                <div>E-INV</div>-->
-<!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                            </td>
-                                            <td style="padding:0" class="text-center w-50">
+                                            <div style="padding:0" class="text-center w-50">
+                                                <!--                                                <div>E-INV</div>-->
+                                                <!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                            </div>
+                                            <div style="padding:0" class="text-center w-50">
                                                 <div>Zatca</div>
                                                 <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                            </td>
+                                            </div>
                                         </tr>
                                     </table>
                                 </div>
@@ -1074,7 +1306,7 @@
 
                     <div class="" style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Number:</td>
@@ -1103,7 +1335,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 mt-2 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 mt-2 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                             </div>
                         </div>
@@ -1157,11 +1389,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.vat"/></td>
                                                 <td class="text-info" style="text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                     <div class="col-6">
@@ -1203,11 +1435,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr >-->
-                                            <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1254,7 +1486,7 @@
                                 </tbody>
                             </table>
                             <div class="row">
-                                <div class="col-8 float-start">
+                                <div class="col-9 float-start">
                                     <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                         <tr class="table-info">
                                             <th class="text-start text-info w-50" style="color:#000!important;">Total Amounts:</th>
@@ -1310,17 +1542,17 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-4 mt-2 float-start text-end">
+                                <div class="col-3 mt-2 float-start text-end">
                                     <table class="table table-borderless">
                                         <tr>
-                                            <td style="padding:0" class="text-center w-50">
-<!--                                                <div>E-INV</div>-->
-<!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                            </td>
-                                            <td style="padding:0" class="text-center w-50">
+                                            <div style="padding:0" class="text-center w-50">
+                                                <!--                                                <div>E-INV</div>-->
+                                                <!--                                                <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                            </div>
+                                            <div style="padding:0" class="text-center w-50">
                                                 <div>Zatca</div>
                                                 <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                            </td>
+                                            </div>
                                         </tr>
                                     </table>
                                 </div>
@@ -1338,14 +1570,14 @@
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
-                         <div class="text-center" style="margin-top:5px!important;">
+                        <div class="text-center" style="margin-top:5px!important;">
                             <h6 style="direction:rtl;">فاتورة إلكترونية بسيطة</h6>
                             <h4>Simplified Tax Invoice</h4>
                         </div>
                     </div>
                     <div style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Number:</td>
@@ -1379,18 +1611,18 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
-                                        <td style="padding:0" class="text-center w-50">
-<!--                                            <div>E-INV</div>-->
-<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                        </td>
-                                        <td style="padding:0" class="text-center w-50">
+                                        <div style="padding:0" class="text-center w-50">
+                                            <!--                                            <div>E-INV</div>-->
+                                            <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                        </div>
+                                        <div style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
                                             <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                        </td>
+                                        </div>
                                     </tr>
                                 </table>
                             </div>
@@ -1473,11 +1705,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1610,7 +1842,7 @@
                     </div>
                     <div style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Number:</td>
@@ -1639,18 +1871,18 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
-                                        <td style="padding:0" class="text-center w-50">
-<!--                                            <div>E-INV</div>-->
-<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                        </td>
-                                        <td style="padding:0" class="text-center w-50">
+                                        <div style="padding:0" class="text-center w-50">
+                                            <!--                                            <div>E-INV</div>-->
+                                            <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                        </div>
+                                        <div style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
                                             <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                        </td>
+                                        </div>
                                     </tr>
                                 </table>
                             </div>
@@ -1732,11 +1964,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.vat"/></td>
                                                 <td class="text-info" style="text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                     <div class="col-6" style="">
@@ -1805,11 +2037,11 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr >-->
-                                            <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1934,7 +2166,7 @@
                     </div>
                     <div style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start "  style="color:#000 !important;border-color: #dee2e6;">Invoice Number:</td>
@@ -1961,30 +2193,30 @@
                                         <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.supply_date"/></td>
                                         <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">تاريخ التوريد:</td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>
                                         <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id.name"/></td>
                                         <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">اسم العميل:</td>
                                     </tr>
-<!--                                    <tr>-->
-<!--                                        <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>-->
-<!--                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>-->
-<!--                                        <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">اسم العميل:</td>-->
-<!--                                    </tr>-->
+                                    <!--                                    <tr>-->
+                                    <!--                                        <td class="text-start " style="color:#000 !important;background-color: white; color: #333;border-right: 1px solid #dee2e6;">Customer Name:</td>-->
+                                    <!--                                        <td class="text-center" style="color:#000 !important;border-color: #dee2e6; background-color:white; color: #333;"><span t-field="o.partner_id"/></td>-->
+                                    <!--                                        <td class="" style="color:#000 !important;background-color:#fff;border-color: #dee2e6; text-align: right; direction: rtl;">اسم العميل:</td>-->
+                                    <!--                                    </tr>-->
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
-                                        <td style="padding:0" class="text-center w-50">
-<!--                                            <div>E-INV</div>-->
-<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                        </td>
-                                        <td style="padding:0" class="text-center w-50">
+                                        <div style="padding:0" class="text-center w-50">
+                                            <!--                                            <div>E-INV</div>-->
+                                            <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                        </div>
+                                        <div style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
                                             <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                        </td>
+                                        </div>
                                     </tr>
                                 </table>
                             </div>
@@ -2013,11 +2245,6 @@
                                                 </td>
                                                 <td class="text-end" style="color: #000 !important;width:25%;border-color: #dee2e6; background-color:#fff;padding:0;text-align: right;direction: rtl;">الأسم:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start" style="color: #000 !important;border-color: #dee2e6;">Building No:</td>-->
-                                            <!--                                                <td class="text-center" colspan="2" style="color: #000 !important;border-color: #dee2e6;"><span t-field="vendor.building_number"/></td>-->
-                                            <!--                                                <td class="text-end" style="color: #000 !important;padding:0; text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم المبنى:</td>-->
-                                            <!--                                            </tr>-->
                                             <tr>
                                                 <td class="text-start" style="color: #000 !important;border-color: #dee2e6;">Address:</td>
                                                 <td class="text-center" colspan="2" style="color: #000 !important;border-color: #dee2e6;">
@@ -2064,11 +2291,11 @@
                                                 <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
-                                            <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
-                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -2201,7 +2428,7 @@
                     </div>
                     <div style="font-size:12px !important;">
                         <div class="row" style="margin: 0px 0px;">
-                            <div class="col-sm-6 col-6 col-md-6">
+                            <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
                                         <td class="text-start "  style="color:#000 !important;border-color: #dee2e6;">Invoice Number:</td>
@@ -2230,18 +2457,18 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-6 align-items-end flex-column d-flex justify-content-end">
+                            <div class="col-sm-3 col-md-3 col-3 align-items-end flex-column d-flex justify-content-end">
                                 <!-- <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/> -->
                                 <table class="table table-borderless" style="width: 50%">
                                     <tr>
-                                        <td style="padding:0" class="text-center w-50">
-<!--                                            <div>E-INV</div>-->
-<!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
-                                        </td>
-                                        <td style="padding:0" class="text-center w-50">
+                                        <div style="padding:0" class="text-center w-50">
+                                            <!--                                            <div>E-INV</div>-->
+                                            <!--                                            <span t-field="o.qr_image" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>-->
+                                        </div>
+                                        <div style="padding:0" class="text-center w-50">
                                             <div>Zatca</div>
                                             <span t-field="o.qr_image_zatca" style="width:30px;" t-options="{'widget': 'image'}" class="img img-fluid"/>
-                                        </td>
+                                        </div>
                                     </tr>
                                 </table>
                             </div>
@@ -2316,16 +2543,26 @@
                                             <!--                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.additional_number"/></td>-->
                                             <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الإضافي:</td>-->
                                             <!--                                            </tr>-->
-                                            <tr>
-                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6;">VAT Number:</td>
-                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.vat"/></td>
-                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الضریبي:</td>
-                                            </tr>
                                             <!--                                            <tr>-->
-                                            <!--                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                            <!--                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6;">VAT Number:</td>-->
+                                            <!--                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.vat"/></td>-->
+                                            <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الضریبي:</td>-->
                                             <!--                                            </tr>-->
+                                            <!--                                            <tr>-->
+                                            <!--                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">VAT Number:</td>-->
+                                            <!--                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.vat"/></td>-->
+                                            <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">الرقم الضریبي: </td>-->
+                                            <!--                                            </tr>-->
+                                            <tr>
+                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">VAT Number:</td>
+                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.vat"/></td>
+                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">الرقم الضریبي: </td>
+                                            </tr>
+                                            <tr>
+                                                <!--                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                     <div class="col-6" style="">
@@ -2389,16 +2626,21 @@
                                             <!--                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="vendor.additional_number"/></td>-->
                                             <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الإضافي:</td>-->
                                             <!--                                            </tr>-->
-                                            <tr>
-                                                <td class="text-start" style="color: #000 !important;border-color: #dee2e6;">VAT Number:</td>
-                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
-                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
-                                            </tr>
-                                            <!--                                            <tr >-->
-                                            <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                            <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                            <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            <!--                                            <tr>-->
+                                            <!--                                                <td class="text-start" style="color: #000 !important;border-color: #dee2e6;">VAT Number:</td>-->
+                                            <!--                                                <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>-->
+                                            <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>-->
                                             <!--                                            </tr>-->
+                                            <tr>
+                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">VAT Number:</td>
+                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.vat"/></td>
+                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">الرقم الضریبي: </td>
+                                            </tr>
+                                            <tr>
+                                                <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
+                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
+                                                <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
