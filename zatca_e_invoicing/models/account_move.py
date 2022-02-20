@@ -531,6 +531,7 @@ class AccountMove(models.Model):
             move.invoice_date = False
             if move.invoice_time:
                 move.invoice_date = move.invoice_time.date()
+                move.date = move.invoice_time.date()
 
     # def _compute_invoice_datetime(self):
     #     for move in self:

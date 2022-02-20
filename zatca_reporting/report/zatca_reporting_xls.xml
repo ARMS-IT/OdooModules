@@ -1,0 +1,13 @@
+<odoo>
+	<data>
+		<report
+            id="action_zatca_reporting_xlsx_report"
+            model="account.move"
+            string="Zatca Reporting Xls"
+            report_type="xlsx"
+            name="zatca_reporting.zatca_reporting_xlsx_report"
+            file="zatca_reporting.zatca_reporting_xlsx_report"
+            attachment_use="False"
+        />
+	</data>
+</odoo>

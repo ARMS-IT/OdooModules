@@ -1566,7 +1566,7 @@
 
     <template id="report_invoice_zatca_format_3">
         <t t-call="web.external_layout">
-            <t t-set="o" t-value="o.with_context(lang=lang)" />
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
@@ -1580,23 +1580,23 @@
                             <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Number:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.name"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Number:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.name"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم الفاتورة:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Purchase Number:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.po_number"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Purchase Number:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.po_number"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم طلب الشراء:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Transaction Code:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.invoice_tx_code"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Transaction Code:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.invoice_tx_code"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;"> رمز معاملة الفاتورة: </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Issue Date:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.invoice_time"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Issue Date:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.invoice_time"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
                                     </tr>
                                     <tr>
@@ -1649,7 +1649,7 @@
                                             <tr>
                                                 <td class="text-start text-info" style="width:25%;border-color: #dee2e6;">Name:</td>
                                                 <td class="text-center" style="width:50%;border-color: #dee2e6;" colspan="2">
-                                                    <span style="overflow: hidden !important; text-overflow: ellipsis; white-space: nowrap;width:100%;display:block !important;" t-field="vendor.name"/>
+                                                    <span style="overflow: hidden !important; white-space: nowrap;width:100%;display:block !important;" t-field="vendor.name"/>
                                                 </td>
                                                 <td class="text-end text-info" style="width:25%;border-color: #dee2e6; background-color:#fff;padding:0;text-align: right;direction: rtl;">الأسم:</td>
                                             </tr>
@@ -1721,7 +1721,7 @@
                                     <td class="text-end text-info" style="text-align: right;direction: rtl; width:50%;color:#000 !important;border-color: #dee2e6;">البنود</td>
                                 </tr>
                             </table>
-                            <t t-set="i" t-value="1" />
+                            <t t-set="i" t-value="1"/>
                             <table class="table table-sm table-bordered" style="border-color: #dee2e6;">
                                 <thead>
                                     <tr>
@@ -1845,23 +1845,23 @@
                             <div class="col-sm-9 col-9 col-md-9">
                                 <table class="table table-sm table-bordered mb-0" style="border-color: #dee2e6;">
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Number:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.name"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Number:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.name"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم الفاتورة:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Purchase Number:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.po_number"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Purchase Number:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.po_number"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">رقم طلب الشراء:</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Transaction Code:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.invoice_tx_code"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Transaction Code:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.invoice_tx_code"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;"> رمز معاملة الفاتورة: </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start text-info"  style="border-color: #dee2e6;">Invoice Issue Date:</td>
-                                        <td class="text-center"  style="border-color: #dee2e6;"><span t-field="o.invoice_time"/></td>
+                                        <td class="text-start text-info" style="border-color: #dee2e6;">Invoice Issue Date:</td>
+                                        <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.invoice_time"/></td>
                                         <td class="text-info" style="text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">تاريخ إصدار الفاتورة:</td>
                                     </tr>
                                     <tr>
@@ -1909,7 +1909,7 @@
                                             <tr style="">
                                                 <td class="text-start text-info" style="width:25%;border-color: #dee2e6;">Name:</td>
                                                 <td class="text-center" style="width:50%;border-color: #dee2e6;" colspan="2">
-                                                    <span style="overflow: hidden !important; text-overflow: ellipsis; white-space: nowrap;width:100%;display:block !important;" t-field="o.partner_id"/>
+                                                    <span style="overflow: hidden !important; width:100%;display:block !important;" t-field="o.partner_id"/>
                                                 </td>
                                                 <td class="text-info" style="width:25%;padding:0; text-align: right; direction: rtl;background-color:#fff;border-color: #dee2e6;">الأسم:</td>
                                             </tr>
@@ -1982,7 +1982,7 @@
                                             <tr>
                                                 <td class="text-start text-info" style="width:25%;border-color: #dee2e6;">Name:</td>
                                                 <td class="text-center" style="width:50%;border-color: #dee2e6;" colspan="2">
-                                                    <span style="overflow: hidden !important; text-overflow: ellipsis; white-space: nowrap;width:100%;display:block !important;" t-field="vendor.name"/>
+                                                    <span style="overflow: hidden !important; width:100%;display:block !important;" t-field="vendor.name"/>
                                                 </td>
                                                 <td class="text-end text-info" style="width:25%;border-color: #dee2e6; background-color:#fff;padding:0;text-align: right;direction: rtl;">الأسم:</td>
                                             </tr>
@@ -2053,7 +2053,7 @@
                                     <td class="text-end text-info" style="text-align: right;direction: rtl; width:50%;color:#000 !important;border-color: #dee2e6;">البنود</td>
                                 </tr>
                             </table>
-                            <t t-set="i" t-value="1" />
+                            <t t-set="i" t-value="1"/>
                             <table class="table table-sm table-bordered" style="border-color: #dee2e6;">
                                 <thead>
                                     <tr>
@@ -2098,7 +2098,7 @@
                                     </table>
                                     <table class="table table-sm table-bordered" style="border-color: #dee2e6;">
                                         <tr>
-                                            <td class="text-start text-info" style="width:35%;border-color: #dee2e6;">Total Amounts:</td>
+                                            <td class="text-start text-info" style="width:35%;border-color: #dee2e6;">Total Untaxed Amounts:</td>
                                             <td class="text-center" style="width:30%;border-color: #dee2e6;"><span t-field="o.amount_untaxed" t-options="{'widget':'monetary'}"/></td>
                                             <td class="text-end text-info" style="width:35%;border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">المبلغ الإجمالی:</td>
                                         </tr>
@@ -2134,9 +2134,36 @@
                                             <td class="text-end text-info" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي ضريبة القيمة المضافة:</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-start text-info" style="border-color: #dee2e6;">Total Amount Due:</td>
+                                            <td class="text-start text-info" style="border-color: #dee2e6;">Total Amount:</td>
                                             <td class="text-center" style="border-color: #dee2e6;"><span t-field="o.amount_total" t-options="{'widget':'monetary'}"/></td>
                                             <td class="text-end text-info" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">إجمالي المبلغ المستحق:</td>
+                                        </tr>
+                                        <tr t-if="o.payment_state != 'invoicing_legacy'">
+                                            <td class="text-start text-info" style="border-color: #dee2e6;">Total Amount Paid:</td>
+                                            <td></td>
+                                            <td class="text-end text-info" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">المبلغ الإجمالي المدفوع</td>
+                                        </tr>
+                                        <tr t-if="o.payment_state != 'invoicing_legacy'">
+                                            <!--<td class="text-center" style="border-color: #dee2e6;">-->
+                                            <t t-set="payments_vals" t-value="o.sudo()._get_reconciled_info_JSON_values()"/>
+                                            <t t-foreach="payments_vals" t-as="payment_vals">
+                                                <tr>
+                                                    <td class=''>
+                                                        <i class="oe_form_field text-right oe_payment_label">Paid on <t t-esc="payment_vals['date']" t-options='{"widget": "date"}'/></i>
+                                                    </td>
+                                                    <td class="text-center">
+                                                      <span t-esc="payment_vals['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </t>
+                                        </tr>
+                                        <tr t-if="len(payments_vals) > 0">
+                                          <tr>
+                                              <td class="text-start text-info" style="border-color: #dee2e6;">Amount Due:</td>
+                                              <td class="text-center"><span t-field="o.amount_residual"/></td>
+                                              <td class="text-end text-info" style="border-color: #dee2e6;text-align: right; direction: rtl; background-color:#fff;">المبلغ المستحق</td>
+                                          </tr>
                                         </tr>
                                         <tr>
                                             <td class="text-start text-info" style="background-color: white; border-right: 1px solid #dee2e6;">Notes:</td>
