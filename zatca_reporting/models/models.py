@@ -2,9 +2,10 @@
 
 import json
 from odoo import models, fields, api
+from datetime import datetime
 
 class ZatcaReporting(models.TransientModel):
-    
+
     _name = "account.invoice.zatca.report"
 
     start_date = fields.Date('Start Date', required=True)
@@ -17,7 +18,11 @@ class ZatcaReporting(models.TransientModel):
     def generate_zatca_report(self):
         """
         """
-        domain = [('invoice_type','=', 'vat'), ('state','=', self.status)]
+
+        start_date = datetime.strftime(self.start_date, "%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strftime(self.end_date, "%Y-%m-%d %H:%M:%S")
+
+        domain = [('move_type','=', 'out_invoice'),('invoice_type','=', 'vat'), ('state','=', self.status),('invoice_time','>=', start_date),('invoice_time','<=', end_date)]
         invoices = self.env['account.move'].sudo().search(domain)
         result = list()
 
