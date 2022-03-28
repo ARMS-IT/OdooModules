@@ -180,7 +180,7 @@ class GeneralView(models.TransientModel):
         debit_total = 0
         debit_total = sum(x['debit'] for x in account_res)
         credit_total = sum(x['credit'] for x in account_res)
-        debit_balance = round(debit_total,2) - round(credit_total,2)
+        debit_balance = debit_total - credit_total
         return {
             'doc_ids': self.ids,
             'debit_total': debit_total,
@@ -327,7 +327,7 @@ class GeneralView(models.TransientModel):
                     LEFT JOIN account_analytic_tag_account_move_line_rel anltag ON (anltag.account_move_line_id=l.id)
                     JOIN account_journal j ON (l.journal_id=j.id)\
                     JOIN account_account a ON (l.account_id = a.id) '''
-                    + WHERE + new_final_filter + ''' GROUP BY l.id, m.id,  l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, c.position, p.name''' )
+                    + WHERE + new_final_filter + ''' GROUP BY l.id, m.id,  l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, c.position, p.name ORDER BY l.date DESC''' )
         if data.get('accounts'):
             params = tuple(where_params)
         else:
@@ -337,8 +337,9 @@ class GeneralView(models.TransientModel):
         for row in cr.dictfetchall():
             balance = 0
             for line in move_lines.get(row['account_id']):
-                balance += round(line['debit'],2) - round(line['credit'],2)
-            row['balance'] += round(balance,2)
+                # balance += round(line['debit'],2) - round(line['credit'],2)
+                balance += line['debit'] -line['credit']
+            row['balance'] += balance
             row['m_id'] = row['account_id']
             move_lines[row.pop('account_id')].append(row)
 
@@ -352,9 +353,9 @@ class GeneralView(models.TransientModel):
             res['id'] = account.id
             res['move_lines'] = move_lines[account.id]
             for line in res.get('move_lines'):
-                res['debit'] += round(line['debit'],2)
-                res['credit'] += round(line['credit'],2)
-                res['balance'] = round(line['balance'],2)
+                res['debit'] += line['debit']#round(line['debit'],2)
+                res['credit'] += line['credit']#round(line['credit'],2)
+                res['balance'] = line['balance']#round(line['balance'],2)
             if display_account == 'all':
                 account_res.append(res)
             if display_account == 'movement' and res.get('move_lines'):

@@ -32,7 +32,6 @@ class PosOrder(models.Model):
         pos_session = self.env['pos.session'].browse(ui_order['pos_session_id'])
         if pos_session.config_id.branch_company_id:
             branch_company_id = pos_session.config_id.branch_company_id.id
-            print("%%%%%branch_company_id%%%%",branch_company_id)
             order_fields['branch_company_id'] = branch_company_id
         return order_fields
 
@@ -45,3 +44,4 @@ class PosOrder(models.Model):
     #         'branch_company_id': order.config_id.id,
     #     })
     #     return result
+

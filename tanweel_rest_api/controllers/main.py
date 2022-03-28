@@ -25,6 +25,8 @@ from odoo.http import request
 from odoo.http import Response
 from odoo.tools.misc import str2bool
 
+from odoo.http import  route
+
 from odoo import fields
 from datetime import timedelta
 
@@ -67,7 +69,7 @@ def abort(message, rollback=False, status=403):
     if request._cr and rollback:
         request._cr.rollback()
     exceptions.abort(response)
-    
+
 def check_token():
     token = request.params.get('token') and request.params.get('token').strip()
     if not token:
@@ -78,7 +80,25 @@ def check_token():
         abort(FORBIDDEN)
     request._uid = uid
     request._env = api.Environment(request.cr, uid, request.session.context or {})
-    
+
+def check_token_trans(token):
+    # token = request.params.get('token') and request.params.get('token').strip()
+    token = token.strip()
+    token_valid = True
+    if not token:
+        token_valid = False
+        # abort_trans(FORBIDDEN)
+        return token_valid
+    env = api.Environment(request.cr, odoo.SUPERUSER_ID, {})
+    uid = env['rest.api.token'].check_token(token)
+    if not uid:
+        token_valid = False
+        # abort_trans(FORBIDDEN)
+        return token_valid
+    request._uid = uid
+    request._env = api.Environment(request.cr, uid, request.session.context or {})
+    return token_valid
+
 def ensure_db():
     db = request.params.get('db') and request.params.get('db').strip()
     if db and db not in http.db_filter([db]):
@@ -104,11 +124,21 @@ def ensure_db():
 def check_params(params):
     missing = []
     for key, value in params.items():
-        print("Key and value.......",key,value)
         if not value:
             missing.append(key)
     if missing:
         abort({'error': "arguments_missing %s" % str(missing)}, status=400)
+
+def check_params_trans(params):
+    missing = []
+    for key, value in params.items():
+        if not value:
+            missing.append(key)
+    if missing:
+        return {"param_valid":False,"status":"400","error": "arguments_missing %s" % str(missing)}
+        # abort({'error': "arguments_missing %s" % str(missing)}, status=400)
+    else:
+        return {"param_valid":True}
 
 class ObjectEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -449,9 +479,8 @@ class RESTController(http.Controller):
     #----------------------------------------------------------
 
     #tanweel API 1
-    @http.route('/api/authenticate', auth="none", type='http', methods=['POST'], csrf=False)
+    @http.route('/api/authenticate', type='http', auth='none', methods=['POST'], csrf=False)
     def api_authenticate(self, db=None, login=None, password=None, **kw):
-        print("Api aunthicate...........",db,login,password)
         check_params({'db': db, 'login': login, 'password': password})
         ensure_db()
         uid = request.session.authenticate(db, login, password)
@@ -465,7 +494,7 @@ class RESTController(http.Controller):
             abort(LOGIN_INVALID, status=401)
 
     #tanweel API 2
-    @http.route('/api/create/partner', auth="none", type='http', methods=['POST'], csrf=False)
+    @http.route('/api/create/partner', auth='none', type='http', methods=['POST'], csrf=False)
     def api_create(self, model='res.partner',values=None, context=None, token=None, **kw):
         check_params({'token': token,'values':values,
                       'customer_ref': json.loads(values).get('ref'),
@@ -495,22 +524,26 @@ class RESTController(http.Controller):
             abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
 
     #tanweel API 3
-    @http.route('/api/create/transaction', auth="none", type='http', methods=['POST'], csrf=False)
-    def api_transaction(self, model='account.move',
-                        pay_txn_id=None,
-                        cus_id=None, cus_name=None, product_values={},
-                        prod_code=None, prod_name=None, app_id=None,
-                        pay_amount=None, loan_type_code=None, pay_txn_datetime=None,
-                        pay_session_id=None, context=None, token=None, **kw):
-        check_params({'token': token,
+    @http.route('/api/create/transaction', type='json', auth='none', methods=["POST"], csrf=False)
+    def api_transaction(self, model='account.move', **kwargs):
+        data = json.loads(request.httprequest.data)
+        token = data.get('token')
+        pay_txn_id = data.get('pay_txn_id')
+        cus_id = data.get('cus_id')
+        cus_name = data.get('cus_name')
+        app_id = data.get('app_id')
+        prod_code = data.get('prod_code')
+        prod_name = data.get('prod_name')
+        pay_amount = data.get('pay_amount')
+        loan_type_code = data.get('loan_type_code')
+        pay_txn_datetime = data.get('pay_txn_datetime')
+        pay_session_id = data.get('pay_session_id')
+
+        param_dict = check_params_trans({'token': token,
                       'pay_txn_id': pay_txn_id,
-                      # 'customer_values': customer_values,
                       'cus_id': cus_id,
                       'cus_name': cus_name,
-                      # 'cus_name': json.loads(customer_values).get('name'),
                       'app_id': app_id,
-                      # 'product_values': product_values,
-                      # 'default_code': json.loads(product_values).get('default_code'),
                       'prod_code': prod_code,
                       'prod_name': prod_name,
                       'pay_amount': pay_amount,
@@ -518,99 +551,208 @@ class RESTController(http.Controller):
                       'pay_txn_datetime': pay_txn_datetime,
                       'pay_session_id': pay_session_id,
                       })
+        if not param_dict.get('param_valid'):
+            # abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
+            return param_dict
         ensure_db()
-        check_token()
-        try:
-            pay_txn_id = pay_txn_id and json.loads(pay_txn_id) or ''
-            # customer_values = customer_values and json.loads(customer_values) or {}
-            cus_id = cus_id and json.loads(cus_id) or ''
-            cus_name = cus_name and json.loads(cus_name) or ''
-            app_id = app_id and json.loads(app_id) or ''
-            prod_code = prod_code and json.loads(prod_code) or ''
-            prod_name = prod_name and json.loads(prod_name) or ''
-            # product_values = product_values and json.loads(product_values) or ''
-            pay_amount = pay_amount and json.loads(pay_amount) or 0.0
-            loan_type_code = loan_type_code and json.loads(loan_type_code) or ''
-            pay_txn_datetime = pay_txn_datetime and json.loads(pay_txn_datetime) or ''
-            pay_session_id = pay_session_id and json.loads(pay_session_id) or ''
-
-            from datetime import datetime
-            import pytz
-
-            # pay_txn_datetime = datetime.strptime(pay_txn_datetime, '%Y-%m-%d %H:%M:%S')
-            # local = pytz.timezone(request.env.user.tz or pytz.utc)
-            # print("local...",local)
-            # pay_txn_datetime = datetime.strftime(pytz.utc.localize(pay_txn_datetime).astimezone(local),"%Y-%m-%d %H:%M:%S")
-            # print("pay_txn_datetime....",pay_txn_datetime)
-
-            # customer_name = str(customer_values.get('name')).title()
-            cus_name = str(cus_name).title()
-            Partner = request.env['res.partner']
-            # partner_id = Partner.search([('id', '=', customer_values.get('cus_id')),('name', '=', customer_name)])
-            partner_id = Partner.search([('id', '=', cus_id),('name', '=', cus_name)])
-            if partner_id:
-                partner_id = partner_id[0]
-            else:
-                partner_id = Partner.create({'name': cus_name})
-            Product = request.env['product.product']
-            # product_id = Product.search([('default_code', '=', product_values.get('default_code')),('name', '=', str(product_values.get('name')).title())])
-            prod_name = str(prod_name).title()
-            product_id = Product.search([('default_code', '=', prod_code),('name', '=', prod_name)])
-            if product_id:
-                product_id = product_id[0]
-            else:
-                product_id = Product.create({'name': prod_name,'default_code': prod_code})
-
-            pay_txn_datetime = datetime.strptime(pay_txn_datetime, '%Y-%m-%d %H:%M:%S')
-
-            move_vals = {
-                'ref': partner_id.ref,
-                'move_type': 'out_invoice',
-                'initial_amount': pay_amount,
-                # 'invoice_origin': order.name,
-                # 'invoice_user_id': order.user_id.id,
-                # 'narration': order.note,
-                'partner_id': partner_id.id,
-                'pay_txn_id': pay_txn_id,
-                'loan_type_code': loan_type_code,
-                'pay_txn_datetime': fields.Datetime.to_string(pay_txn_datetime - timedelta(hours=5,minutes=30)),
-                'pay_session_id': pay_session_id,
-                'app_id': app_id,
-                # 'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(order.partner_id.id)).id,
-                # 'partner_shipping_id': order.partner_shipping_id.id,
-                # 'currency_id': order.pricelist_id.currency_id.id,
-                # 'payment_reference': order.reference,
-                # 'invoice_payment_term_id': order.payment_term_id.id,
-                # 'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
-                # 'team_id': order.team_id.id,
-                # 'campaign_id': order.campaign_id.id,
-                # 'medium_id': order.medium_id.id,
-                # 'source_id': order.source_id.id,
-                'invoice_line_ids': [(0, 0, {
-                    # 'name': name,
-                    'price_unit': pay_amount,
-                    'quantity': 1.0,
-                    'product_id': product_id.id,
-                    # 'product_uom_id': so_line.product_uom.id,
-                    # 'tax_ids': [(6, 0, so_line.tax_id.ids)],
-                    # 'sale_line_ids': [(6, 0, [so_line.id])],
-                    # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-                    # 'analytic_account_id': order.analytic_account_id.id or False,
-                })],
+        token_valid = check_token_trans(token)
+        if not token_valid:
+            error = {
+                "error": "token_invalid",
+                "code":"01"
             }
+            return error
+        else:
+            try:
+                from datetime import datetime
+                import pytz
+                cus_name = str(cus_name).title()
+                Partner = request.env['res.partner']
+                partner_id = Partner.search([('id', '=', cus_id),('name', '=', cus_name)])
+                if partner_id:
+                    partner_id = partner_id[0]
+                else:
+                    partner_id = Partner.create({'name': cus_name})
+                Product = request.env['product.product']
+                prod_name = str(prod_name).title()
+                product_id = Product.search([('default_code', '=', prod_code),('name', '=', prod_name)])
+                if product_id:
+                    product_id = product_id[0]
+                else:
+                    product_id = Product.create({'name': prod_name,'default_code': prod_code})
 
-            move = request.env[model].create(move_vals)
-            # move.action_post()
-            # return Response(json.dumps({'erp_txn_number': move.name,'erp_txn_id': move.id,"msg":"As generated in ERP system when payment transaction is noted and logged in ERP system.",'code':'00'},
-            return Response(json.dumps({'cus_id': partner_id.id,'erp_txn_id': move.id,"msg":"As generated in ERP system when payment transaction is noted and logged in ERP system.",'code':'00'},
-                sort_keys=True, indent=4,cls=ObjectEncoder),
-                content_type='application/json;charset=utf-8', status=200)
-        except Exception as error:
-            _logger.error(error)
-            abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
+                pay_txn_datetime = datetime.strptime(pay_txn_datetime, '%Y-%m-%d %H:%M:%S')
+                move_vals = {
+                    'ref': partner_id.ref,
+                    'move_type': 'out_invoice',
+                    'initial_amount': pay_amount,
+                    'partner_id': partner_id.id,
+                    'pay_txn_id': pay_txn_id,
+                    'loan_type_code': loan_type_code,
+                    'pay_txn_datetime': fields.Datetime.to_string(pay_txn_datetime - timedelta(hours=5,minutes=30)),
+                    'pay_session_id': pay_session_id,
+                    'app_id': app_id,
+                    'invoice_line_ids': [(0, 0, {
+                        'price_unit': pay_amount,
+                        'quantity': 1.0,
+                        'product_id': product_id.id,
+                    })],
+                }
+                move = request.env[model].create(move_vals)
+                result = {"cus_id": partner_id.id,"erp_txn_id": move.id,"msg": "As generated in ERP system when payment transaction is noted and logged in ERP system.","code":"00","status":"200"}
+                # return Response(json.dumps({'cus_id': partner_id.id,'erp_txn_id': move.id,"msg":"As generated in ERP system when payment transaction is noted and logged in ERP system.",'code':'00'},
+                #     sort_keys=True, indent=4,cls=ObjectEncoder),
+                #     content_type='application/json', status=200)
+                return result
+            except Exception as error:
+                _logger.error(error)
+                result = {"error": traceback.format_exc(),"code":"01","status":"400"}
+                # abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
+                return result
+
+    # #tanweel API 3
+    # # @http.route('/api/create/transaction', auth="none", type='http', methods=['POST'], csrf=False)
+    # @http.route('/api/create/transaction', auth="none", type='json', methods=['POST'], csrf=False)
+    # def api_transaction(self, model='account.move',
+    #                     pay_txn_id=None,data={},
+    #                     cus_id=None, cus_name=None, product_values={},
+    #                     prod_code=None, prod_name=None, app_id=None,
+    #                     pay_amount=None, loan_type_code=None, pay_txn_datetime=None,
+    #                     pay_session_id=None, context=None, token=None, **kw):
+    #     print("===****kw********====",kw)
+    #     print("===*******cus_id*****====",cus_id)
+    #     print("===*******json*****====",json.loads(data))
+    #     # print("===********pay****====",json.loads(pay_txn_id))
+    #     # print("===pay_txn_id====",pay_txn_id,type(pay_txn_id))
+    #
+    #     params =    { 'token': token,
+    #                   'pay_txn_id': pay_txn_id,
+    #                   # 'customer_values': customer_values,
+    #                   'cus_id': cus_id,
+    #                   'cus_name': cus_name,
+    #                   # 'cus_name': json.loads(customer_values).get('name'),
+    #                   'app_id': app_id,
+    #                   # 'product_values': product_values,
+    #                   # 'default_code': json.loads(product_values).get('default_code'),
+    #                   'prod_code': prod_code,
+    #                   'prod_name': prod_name,
+    #                   'pay_amount': pay_amount,
+    #                   'loan_type_code': loan_type_code,
+    #                   'pay_txn_datetime': pay_txn_datetime,
+    #                   'pay_session_id': pay_session_id,
+    #                   }
+    #
+    #     print("params...",params)
+    #
+    #     check_params({'token': token,
+    #                   'pay_txn_id': pay_txn_id,
+    #                   # 'customer_values': customer_values,
+    #                   'cus_id': cus_id,
+    #                   'cus_name': cus_name,
+    #                   # 'cus_name': json.loads(customer_values).get('name'),
+    #                   'app_id': app_id,
+    #                   # 'product_values': product_values,
+    #                   # 'default_code': json.loads(product_values).get('default_code'),
+    #                   'prod_code': prod_code,
+    #                   'prod_name': prod_name,
+    #                   'pay_amount': pay_amount,
+    #                   'loan_type_code': loan_type_code,
+    #                   'pay_txn_datetime': pay_txn_datetime,
+    #                   'pay_session_id': pay_session_id,
+    #                   })
+    #     ensure_db()
+    #     check_token()
+    #     try:
+    #         pay_txn_id = pay_txn_id and json.loads(pay_txn_id) or ''
+    #         # customer_values = customer_values and json.loads(customer_values) or {}
+    #         cus_id = cus_id and json.loads(cus_id) or ''
+    #         cus_name = cus_name and json.loads(cus_name) or ''
+    #         app_id = app_id and json.loads(app_id) or ''
+    #         prod_code = prod_code and json.loads(prod_code) or ''
+    #         prod_name = prod_name and json.loads(prod_name) or ''
+    #         # product_values = product_values and json.loads(product_values) or ''
+    #         pay_amount = pay_amount and json.loads(pay_amount) or 0.0
+    #         loan_type_code = loan_type_code and json.loads(loan_type_code) or ''
+    #         pay_txn_datetime = pay_txn_datetime and json.loads(pay_txn_datetime) or ''
+    #         pay_session_id = pay_session_id and json.loads(pay_session_id) or ''
+    #
+    #         from datetime import datetime
+    #         import pytz
+    #
+    #         # pay_txn_datetime = datetime.strptime(pay_txn_datetime, '%Y-%m-%d %H:%M:%S')
+    #         # local = pytz.timezone(request.env.user.tz or pytz.utc)
+    #         # print("local...",local)
+    #         # pay_txn_datetime = datetime.strftime(pytz.utc.localize(pay_txn_datetime).astimezone(local),"%Y-%m-%d %H:%M:%S")
+    #         # print("pay_txn_datetime....",pay_txn_datetime)
+    #
+    #         # customer_name = str(customer_values.get('name')).title()
+    #         cus_name = str(cus_name).title()
+    #         Partner = request.env['res.partner']
+    #         # partner_id = Partner.search([('id', '=', customer_values.get('cus_id')),('name', '=', customer_name)])
+    #         partner_id = Partner.search([('id', '=', cus_id),('name', '=', cus_name)])
+    #         if partner_id:
+    #             partner_id = partner_id[0]
+    #         else:
+    #             partner_id = Partner.create({'name': cus_name})
+    #         Product = request.env['product.product']
+    #         # product_id = Product.search([('default_code', '=', product_values.get('default_code')),('name', '=', str(product_values.get('name')).title())])
+    #         prod_name = str(prod_name).title()
+    #         product_id = Product.search([('default_code', '=', prod_code),('name', '=', prod_name)])
+    #         if product_id:
+    #             product_id = product_id[0]
+    #         else:
+    #             product_id = Product.create({'name': prod_name,'default_code': prod_code})
+    #
+    #         pay_txn_datetime = datetime.strptime(pay_txn_datetime, '%Y-%m-%d %H:%M:%S')
+    #
+    #         move_vals = {
+    #             'ref': partner_id.ref,
+    #             'move_type': 'out_invoice',
+    #             'initial_amount': pay_amount,
+    #             # 'invoice_origin': order.name,
+    #             # 'invoice_user_id': order.user_id.id,
+    #             # 'narration': order.note,
+    #             'partner_id': partner_id.id,
+    #             'pay_txn_id': pay_txn_id,
+    #             'loan_type_code': loan_type_code,
+    #             'pay_txn_datetime': fields.Datetime.to_string(pay_txn_datetime - timedelta(hours=5,minutes=30)),
+    #             'pay_session_id': pay_session_id,
+    #             'app_id': app_id,
+    #             # 'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(order.partner_id.id)).id,
+    #             # 'partner_shipping_id': order.partner_shipping_id.id,
+    #             # 'currency_id': order.pricelist_id.currency_id.id,
+    #             # 'payment_reference': order.reference,
+    #             # 'invoice_payment_term_id': order.payment_term_id.id,
+    #             # 'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
+    #             # 'team_id': order.team_id.id,
+    #             # 'campaign_id': order.campaign_id.id,
+    #             # 'medium_id': order.medium_id.id,
+    #             # 'source_id': order.source_id.id,
+    #             'invoice_line_ids': [(0, 0, {
+    #                 # 'name': name,
+    #                 'price_unit': pay_amount,
+    #                 'quantity': 1.0,
+    #                 'product_id': product_id.id,
+    #                 # 'product_uom_id': so_line.product_uom.id,
+    #                 # 'tax_ids': [(6, 0, so_line.tax_id.ids)],
+    #                 # 'sale_line_ids': [(6, 0, [so_line.id])],
+    #                 # 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
+    #                 # 'analytic_account_id': order.analytic_account_id.id or False,
+    #             })],
+    #         }
+    #
+    #         move = request.env[model].create(move_vals)
+    #         # move.action_post()
+    #         # return Response(json.dumps({'erp_txn_number': move.name,'erp_txn_id': move.id,"msg":"As generated in ERP system when payment transaction is noted and logged in ERP system.",'code':'00'},
+    #         return Response(json.dumps({'cus_id': partner_id.id,'erp_txn_id': move.id,"msg":"As generated in ERP system when payment transaction is noted and logged in ERP system.",'code':'00'},
+    #             sort_keys=True, indent=4,cls=ObjectEncoder),
+    #             content_type='application/json;charset=utf-8', status=200)
+    #     except Exception as error:
+    #         _logger.error(error)
+    #         abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
 
     #tanweel API 4
-    @http.route('/api/closeloan', auth="none", type='http', methods=['POST'], csrf=False)
+    @http.route('/api/closeloan', auth='none', type='http', methods=['POST'], csrf=False)
     def api_close_loan(self, model='account.move',
                         erp_txn_id = None,
                         loan_amount=None,fe_id=None,
@@ -657,12 +799,10 @@ class RESTController(http.Controller):
             # for line in current_invoice_lines:
             #     price_subtotal = line._get_price_total_and_subtotal().get('price_subtotal', 0.0)
             #     to_write = line._get_fields_onchange_balance(price_subtotal=price_subtotal)
-            #     print("%%%%%",to_write)
             #     to_write.update(line._get_price_total_and_subtotal(
             #         price_unit=to_write.get('price_unit', amount),
             #     ))
 
-            # print("current_invoice_lines.......",current_invoice_lines)
             # current_invoice_lines.price_unit = amount
             # others_lines = move_rec.line_ids - current_invoice_lines
             # if others_lines and current_invoice_lines - move_rec.invoice_line_ids:
@@ -733,7 +873,6 @@ class RESTController(http.Controller):
                  })._create_payments()
             # payment_register_id = models.execute_kw(db, uid, password, 'account.payment.register', 'create', [{'journal_id': bank_journal_id, 'payment_method_id': payment_method_id, 'invoice_ids': [(4, invoice_id)]}])
             # models.execute_kw(db, uid, password, 'account.payment.register', 'create_payments', [[payment_register_id]])
-            print("payments...",payments)
             return Response(json.dumps({'payment_txn_number': payments.name,'payment_txn_id': payments.id,"msg":"Payment generated in ERP with updated amount.",'code':'00'},
                 sort_keys=True, indent=4,cls=ObjectEncoder),
                 content_type='application/json;charset=utf-8', status=200)
@@ -742,7 +881,7 @@ class RESTController(http.Controller):
             abort({'error': traceback.format_exc(),'code':'01'}, rollback=True, status=400)
 
     #tanweel API 5
-    @http.route('/api/refund', auth="none", type='http', methods=['POST'], csrf=False)
+    @http.route('/api/refund', auth='user', type='http', methods=['POST'], csrf=False)
     def api_refund(self, model='account.move',
                         erp_txn_id = None,
                         loan_amount=None,fe_id=None,

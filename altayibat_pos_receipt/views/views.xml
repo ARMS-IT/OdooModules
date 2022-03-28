@@ -1,19 +1,18 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
+<!-- 
     <record model="ir.ui.view" id="altayibat_pos_receipt.list">
       <field name="name">altayibat_pos_receipt list</field>
       <field name="model">altayibat_pos_receipt.altayibat_pos_receipt</field>
+      <field name="inherit_id" ref="base.view_company_form"/>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
+        <field name="vat" position="after">
+            <field name="branch_company_id"
+        </field>
       </field>
-    </record>
--->
+    </record> -->
+
 
     <!-- actions opening views on models -->
 <!--

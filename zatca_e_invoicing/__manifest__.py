@@ -18,12 +18,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'ehcs_qr_code_base', 'account_debit_note'],
+    'depends': ['account', 'ehcs_qr_code_base', 'account_debit_note'],
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'data/payment_mean_data.xml',
+        'security/ir.model.access.csv',
         'data/tax_codes_data.xml',
         'views/payment_mean_views.xml',
         'report/account_invoice_report_template.xml',

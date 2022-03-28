@@ -5,7 +5,7 @@ import pytz
 import hashlib
 import base64
 import qrcode, math
-from datetime import datetime
+from datetime import date,datetime
 from io import BytesIO
 from odoo import api, fields, models, _
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
@@ -115,6 +115,10 @@ class AccountMove(models.Model):
 
     def action_generate_report(self):
         return self.env.ref('zatca_e_invoicing.zatca_account_invoices').report_action(self)
+
+
+    def action_generate_report_a3(self):
+        return self.env.ref('zatca_e_invoicing.zatca_account_invoices_a3').report_action(self)
 
     def convert_datetime_to_timestamp(self):
         """
@@ -525,21 +529,19 @@ class AccountMove(models.Model):
         minutes = minutes/60.0
         return hours + minutes
 
-    @api.depends('invoice_time')
-    def _compute_invoice_date(self):
-        for move in self:
-            move.invoice_date = False
-            if move.invoice_time:
-                move.invoice_date = move.invoice_time.date()
-                move.date = move.invoice_time.date()
-
-    # def _compute_invoice_datetime(self):
+    # @api.depends('invoice_time')
+    # def _compute_invoice_date(self):
     #     for move in self:
-    #         move.invoice_time = fields.Datetime.now()
+    #         move.invoice_date = False
+    #         if move.invoice_time:
+    #             move.invoice_date = move.invoice_time.date()
+    #             move.date = move.invoice_time.date()
+
 
     # Invoice Date (using Default)
-    invoice_time = fields.Datetime("Invoice Time", default=lambda self: fields.Datetime.now())
-    invoice_date = fields.Date(compute="_compute_invoice_date", store=True)
+    invoice_time = fields.Datetime("Invoice Time", default=lambda self: fields.Datetime.now(), tracking=True,)
+    # invoice_date = fields.Date(compute="_compute_invoice_date", store=True)
+    # date = fields.Date(compute="_compute_invoice_date", store=True)
     supply_date = fields.Date("Supply Date")
     supply_end_date = fields.Date("Supply End Date")
 
@@ -619,7 +621,7 @@ class AccountMove(models.Model):
 
     payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", default=lambda self:self.env.ref("zatca_e_invoicing.payment_mean_30").id, domain=[('code','in',[10, 30, 42, 48, 1])])
     discount_allowance = fields.Boolean("Allowance (Discount)", compute="_compute_discount_allowance")
-
+    
     @api.constrains('special_billing_agreement')
     def check_special_billing_agreement(self):
         if self.special_billing_agreement == 'third_party' and self.move_type == 'out_invoice':
@@ -636,15 +638,37 @@ class AccountMove(models.Model):
         md5_hash = hash_object.hexdigest()
         return md5_hash
 
+    def get_invoice_time(self):
+        invoice_time = self.invoice_time
+        if invoice_time:
+            invoice_time = datetime.strptime(str(invoice_time), "%Y-%m-%d %H:%M:%S")
+            tz = pytz.timezone(self.env.user.tz or "UTC")
+            invoice_time = pytz.utc.localize(invoice_time).astimezone(tz)
+            date = invoice_time.date()
+            return date
+
     @api.model
     def create(self, vals):
-        """
-        """
         vals['uuid_number'] = uuid.uuid4()
         vals['invoice_hash_number'] = self.get_hash(vals.get('uuid_number'))
-        # vals['invoice_time'] = datetime.now()
+        #invoice_time = vals.get('invoice_time')
+        #if invoice_time:
+        #    vals['invoice_date'] = self.get_invoice_time(invoice_time)
+        #    vals['date'] = self.get_invoice_time(invoice_time)
         res = super(AccountMove, self).create(vals)
+        self.invoice_date = res.get_invoice_time()
         return res
+
+    @api.onchange("invoice_time")
+    def onchange_invoice_time(self):
+        if self.invoice_time:
+            # tz = pytz.timezone(self.env.user.tz or "UTC")
+            # invoice_time = self.invoice_time
+            # invoice_time = pytz.utc.localize(invoice_time).astimezone(tz)
+            date = self.get_invoice_time()
+            self.invoice_date = date
+            self.date = date
+
 
     @api.onchange('invoice_type')
     def onchange_invoice_type(self):
@@ -839,7 +863,7 @@ class Company(models.Model):
     neighborhood = fields.Char(required=True)
     mobile = fields.Char()
     vat = fields.Char(required=True)
-    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2'), ('format_3', 'Report Layout 3'), ('format_4', 'Report Layout 4')], string="E-Invoice Report Format", default="format_1", required=True)
+    einv_report_format = fields.Selection([('format_1', 'Report Layout 1'), ('format_2', 'Report Layout 2'), ('format_3', 'Report Layout 3'), ('format_4', 'Report Layout 4'), ('format_5', 'Report Layout 5')], string="E-Invoice Report Format", default="format_1", required=True)
 
     def get_other_ids(self):
         """
@@ -975,3 +999,16 @@ class AccountDebitNote(models.TransientModel):
                 'domain': [('id', 'in', new_moves.ids)],
             })
         return action
+
+class AccountPayment(models.Model):
+
+    _inherit = 'account.payment'
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountPayment, self).create(vals)
+        return res
+
+    def write(self, vals):
+        res = super(AccountPayment, self).write(vals)
+        return res

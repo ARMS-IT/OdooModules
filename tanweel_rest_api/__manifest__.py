@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Rest API",
-    "summary": """Restful API""",
+    "name": "API To generate invoice in odoo.",
+    "summary": """API To generate invoice in odoo""",
     "version": "14.0.2.0.1",
     "category": "Extra Tools",
     "website": "https://erp.tracencode.com/",

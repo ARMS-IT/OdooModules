@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+import re
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
@@ -16,27 +17,10 @@ class AccountMove(models.Model):
             if name == False or name== '' or name == 'Draft' or name == '/':
                 move.invoice_seq_num = False
             else:
-                name = name.split("/", 1)
+                # name = name.split("/", 1)
+                name = re.split(r'(^[^\d]+)', name)[1:]
                 move.invoice_seq_num = name[1]
 
-    #
-    # def action_post(self):
-    #     res = super(AccountMove, self).action_post()
-    #     name = self.name
-    #     if name !='Draft' or name !='/':
-    #         name = name.split("/", 1)
-    #         self.invoice_seq_nbr = name[1]
-    #     return res
-    #
-    # def action_update_invoice_seq_nbr(self):
-    #     name = self.name
-    #     if name !='Draft' or name !='/':
-    #         import re
-    #         old_name = re.sub('\s+', ' ', name)
-    #         print("old_name..",old_name)
-    #         name = name.split("/", 1)
-    #         self.invoice_seq_nbr = name[1]
-    #     return True
 
 
 

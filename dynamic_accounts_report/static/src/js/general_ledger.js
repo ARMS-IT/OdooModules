@@ -71,9 +71,9 @@ odoo.define('dynamic_cash_flow_statements.general_ledger', function (require) {
                         args: [[this.wizard_id], action_title],
                     }).then(function(datas) {
                     _.each(datas['report_lines'], function(rep_lines) {
-                            rep_lines.debit = self.format_currency(datas['currency'],rep_lines.debit);
-                            rep_lines.credit = self.format_currency(datas['currency'],rep_lines.credit);
-                            rep_lines.balance = self.format_currency(datas['currency'],rep_lines.balance);
+                            //rep_lines.debit = self.format_currency(datas['currency'],rep_lines.debit);
+                            //rep_lines.credit = self.format_currency(datas['currency'],rep_lines.credit);
+                            //rep_lines.balance = self.format_currency(datas['currency'],rep_lines.balance);
 
 
 
@@ -245,9 +245,9 @@ odoo.define('dynamic_cash_flow_statements.general_ledger', function (require) {
                     _.each(data['report_lines'], function(rep_lines) {
                             _.each(rep_lines['move_lines'], function(move_line) {
 
-                             move_line.debit = self.format_currency(data['currency'],move_line.debit);
-                            move_line.credit = self.format_currency(data['currency'],move_line.credit);
-                            move_line.balance = self.format_currency(data['currency'],move_line.balance);
+                            //move_line.debit = self.format_currency(data['currency'],move_line.debit);
+                            //move_line.credit = self.format_currency(data['currency'],move_line.credit);
+                            //move_line.balance = self.format_currency(data['currency'],move_line.balance);
 
 
                              });

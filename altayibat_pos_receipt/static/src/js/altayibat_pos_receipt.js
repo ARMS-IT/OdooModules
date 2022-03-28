@@ -2,6 +2,7 @@ odoo.define('altayibat_pos_receipt.receipt_address', function (require) {
 	"use strict";
 
 	var models = require("point_of_sale.models");
+	var rpc = require('web.rpc');
 
 	models.load_models({
     model:  'res.company',
@@ -10,6 +11,14 @@ odoo.define('altayibat_pos_receipt.receipt_address', function (require) {
         self.companies = companies;
         },
     });
+
+//    models.load_models({
+//    model:  'pos.config',
+//    fields: ['branch_company_id'],
+//    loaded: function(self,branch_company_id){
+//        self.companies = companies;
+//        },
+//    });
 
 
     var _super_order = models.Order.prototype;
@@ -30,6 +39,13 @@ odoo.define('altayibat_pos_receipt.receipt_address', function (require) {
     models.Order = models.Order.extend({
      	export_for_printing: function () {
             var self = this;
+
+//            rpc.query({
+//                    model: 'res.company',
+//                    method: 'search_read',
+//                    args: args,
+//                });
+
             var orders = _super_order.export_for_printing.call(this);
             var order = this.pos.get_order();
 
@@ -46,17 +62,18 @@ odoo.define('altayibat_pos_receipt.receipt_address', function (require) {
                 orders.company['country'] = company_partner.country_id[1];
             	orders.company['image'] = "data:image/png;base64," + this.pos.company.logo;
             }
+
             var branch_company;
-            for (var i=0; i<posmodel.companies.length; i++){
-            	if (posmodel.companies[i].id == this.pos.config.branch_company_id[0]){
-            		branch_company = posmodel.companies[i]
+            for (var i=0; i<this.pos.session.user_companies.allowed_branches.length; i++){
+            	if (this.pos.session.user_companies.allowed_branches[i][0] == this.pos.config.branch_company_id[0]){
+            		branch_company = this.pos.session.user_companies.allowed_branches[i][1]
             	}
             }
             if (branch_company!=undefined){
             	orders.company['bstreet'] = branch_company['street'];
             	orders.company['bstreet2'] = branch_company['street2'];
             	orders.company['bcity'] = branch_company['city'];
-                orders.company['bcountry'] = branch_company['country_id'][1];
+                orders.company['bcountry'] = branch_company['country'];
                 orders.company['bvat'] = branch_company['vat'];
             }
 
