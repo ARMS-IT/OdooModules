@@ -497,6 +497,8 @@ class AccountMove(models.Model):
             elif invoice.move_type == 'in_refund':
                 invoice.invoice_type_code = '383'
 
+            elif invoice.move_type == 'in_invoice':
+                invoice.invoice_type_code = '388'
 
 
     invoice_type_code = fields.Selection([

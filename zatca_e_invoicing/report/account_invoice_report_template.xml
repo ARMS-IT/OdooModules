@@ -1743,7 +1743,8 @@
                                             <span t-esc="i"/>
                                             <t t-set="i" t-value="i+1"/>
                                         </td>
-                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.product_id"/></td>
+<!--                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.product_id"/></td>-->
+                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.name"/></td>
                                         <td class="text-align: right;direction: rtl; text-right" style="border-color: #dee2e6;" colspan="2"><span t-field="line.price_unit" t-options="{'widget':'monetary'}"/></td>
                                         <td class="text-end text-center" style="border-color: #dee2e6;" colspan="2"> <span t-field="line.quantity"/></td>
                                         <td class="text-end text-right" style="border-color: #dee2e6;" colspan="4"><span t-field="line.price_subtotal" t-options="{'widget':'monetary'}"/></td>
@@ -2075,7 +2076,8 @@
                                             <span t-esc="i"/>
                                             <t t-set="i" t-value="i+1"/>
                                         </td>
-                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.product_id"/></td>
+<!--                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.product_id"/></td>-->
+                                        <td class="text-start" style="border-color: #dee2e6;" colspan="4"><span t-field="line.name"/></td>
                                         <td class="text-align: right;direction: rtl; text-right" style="border-color: #dee2e6;" colspan="2"><span t-field="line.price_unit" t-options="{'widget':'monetary'}"/></td>
                                         <td class="text-end text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="line.quantity"/></td>
                                         <td class="text-end text-right" style="border-color: #dee2e6;" colspan="4"><span t-field="line.price_subtotal" t-options="{'widget':'monetary'}"/></td>
@@ -2782,6 +2784,9 @@
     <template id="report_invoice_zatca_format_5">
         <t t-call="web.external_layout">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
+            <style>
+                .section_bg{background-color:#D3D3D3!important;}
+            </style>
             <div class="page" t-if="o.invoice_type == 'simple'">
                 <div class="row" style="display:block; margin-top:-55px;">
                     <div class="row col-xs-12 col-md-12" style="display:block;">
@@ -2912,8 +2917,9 @@
                                         <td style="width: 15%; border-color: #dee2e6;" class="text-center text-info">Item Subtotal (Including VAT)<br/>المجموع الفرعي للبند (متضمنًا ضريبة القيمة المضافة)</td>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    <tr t-foreach="o.invoice_line_ids" t-as="line" t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <tr t-foreach="o.invoice_line_ids" t-as="line" t-att-class="'bg-200 font-weight-bold section_bg' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                                         <t t-if="not line.display_type" name="account_invoice_line_accountable">
                                             <td class="text-start" style="border-color: #dee2e6;" colspan="1">
                                                 <span t-esc="i"/>
