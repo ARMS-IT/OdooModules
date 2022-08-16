@@ -258,25 +258,108 @@ class AccountMove(models.Model):
     qr_tax_total = fields.Char("VAT Total", compute="_compute_qr_vals")
     qr_fail_reason = fields.Text("QR Failure Reason", compute="_compute_qr_vals")
     qr_string = fields.Char(compute="_compute_qr_vals", string="QR Base64 String")
+    draft_check = fields.Boolean(string="Check Draft", help="If already posted not allow to edit")
 
     is_acknowledged = fields.Boolean("Acknowledged")
 
     business_process_type = fields.Text("Business Process Type", required=True, default="reporting:1.0")
 
+    def action_post(self):
+        res = super(AccountMove, self).action_post()
+        for moves in self:
+            if moves.move_type in ('out_invoice','out_refund','in_refund','in_invoice'):
+                moves.draft_check = True
+            else:
+                moves.draft_check = False
+        return res            
 
     def _compute_xml_json_str(self):
         """
         """
         for move in self:
             res = dict()
+            res["UBLExtensions"] = [
+                {
+                    "UBLExtension":{
+                        "ExtensionURI": "urn:oasis:names:specification:ubl:dsig:enveloped:xades",
+                        "ExtensionContent":{
+                            "UBLDocumentSignatures":{
+                                "SignatureInformation":{
+                                    "ID":"urn:oasis:names:specification:ubl:signature:1",
+                                    "ReferencedSignatureID":"urn:oasis:names:specification:ubl:signature:Invoice",
+                                    "ds_Signature":{
+                                        "SignedInfo":{
+                                            "CanonicalizationMethod":"",
+                                            "ds_SignatureMethod":"",
+                                            "Reference1":{
+                                                "Transforms":{
+                                                    "Transform1":{
+                                                        "XPath":"not(//ancestor-or-self::ext:UBLExtensions)",
+                                                    },
+                                                    "Transform2":{
+                                                        "XPath":"not(//ancestor-or-self::cac:Signature)",
+                                                    },
+                                                    "Transform3":{
+                                                        "XPath":"not(//ancestor-or-self::cac:AdditionalDocumentReference[cbc:ID='QR'])",
+                                                    },
+                                                    "Transform4":{
+                                                        "XPath":"not(//ancestor-or-self::ext:UBLExtensions)",
+                                                    },
+                                                    "Transform":"",
+                                                },
+                                                "DigestMethod":"",
+                                                "DigestValue": "1234657981234567891234656789" #QUERY_XML,
+
+                                            },
+                                            "Reference2":{
+                                                "DigestMethod":"",
+                                                "DigestValue":"1234657981234567891234656789", #QUERY_XML,
+                                            }
+                                        },
+                                        "SignatureValue":"1234657981234567891234656789", #QUERY_XML,
+                                        "KeyInfo":{
+                                            "X509Data":{
+                                                "X509Certificate": "1234657981234567891234656789" #Query XML
+                                            }
+                                        },
+                                        "Object":{
+                                            "QualifyingProperties":{
+                                                "SignedProperties":{
+                                                    "SignedSignatureProperties":{
+                                                        "SigningTime":"2022-03-25T02:09:39Z", #QUERY_XML
+                                                        "SigningCertificate":{
+                                                            "Cert":{
+                                                                "CertDigest":{
+                                                                    "DigestMethod":"",
+                                                                    "DigestValue":"ZGNjZTk3MGIzYjg0M2FlODczNGIyMDQ3ZjczOTM2NjgyNjljYmQ4NGYyZThkOTlmY2ZjYTU0ODFhZWE3MjE4NA", #QUERY_XML
+                                                                },
+                                                                "IssuerSerial":{
+                                                                    "X509IssuerName":"CN=eInvoicing",
+                                                                    "X509SerialNumber":"1641728828389", #QUERY_XML
+                                                                }
+                                                            }
+                                                        }, #QUERY_XML
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, 
+                                }, 
+                            }
+                        }
+                    }
+                }
+            ]
+
             res["ProfileID"] = move.business_process_type
             res["ID"] = move.id
-            res["IssueDate"] = move.uuid_number
+            res["UUID"] = move.uuid_number,
             res["IssueDate"] = move.invoice_time.date().strftime("%Y-%M-%d") if move.invoice_time else "",
             res["IssueTime"] = move.invoice_time.time().strftime("%H:%M:%S") if move.invoice_time else "",
             res["InvoiceTypeCode"] = move.invoice_type_code
             res["DocumentCurrencyCode"] = move.currency_id.name
             res["TaxCurrencyCode"] = move.currency_id.name
+            res["LineCountNumeric"] = len(move.invoice_line_ids)
             res["AdditionalDocumentReference"] = [
                 {
                     "ID": "ICV", 
@@ -293,6 +376,13 @@ class AccountMove(models.Model):
                     "Attachment": {
                         "EmbeddedDocumentBinaryObject": move.qr_string,
                     }
+                }
+            ]
+
+            res["Signature"] = [
+                {
+                    "ID": "urn:oasis:names:specification:ubl:signature:Invoice",
+                    "SignatureMethod": "urn:oasis:names:specification:ubl:dsig:enveloped:xades",
                 }
             ]
 

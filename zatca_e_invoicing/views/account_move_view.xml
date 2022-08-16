@@ -19,18 +19,21 @@
                 <button name="action_generate_report_a3" string="Generate Credit Note (A3)" type="object" attrs="{'invisible':[('move_type','!=','out_refund')]}"/>
                 <button name="action_generate_report_a3" string="Generate Debit Note (A3)" type="object" attrs="{'invisible':[('move_type','!=','in_refund')]}"/>
             </xpath>
+            <field name="to_check" position="after">
+                <field name="draft_check" readonly="1"/>
+            </field>
             <xpath expr="//div[@class='oe_title']" position="after">
                 <group>
                     <group>
                         <field name="id" string="Invoice Counter Value" readonly="1"/>
-                        <field name="invoice_type" attrs="{'required':[('move_type','=', 'out_invoice')], 'invisible':[('move_type', 'not in', ['in_invoice','out_invoice'])], 'readonly':[('state','!=', 'draft')]}"/>
-                        <field name="special_billing_agreement" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_type','=', 'simple')]}"/>
-                        <field name="inv_payment_type"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="invoice_type" attrs="{'required':[('move_type','=', 'out_invoice')], 'invisible':[('move_type', 'not in', ['in_invoice','out_invoice'])], 'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                        <field name="special_billing_agreement" attrs="{'readonly':[('draft_check','=', True)],'invisible':[('invoice_type','=', 'simple')]}"/>
+                        <field name="inv_payment_type"  attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
                     </group>
                     <group>
-                        <field name="invoice_type_code"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="invoice_type_code"  attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
                         <field name="invoice_tx_code"/>
-                        <field name="transaction_type"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="transaction_type"  attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
                     </group>
                 </group>
             </xpath>
@@ -41,16 +44,16 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//group/group[@id='header_right_group']/field[@name='invoice_date']" position="after">
-                <field name="invoice_time"  attrs="{'readonly':[('state','!=', 'draft')]}" required="1"/>
-                <field name="supply_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                <field name="supply_end_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="invoice_time"  attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}" required="1"/>
+                <field name="supply_date" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                <field name="supply_end_date" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
             </xpath>
 <!--            <field name="invoice_date_due" position="before">-->
 <!--                <field name="supply_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>-->
 <!--                <field name="supply_end_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>-->
 <!--            </field>-->
             <field name="invoice_user_id" position="before">
-                <field name="business_process_type" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="business_process_type" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
             </field>
             <field name="payment_reference" position="attributes">
                 <attribute name="attrs">{'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}</attribute>
@@ -61,71 +64,123 @@
                 <field name="qr_image" widget="image" class="oe_avatar" attrs="{'invisible':[('qr_image','=',False)]}"/>
             </xpath>
             <field name="payment_reference" position="before">
-                <field name="customer_vat" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                <field name="ref" string="Reference Invoice Number" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="customer_vat" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                <field name="ref" string="Reference Invoice Number" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
             </field>
+            <xpath expr="//page[@id='other_tab']" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </xpath>
             <xpath expr="//page[@id='other_tab']" position="inside">
                 <group string="Auto Generated">
                     <group>
-                        <field name="discount_allowance" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                        <field name="uuid_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('uuid_number','=', False)]}" readonly="1"/>
+                        <field name="discount_allowance" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                        <field name="uuid_number" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('uuid_number','=', False)]}" readonly="1"/>
                     </group>
                     <group>
-                        <field name="previous_invoice_hash_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
-                        <field name="invoice_hash_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
+                        <field name="previous_invoice_hash_number" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
+                        <field name="invoice_hash_number" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
                     </group>
                     <group>
                         <group>
                             <!-- <field name="third_party_invoice"/> -->
-                            <field name="debit_credit_note" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+                            <field name="debit_credit_note" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
                             <!-- <field name="on_vendor_behalf" attrs="{'invisible':[('invoice_type','not in',['vat', 'debit', 'credit'])]}"/> -->
-                            <field name="is_acknowledged" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            <field name="is_acknowledged" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
                         </group>
                     </group>
                     <group>
-                        <field name="short_invoice" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                        <field name="virtual_import" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('invoice_type','not in',['vat', 'simple'])]}"/>
-                        <field name="export_invoice" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('invoice_type','not in',['vat', 'debit', 'credit'])]}"/>
+                        <field name="short_invoice" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                        <field name="virtual_import" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')], 'invisible':[('invoice_type','not in',['vat', 'simple'])]}"/>
+                        <field name="export_invoice" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')], 'invisible':[('invoice_type','not in',['vat', 'debit', 'credit'])]}"/>
                     </group>
                 </group>
 
             </xpath>
             <xpath expr="//group[@id='header_left_group']" position="inside">
-                <field name="debit_credit_note_reason" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
-                <field name="vat_exempt_reason" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                <field name="payment_condition" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('inv_payment_type','!=','b2b-b2g')]}"/>
-                <field name="payment_mean_id"  attrs="{'readonly':[('state','!=', 'draft')], 'required':[('invoice_type','in', ['vat', 'simple'])]}"/>
+                <field name="debit_credit_note_reason" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+                <field name="vat_exempt_reason" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                <field name="payment_condition" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('inv_payment_type','!=','b2b-b2g')]}"/>
+                <field name="payment_mean_id"  attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')], 'required':[('invoice_type','in', ['vat', 'simple'])]}"/>
             </xpath>
             <xpath expr="//group[@id='header_right_group']" position="inside">
-                <field name="import_invoice_date" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+                <field name="import_invoice_date" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
 
 
-                <field name="vendor_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_address': 1, 'show_vat': True}" options="{&quot;always_reload&quot;: True}" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="vendor_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_address': 1, 'show_vat': True}" options="{&quot;always_reload&quot;: True}" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
-                <field name="vendor_vat" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="vendor_vat" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')], 'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
-                <field name="vendor_vat_group_reg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="vendor_vat_group_reg" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
-                <field name="commercial_reg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="commercial_reg" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
-                <field name="vendor_reg_id" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="vendor_reg_id" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
-                <field name="vendor_ip" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+                <field name="vendor_ip" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
 
 
-                <field name="po_number" attrs="{'readonly':[('state','!=', 'draft')]}"/>
-                <field name="contract_ref" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="po_number" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
+                <field name="contract_ref" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}"/>
             </xpath>
             <field name="narration" position="after">
                 <group string="Confirmation Message">
                     <group>
-                        <field name="customer_confirmation_msg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_type','!=','vat'), ('move_type','not in', ['out_refund', 'in_refund'])]}" placeholder="Customer Confirmation Message" nolabel="1"/>
+                        <field name="customer_confirmation_msg" attrs="{'readonly':['|',('draft_check','=', True),('state','!=','draft')],'invisible':[('invoice_type','!=','vat'), ('move_type','not in', ['out_refund', 'in_refund'])]}" placeholder="Customer Confirmation Message" nolabel="1"/>
                     </group>
                 </group>
             </field>
             <field name="narration" position="attributes">
-                <attribute name="attrs">{'readonly':[('state','!=', 'draft')]}</attribute>
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
             </field>
+            <field name="invoice_line_ids" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="line_ids" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="partner_shipping_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="invoice_payment_term_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="ref" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="invoice_user_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="invoice_date_due" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="team_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="partner_bank_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="qr_code_method" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="invoice_incoterm_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="auto_post" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="to_check" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            <field name="name" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('draft_check','=', True),('state','!=','draft')]}</attribute>
+            </field>
+            
             <!--  <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='analytic_account_id']" position="attributes">
                  <attribute name="attrs">{'invisible':[('move_type', '!=', 'in_invioce')]}</attribute>
              </xpath> -->
@@ -157,8 +212,8 @@
                 <field name="price_total"/>
             </xpath>
             <field name="amount_tax" position="before">
-                <field name="total_discount" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('total_discount','&lt;=', 0)]}"/>
-                <field name="total_discount_percent" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('total_discount_percent','&lt;=', 0)]}"/>
+                <field name="total_discount" attrs="{'readonly':[('draft_check','=', True)],'invisible':[('total_discount','&lt;=', 0)]}"/>
+                <field name="total_discount_percent" attrs="{'readonly':[('draft_check','=', True)],'invisible':[('total_discount_percent','&lt;=', 0)]}"/>
             </field>
             <xpath expr="//notebook" position="inside">
                 <page string="Zatca QR Code">
