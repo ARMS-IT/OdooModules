@@ -506,7 +506,7 @@ class AccountMove(models.Model):
                 })
 
                 inv_res.update({'InvoiceLines': [invoice_lines]})                
-                _logger.info(f"************* OrderLines: {inv_res}*************")
+#                _logger.info(f"************* OrderLines: {inv_res}*************")
                 mylist.append(inv_res)
                 invoice_lines = []
                 inv_res = {}
