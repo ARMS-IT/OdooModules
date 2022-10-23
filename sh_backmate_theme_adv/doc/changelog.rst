@@ -82,3 +82,157 @@
 - Fixed css of popover
 - fixed desktop and responsive related to above
 - fixed alignment of popup modal
+
+
+(29 May 2021)
+---------------
+- Fixed calender design for theme_2
+- fixed double checkbox of calender issue in all theme
+
+(31 May 2021)
+-----------------
+- calender view some css match with theme_2
+- Fixed Login page font-family
+
+
+14.0.3 (04-06-2021)
+------------------------
+- added web push notification
+- added link of setup firebase
+
+(16-6-2021)
+--------------
+- Fixed Lable font-family (Google Font)
+
+14.0.4 (23/06/2021)
+----------------------
+
+- User wise enable one click form edit
+
+14.0.5 (19-7-2021)
+------------------------------
+- ADD "Chatter position" Feature
+
+(20-7-2021)
+----------------------
+- fixed some css related to modal popup debug icon, form sheet and calc
+
+(11-8-2021)
+-------------------
+- Fixed Large Calender design same as mini calendar (design for all button style and fro all theme)
+- design of different types of calendar (Day, Week, Month, Year calender)
+
+14.0.6 (20-8-2021)
+---------------
+- Added "Loader Style" and "Progress bar Style" as a New Feature for desktop and responsive
+
+(23-8-2021)
+------------
+- add field in theme_config_data.xml (fixed issue:- when we install theme and try to change any loader style then sidebar is become collpased)
+- fixed backmate_theme_layout design related to newly added Feature (select and input etc.)
+
+(19-10-2021) 
+-------------------
+- Fixed dropdown ui-widget/ui-menu position from left for mobile view
+
+(15-11-2021)
+-------------
+- Fixed Mini calender checkbox design in calender view (for all button style). 
+
+14.0.7 (11-1-2022)
+--------------
+- [Update] nightmode as a new feature
+
+(1-2-2022)
+--------
+- fixed chat window design for new messages
+
+14.0.8 (09-02-2022)
+--------------
+- [Update] Refresh button added
+
+14.0.9 (11-02-2022)
+-----------
+- Added Language Selector as a New Feature with Nightmode and Responsive , remove refresh button from o_notebook
+
+
+22-02-2022
+-----------------
+fix issue of pwa icon
+
+14.0.10 (23-2-2022)
+-------------
+- Zoom in/out feature added with responsive and nightmode 
+- remove commented line of code from all scss file
+
+(25-2-2022)
+---------------
+- add flag before Languages of language selector dropdown for all theme
+
+14.0.11 (9-3-2022)
+----------------
+- Fixed Oauth Provider issue for login page
+
+14.0.12 (11-3-2022)
+------------------
+- Fixed Scrolling Issue Related to iPhone
+
+(4-4-2022)
+-----------
+- Remove Font-color feature from config panel
+
+14.0.13 (4-4-2022)
+------------------
+- [Move] Security Group to the "Preferences"
+
+
+(21-4-2022)
+----------------
+- make animation for notification of calendar meeting
+
+
+14.0.14 (21-4-2022)
+-----------------------
+- [Update] functionality of quick bookmark (add searchbox for filter , record wise bookmark)
+
+(22-4-2022)
+-----------------
+- Make Separate Tab for All Config inside Preferences
+
+(28-4-2022)
+----------------
+- fix functionality of record bookmark
+
+14.0.15 (12-5-2022)
+---------------
+- ADD "TO_DO" Feature
+ 
+14.0.16 (27-5-2022)
+----------
+- ADD (Checkbox and Radio button style) Feature
+
+(30-5-2022)
+----------
+- Update Calendar Meeting notification & Setting notification design with animation 
+
+(3-6-2022)
+----------
+- Fixed Checkbox issue for todo panel
+
+
+
+(24-6-2022)
+----------------
+- fix sidebar menu collapsed/expanded functionality issue in custom.js & custom_rtl.js
+
+(27-6-2022)
+---------------
+- sidebar chrome and safari issue fixed.
+
+(1-7-2022)
+-------------
+- fix searchbar move from right side issue for searchbar style & sidebar style is collapsed
+
+14.0.17 (4-7-2022)
+---------------
+- [added] scrollbar four new style. Total five style for scrollbar.

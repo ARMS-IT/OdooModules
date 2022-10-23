@@ -60,6 +60,9 @@ class CoAReportController(http.Controller):
                                                                output_format='xls'
                                                                ).get_pdf_lines(report_id)
         user_context.update(report_obj.generate_report_context(user_context))
+        companies = request.env['res.company'].browse(user_context.get('company_ids'))
+        res = "Balance Sheet For: %s" % ', '.join(companies.mapped('display_name'))
+
         show_initial_balance = user_context.get('show_initial_balance')
         row_data = report_obj.get_xls_title(user_context)
 
@@ -86,7 +89,9 @@ class CoAReportController(http.Controller):
             else:
                 row_data.append([code, name, ac_type, debit, credit,
                                  balance, unfoldable])
-        columns_headers = ['', '', 'Chart Of Accounts', '', '']
+#        columns_headers = ['', '', 'Chart Of Accounts', '', '']
+        columns_headers = [res]
+
         rows = row_data
         return request.make_response(
             self.coa_format_data(columns_headers, rows),

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t owl="1" t-name="CustomOrderTypeButtons">
+        <div class="control-button">
+            <t t-if="!env.isMobile"><i class="fa fa-truck" role="img" aria-label="Customer" title="Type of POS order" /></t>
+                <t t-if="env.pos.get_order().get_order_type().length &gt; 0">
+                    <span><t t-esc="env.pos.get_order().get_order_type()" /></span>
+                </t>
+                <t t-else="">
+                    Type of POS order
+                </t>
+        </div>
+   </t>
+</templates>
+
+

@@ -273,9 +273,12 @@ class TrialView(models.TransientModel):
             sheet.write('D7', 'Initial Credit', sub_heading)
             sheet.write('E7', 'Debit', sub_heading)
             sheet.write('F7', 'Credit', sub_heading)
+            sheet.write('G7', 'Balance', sub_heading)
+
         else:
             sheet.write('C7', 'Debit', sub_heading)
             sheet.write('D7', 'Credit', sub_heading)
+            sheet.write('E7', 'Balance', sub_heading)
 
         row = 6
         col = 0
@@ -306,17 +309,23 @@ class TrialView(models.TransientModel):
 
                 sheet.write(row, col + 4, rec_data['debit'], txt)
                 sheet.write(row, col + 5, rec_data['credit'], txt)
+                sheet.write(row, col + 6, rec_data['debit'] - rec_data['credit'], txt)
 
             else:
                 sheet.write(row, col + 2, rec_data['debit'], txt)
                 sheet.write(row, col + 3, rec_data['credit'], txt)
+                sheet.write(row, col + 4, rec_data['debit'] - rec_data['credit'], txt)
+
         sheet.write(row+1, col, 'Total', sub_heading)
         if filters.get('date_from'):
             sheet.write(row + 1, col + 4, total.get('debit_total'), txt_l)
             sheet.write(row + 1, col + 5, total.get('credit_total'), txt_l)
+            sheet.write(row + 1, col + 6, total.get('debit_total') - total.get('credit_total'), txt_l)
+
         else:
             sheet.write(row + 1, col + 2, total.get('debit_total'), txt_l)
             sheet.write(row + 1, col + 3, total.get('credit_total'), txt_l)
+            sheet.write(row + 1, col + 4, total.get('debit_total') - total.get('credit_total'), txt_l)
 
         workbook.close()
         output.seek(0)

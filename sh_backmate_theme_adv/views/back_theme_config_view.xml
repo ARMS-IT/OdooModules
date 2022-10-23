@@ -278,10 +278,10 @@
 		</record>
 
 		<!-- MENU ITEM -->
-	<menuitem id="sh_back_theme_config_settings_menuitem"
+	<!-- <menuitem id="sh_back_theme_config_settings_menuitem"
 			action="sh_back_theme_config_settings_action"
 			parent="base.menu_administration" groups="base.group_system"
-			sequence="10" />
+			sequence="10" /> -->
 
 
 	</data>

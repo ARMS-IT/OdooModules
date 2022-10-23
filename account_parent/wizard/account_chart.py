@@ -12,6 +12,8 @@ from odoo import models, fields, api, _
 from odoo.tools.safe_eval import safe_eval
 import time
 from odoo.exceptions import UserError
+import logging
+logger = logging.getLogger(__name__)
 
 
 class OpenAccountChart(models.TransientModel):
@@ -194,19 +196,19 @@ class OpenAccountChart(models.TransientModel):
 	
 	def account_type_data(self):
 		parent_account_types =[
-				{'name': _('Balance Sheet'), 'id': -1001, 'parent_id': False,
+				{'name': _('Balance Sheet'), 'id': 1001, 'parent_id': False,
 							'internal_group': ['asset', 'liability', 'equity'], 'atype':False},
-				{'name': _('Profit & Loss'), 'id': -1002, 'parent_id': False,
+				{'name': _('Profit & Loss'), 'id': 1002, 'parent_id': False,
 							'internal_group': ['income', 'expense'], 'atype':False},
-				{'name': _('Assets'), 'id': -1003, 'parent_id': -1001,
+				{'name': _('Assets'), 'id': 1003, 'parent_id': 1001,
 							'internal_group': ['asset'],'atype':False},
-				{'name': _('Liabilities'), 'id': -1004, 'parent_id': -1001, 
+				{'name': _('Liabilities'), 'id': 1004, 'parent_id': 1001, 
 							'internal_group':['liability'], 'atype':False},
-				{'name': _('Equity'), 'id': -1005, 'parent_id': -1001, 
+				{'name': _('Equity'), 'id': 1005, 'parent_id': 1001, 
 							'internal_group':['equity'], 'atype':False},
-				{'name': _('Income'), 'id': -1006, 'parent_id': -1002, 
+				{'name': _('Income'), 'id': 1006, 'parent_id': 1002, 
 							'internal_group':['income'], 'atype':False},
-				{'name': _('Expense'), 'id': -1007, 'parent_id': -1002, 
+				{'name': _('Expense'), 'id': 1007, 'parent_id': 1002, 
 							'internal_group':['expense'], 'atype':False},
 				]
 		parent_account_types_temp = parent_account_types[:]
@@ -215,10 +217,11 @@ class OpenAccountChart(models.TransientModel):
 				continue
 			account_types = self.env['account.account.type'].search([
 				('internal_group', 'in', parent_account_type['internal_group'])])
+
 			for account_type in account_types:
 				at_data = {
 					'name': account_type.name,
-					'id': -1 * account_type.id,  # not to mix with account id
+					'id': 1 * account_type.id,  # not to mix with account id
 					'parent_id': parent_account_type['id'],
 					'internal_group': [account_type.internal_group], 'atype':True
 				}
@@ -231,7 +234,7 @@ class OpenAccountChart(models.TransientModel):
 		if not at_data['atype']:
 			account_domain += [('user_type_id.internal_group', 'in', at_data['internal_group'])]
 		else:
-			account_domain += [('user_type_id', '=', at_data['id']*-1)]
+			account_domain += [('user_type_id', '=', at_data['id']*1)]
 		return self.env['account.account'].sudo().with_context(context).search(account_domain)
 
 	def at_line_data(self, at_data, level, wiz_id=False, parent_id=False, accounts=False):
@@ -310,8 +313,10 @@ class OpenAccountChart(models.TransientModel):
 			res = self.get_account_lines(wiz_id, line_id, level)
 		else:
 			res = self.get_account_type_lines(wiz_id, line_id,level)
+			
+
 		reverse_sort = False
-		final_vals = sorted(res, key=lambda v: v['code'], reverse=reverse_sort)
+		final_vals = sorted(res, key=lambda v: v['id'], reverse=reverse_sort)
 		# html_formating = True
 # 		if 'output_format' in self._context.keys() and context.get('output_format') == 'xls':
 # 			html_formating = False

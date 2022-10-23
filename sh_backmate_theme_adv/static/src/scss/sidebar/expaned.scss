@@ -18,8 +18,6 @@
 
 .usermenu_search_input2 {display:block;border: none;}
 .sh_search_input{border-bottom:none;border: 1px solid #959595;}
-//.usermenu_search_input {display:none;}
-//#topbar_search_icon {display:none;}
 .sh_search_container {
 	padding-left: 15px;
     padding-right: 495px;
@@ -44,8 +42,6 @@
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .o_menu_header_lvl_1 span{padding: 0px;display: inline-block;color: $sidebar_font_color;padding-left: 0px;font-size: 14px;}
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .o_menu_header_lvl_1 span.fa{width: 30px;text-align: center;margin-right: 15px;}
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .dropdown-header{color: $sidebar_font_color;}
-/*.sh_backmate_theme_appmenu_div a.dropdown-item.o_app > span{display: none;transition: all .4s;}
-.sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 > span{display: none;transition: all .4s;}*/
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app > span{display: inline-block;vertical-align: middle;}
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 > span{display: inline-block;vertical-align: middle;}
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app{position: relative;padding-left: 21px !important;border-top-right-radius: 5px;border-bottom-right-radius: 5px;}
@@ -81,7 +77,6 @@
 .o_action_manager {margin-left: 260px}
 .o_menu_systray > li{display: inline-block !important;}
 .o_main_navbar > ul.o_menu_systray {z-index:111;min-height:50px;padding-bottom: 10px;}
-//.o_main_navbar > ul.o_menu_systray > li > a {height:35px;}
 .o_main_navbar .o_user_menu .oe_topbar_avatar {width:22px;}
 .user_setting{position: relative;background: transparent;border: 0;}
 .user_setting ul li a{color: $sidebar_font_color;}
@@ -118,8 +113,6 @@
 .sh_backmate_theme_appmenu_div .o_menu_header_lvl_2 > ul .dropdown-header{padding: 0px;}
 .sh_backmate_theme_appmenu_div .o_menu_header_lvl_2 > ul .dropdown-header > a{padding: 0px;}
 .sh_backmate_theme_appmenu_div .cssmenu .dropdown-menu-right .dropdown-header > a:hover{background:  $sidebar_font_hover_bg_color;color: $sidebar_font_hover_color;}
-
-
 
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app:hover,
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app:focus,
@@ -162,7 +155,6 @@
 .sh_backmate_theme_appmenu_div ul.dropdown-menu a{border-radius: 0px;}
 /* sidebar hover style */
 
-
 /* logo hide css */
 #company_logo{display: none;}
 .logo{background: $sidebar_font_hover_bg_color;}
@@ -171,22 +163,13 @@
 
 .hover_menuitem .sh_backmate_theme_appmenu_div .logo{justify-content: space-between;padding: 0 10px 0 15px;}
 .hover_menuitem .sh_backmate_theme_appmenu_div .logo #company_name_logo{margin: 0;object-fit: contain;}
-
-
-
-/* html .o_web_client > .o_action_manager > .o_action{padding: 10px;background: #f1f1f1;} */
 html .o_web_client > .o_action_manager > .o_action{padding: 0px;background: #f1f1f1;}
 
 .o_main_navbar{box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);}
 .o_kanban_view.o_kanban_grouped{background: transparent;}
 
-
-
-
-
 @media only screen and (min-width: 769px){
 .dropdown-menu.sh_backmate_theme_appmenu_div{width: 260px !important;}
-/*.dropdown-menu.sh_backmate_theme_appmenu_div {width: 50px !important;}*/
 }
 @media only screen and (max-width: 992px){
 #js_bar_toggle_btn_mobile i{color: #fff;font-size: 18px !important;padding-top: 7px;}
@@ -197,7 +180,6 @@ html .o_web_client > .o_action_manager > .o_action{padding: 0px;background: #f1f
 .o_main_navbar .o_mail_systray_dropdown.show {top:0px !important;left :0px;min-height:80%}
 .o_main_navbar ul.o_menu_systray .o_debug_manager .dropdown-menu.show {min-height:80%;left:0px;}
 .o_control_panel .breadcrumb > li{padding-left: 45px;max-width: 100%;}
-/*.fa-remove:before, .fa-close:before, .fa-times:before{color: $sidebar_font_color;position: fixed;width: 100%;text-align: right;left: -15px}*/
 
 #toggle_bar .fa-remove:before, #toggle_bar .fa-close:before, #toggle_bar .fa-times:before{content: "\f0c9";color: #fff;}
 .sh_backmate_theme_appmenu_div ul.dropdown-menu.show .dropdown-header{background: transparent;}
@@ -299,8 +281,6 @@ html .o_web_client > .o_action_manager{margin-left: 0px !important;}
 
 .o_control_panel .o_cp_searchview, .o_control_panel .o_cp_right{flex: 0 0 61% !important;}
 
-
-
 .sh_backmate_theme_appmenu_div .cssmenu .dropdown-menu-right.show_ul{display:block !important;}
 .hover_menuitem > .dropdown-menu.sh_backmate_theme_appmenu_div > img{display: block;margin: auto;}
 .o_list_view .o_list_table .o_list_record_selector{z-index: 1;}
@@ -309,7 +289,6 @@ html .o_web_client > .o_action_manager{margin-left: 0px !important;}
 
 /*  remove topbar  */
 @if $sidebar_is_show_nav_bar == False{
-   .o_mail_systray_item.show .o_mail_systray_dropdown{left: 260px !important;}
    html .o_web_client .o_control_panel{padding-right: 14px;padding-left: 10px;}
    .o_view_controller .o_form_view .o_form_statusbar{padding-left: 10px;}
    .o_form_view .o_form_statusbar > .o_statusbar_status{padding-right: 20px !important;}

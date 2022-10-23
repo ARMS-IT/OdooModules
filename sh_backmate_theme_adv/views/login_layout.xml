@@ -130,7 +130,7 @@
              </t>
 		</xpath>
 	</template>
-	<template id="sh_backmate_theme_web_login_main_template" inherit_id="web.login" name="Backmate Login">
+	<template id="sh_backmate_theme_web_login_main_template" inherit_id="web.login" name="Backmate Login" primary="True">
 		<xpath expr="//form[hasclass('oe_login_form')]" position="replace">
             <t t-set="theme_config" t-value="request.env['sh.back.theme.config.settings'].search([('id','=',1)],limit = 1)" />	
             <t t-if="theme_config.login_page_style == 'style_1'">

@@ -5,6 +5,7 @@ odoo.define('sh_backmate_theme_adv.ActionManager', function (require) {
 	var session = require('web.session');
 	var ActionManager = require('web.ActionManager');
 	var AbstractWebClient = require('web.AbstractWebClient');
+	var WebClient = require('web.WebClient');
 	var dom = require('web.dom');
 	var rpc = require("web.rpc");
 	var display_notice = false;
@@ -59,7 +60,35 @@ odoo.define('sh_backmate_theme_adv.ActionManager', function (require) {
 		}
 	});
 
+	WebClient.include({
+		on_hashchange: function (event) {
+			// softhealer ---quick menu start
+        
+            var sh_url = window.location.href
+            console.log("sh_url",sh_url)
+            if (sh_url) {
+                rpc.query({
+                    model: 'sh.wqm.quick.menu',
+                    method: 'is_quick_menu_avail_url',
+                    args: ['', sh_url]
+                }).then(function (rec) {
+                    if (rec) {
+                        $('.o_main_navbar').find('.o_menu_systray').find('.sh_bookmark').addClass('active');
+                    }
+                    else {
+                        $('.o_main_navbar').find('.o_menu_systray').find('.sh_bookmark').removeClass('active');
+                    }
+    
+                });
+            }
+            else{
+                $('.o_main_navbar').find('.o_menu_systray').find('.sh_bookmark').removeClass('active');
+            }
+            // quick menu end
+			return this._super.apply(this, arguments);
+		},
 
+	});
 
 	AbstractWebClient.include({
 		set_action_manager: function () {
@@ -101,6 +130,7 @@ odoo.define('sh_backmate_theme_adv.ActionManager', function (require) {
 
 			});
 		},
+		
 	});
 
 

@@ -50,6 +50,7 @@ class OpenAccountChartMultiCompany(models.TransientModel):
         self.ensure_one()
         if self.consolidated_coa:
             res['company_ids'] = self.company_ids.ids
+            res['allowed_company_ids'] = self.company_ids.ids
             res['consolidated_coa'] = self.consolidated_coa
             res['target_currency_id'] = self.target_currency_id.id
             del res['company_id']
@@ -65,10 +66,10 @@ class OpenAccountChartMultiCompany(models.TransientModel):
         
         if line_id:
             parent_account = account.browse(line_id)
-            account_domain += [('parent_id.name', '=', parent_account.name)]
+            account_domain += [('parent_id.code', '=', parent_account.code)]
         else:
-            account_domain += [('parent_id', '=', line_id)]
-        return account.search(account_domain)
+            account_domain += [('parent_id', '=', False)]
+        return account.sudo().with_context(context).search(account_domain)
 
     @api.model
     def get_at_accounts(self, at_data, context):
@@ -79,7 +80,9 @@ class OpenAccountChartMultiCompany(models.TransientModel):
         if not at_data['atype']:
             account_domain += [('user_type_id.internal_group', 'in', at_data['internal_group'])]
         else:
-            account_domain += [('user_type_id', '=', at_data['id']*-1)]
+            #account_domain += [('user_type_id', '=', at_data['id']*-1)] old code
+            account_domain += [('user_type_id', '=', at_data['id']*1)]
+
         return self.env['account.account'].sudo().with_context(context).search(account_domain)
 
     def get_heading(self, context):
@@ -114,7 +117,7 @@ class OpenAccountChartMultiCompany(models.TransientModel):
         for account in obj_ids:
             if account.code not in account_code_movement_dict:
                 account_code_movement_dict[account.code] = False
-            elif account.debit or account.credit:
+            if account.debit or account.credit:
                 account_code_movement_dict[account.code] = True
             company_id = False
             if account.user_type_id.type != 'view':

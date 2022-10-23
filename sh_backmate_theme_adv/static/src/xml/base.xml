@@ -13,7 +13,11 @@
 			    <button t-if="scales.includes('month')" class="dropdown-item o_calendar_button_month btn btn-secondary" href="#">Month</button>
 			    <button t-if="scales.includes('year')" class="dropdown-item o_calendar_button_year btn btn-secondary" href="#">Year</button>
 			  </div>
+			  <button name="sh_refresh" class="btn btn-primary sh_refresh">
+				<i class="fa fa-refresh"></i>
+			</button>
 			</div>
+			
 		</t>
     </t>
 	<t t-name="sh_backmate_theme.SHSearchBar" owl="1">
@@ -125,6 +129,36 @@
                 </nav>
 		        
 		</xpath>
+		
     </t>
+	<t t-extend="ListView.buttons">
+		<t t-jquery=".o_list_buttons" t-operation="append">
+			<button name="sh_refresh" class="btn btn-primary sh_refresh">
+				<i class="fa fa-refresh"></i>
+			</button>
+		</t>
+	</t>
+	<t t-extend="BillsListView.buttons">
+       <t t-jquery=".o_list_buttons" t-operation="append">
+            <button name="sh_refresh" class="btn btn-primary sh_refresh">
+				<i class="fa fa-refresh"></i>
+			</button>
+        </t>
+    </t>
+	<t t-extend="FormView.buttons">
+		<t t-jquery=".o_form_buttons_view" t-operation="append">
+			<button name="sh_refresh" class="btn btn-primary sh_refresh">
+				<i class="fa fa-refresh"></i>
+			</button>
+		</t>
+	</t>
+	<t t-extend="KanbanView.buttons">
+		<t t-jquery="div" t-operation="append">
+			<button name="sh_refresh" class="btn btn-primary sh_refresh">
+				<i class="fa fa-refresh"></i>
+			</button>
+		</t>
+	</t>
+	
 
 </templates>

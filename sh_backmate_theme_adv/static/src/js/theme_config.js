@@ -49,6 +49,25 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 
 	$(document).ready(function () {
 
+		let userAgent = navigator.userAgent;
+		let browserName;
+		var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+		var iOS = !window.MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent);
+		var is_iPad = navigator.userAgent.match(/iPad/i) != null;
+		var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+		if (is_safari) {
+			$('.o_web_client').addClass('backmate_safari')
+		}
+		if (iOS && !is_iPad) {
+			if (userAgent.match(/chrome|chromium|crios/i)) {
+				$('.o_web_client').addClass("sh_iphone_chrome")
+			} else {
+				$('.o_web_client').addClass("sh_iphone_safari")
+			}
+
+		}
+
+
 		var color_change = false;
 		$('.o_web_client').on('click', '.close_setting', function (event) {
 			$('.backmate_theme_layout').removeClass('sh_theme_model');
@@ -380,6 +399,7 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 							$('#login_page_background_color').val(login_page_background_color);
 						}
 
+
 						if (login_page_style == 'style_0') {
 							$(".login_bg_type").css("display", "none");
 							$(".login_box_color").css("display", "none");
@@ -528,8 +548,48 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 						if (breadcrumb_style) {
 							$('#breadcrumb_style').val(breadcrumb_style);
 						}
+						var chatter_position = data['chatter_position']
+						if (chatter_position == 'normal') {
+							$('#chatter_position_normal').attr('checked', true);
+						} else if (chatter_position == 'sided') {
+							$('#chatter_position_sided').attr('checked', true);
+						}
+
+						var loading_style = data['loading_style']
+						if (loading_style) {
+							$('#loading_style').val(loading_style);
+						}
+						var progress_style = data['progress_style']
+						if (progress_style) {
+							$('#progress_style').val(progress_style);
+						}
+						var progress_height = data['progress_height']
+						if (progress_height) {
+							$('#progress_height').val(progress_height);
+						}
 
 
+						if (progress_style == 'style_1') {
+							$("#progress_color_height").css("display", "table-row");
+						} else {
+							$("#progress_color_height").css("display", "none");
+						}
+						var progress_color = data['progress_color']
+						if (progress_color) {
+							$('#progress_color').val(progress_color);
+						}
+						var checkbox_style = data['checkbox_style']
+						if (checkbox_style) {
+							$('#checkbox_style').val(checkbox_style);
+						}
+						var radio_btn_style = data['radio_btn_style']
+						if (radio_btn_style) {
+							$('#radio_btn_style').val(radio_btn_style);
+						}
+						var scrollbar_style = data['scrollbar_style']
+						if (scrollbar_style) {
+							$('#scrollbar_style').val(scrollbar_style);
+						}
 
 					});
 				});
@@ -684,6 +744,14 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 				var form_element_style = $("#form_element_style").val();
 				var search_style = $("input[name='search_style']:checked").val();
 				var breadcrumb_style = $("#breadcrumb_style").val();
+				var chatter_position = $("input[name='chatter_position']:checked").val();
+				var loading_style = $("#loading_style").val();
+				var progress_style = $("#progress_style").val();
+				var progress_height = $("#progress_height").val();
+				var progress_color = $("#progress_color").val();
+				var checkbox_style = $("#checkbox_style").val();
+				var radio_btn_style = $("#radio_btn_style").val();
+				var scrollbar_style = $("#scrollbar_style").val();
 
 				var form = $('#body_background_img')[0];
 				var data = new FormData(form);
@@ -912,10 +980,26 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 					'form_element_style': form_element_style,
 					'search_style': search_style,
 					'breadcrumb_style': breadcrumb_style,
+					'chatter_position': chatter_position,
+					'loading_style': loading_style,
+					'progress_style': progress_style,
+					'progress_height': progress_height,
+					'progress_color': progress_color,
+					'checkbox_style': checkbox_style,
+					'radio_btn_style': radio_btn_style,
+					'scrollbar_style': scrollbar_style,
 				}).then(function () {
 					location.reload();
 				});
 
+			}
+		});
+		$('.o_web_client').on('click', "#progress_style", function (ev) {
+			var progress_style = $("#progress_style").val();
+			if (progress_style == 'style_1') {
+				$("#progress_color_height").css("display", "table-row");
+			} else {
+				$("#progress_color_height").css("display", "none");
 			}
 		});
 
@@ -1046,6 +1130,16 @@ odoo.define('sh_backmate_theme_adv.theme_configuration', function (require) {
 		$('.o_web_client').on('click', ".o_action_manager", function (ev) {
 			//$('.sh_search_results').css("display","none");
 			$('.backmate_theme_layout').removeClass("sh_theme_model");
+			if ($('.sh_calc_util').hasClass('active')) {
+				$('.open_calc').click();
+			}
+			//	$('.o_action_manager').css("margin-right","0px")
+			$('.sh_search_results').css("display", "none");
+		});
+		$('.o_web_client').on('click', ".o_action_manager", function (ev) {
+			//$('.sh_search_results').css("display","none");
+			$('.backmate_theme_layout').removeClass("sh_theme_model");
+			$('.todo_layout').removeClass("sh_theme_model");
 			if ($('.sh_calc_util').hasClass('active')) {
 				$('.open_calc').click();
 			}

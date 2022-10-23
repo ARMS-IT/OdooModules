@@ -278,6 +278,7 @@ class AccountMove(models.Model):
         """
         for move in self:
             res = dict()
+            
             res["UBLExtensions"] = [
                 {
                     "UBLExtension":{
@@ -302,40 +303,40 @@ class AccountMove(models.Model):
                                                     "Transform3":{
                                                         "XPath":"not(//ancestor-or-self::cac:AdditionalDocumentReference[cbc:ID='QR'])",
                                                     },
-                                                    "Transform4":{
-                                                        "XPath":"not(//ancestor-or-self::ext:UBLExtensions)",
-                                                    },
+#                                                    "Transform4":{
+ #                                                       "XPath":"not(//ancestor-or-self::ext:UBLExtensions)",
+  #                                                  },
                                                     "Transform":"",
                                                 },
                                                 "DigestMethod":"",
-                                                "DigestValue": "1234657981234567891234656789" #QUERY_XML,
+                                                "DigestValue": "j4+wDOaRLRQn7oweoCbob1WDaqPRCTHzonn08b+dJr0=" #QUERY_XML,
 
                                             },
                                             "Reference2":{
                                                 "DigestMethod":"",
-                                                "DigestValue":"1234657981234567891234656789", #QUERY_XML,
+                                                "DigestValue":"2ab365b063238318fdeac9c2957b135ef8a6727691fc4d81982b5bdd2cec9792", #QUERY_XML,
                                             }
                                         },
-                                        "SignatureValue":"1234657981234567891234656789", #QUERY_XML,
+                                        "SignatureValue":"MEQCID4Vt5nQUw0zeu5+noL/MeVC5qx+gTSinh4H+KUZp9I6AiBikKIpyYgqi7+E3hSOlc+BrQANTg/QVtwBnQk/iwoZlg==", #QUERY_XML,
                                         "KeyInfo":{
                                             "X509Data":{
-                                                "X509Certificate": "1234657981234567891234656789" #Query XML
+                                                "X509Certificate": "MIIBmzCCAUECCQDQROomkk8YkDAKBggqhkjOPQQDAjBWMQswCQYDVQQGEwJQTDEQMA4GA1UECAwHU2lsZXNpYTERMA8GA1UEBwwIS2F0b3dpY2UxDTALBgNVBAoMBEdBWlQxEzARBgNVBAMMCkNvbW1vbk5hbWUwIBcNMjEwOTA2MTgwOTA1WhgPNDQ4NTEwMTgxODA5MDVaMFYxCzAJBgNVBAYTAlBMMRAwDgYDVQQIDAdTaWxlc2lhMREwDwYDVQQHDAhLYXRvd2ljZTENMAsGA1UECgwER0FaVDETMBEGA1UEAwwKQ29tbW9uTmFtZTBWMBAGByqGSM49AgEGBSuBBAAKA0IABJboxJQD/AlFyPQCWM3S2ekwGnkhKpOnyP+tjsLYFcJfLLTdX+U/uOfQtKAm/KRXI1E9d8DjOOkVFo5Q1ZQE25QwCgYIKoZIzj0EAwIDSAAwRQIhANULHFfKoroAMgdoUQJ/UwjhD3xHgMeAXjgVpZftENoYAiB7WFgx0hLuJTJbLpYCzpzdpWVOXrIr8g4XvtWKl02j1w==" #Query XML
                                             }
                                         },
                                         "Object":{
                                             "QualifyingProperties":{
                                                 "SignedProperties":{
                                                     "SignedSignatureProperties":{
-                                                        "SigningTime":"2022-03-25T02:09:39Z", #QUERY_XML
+                                                        "SigningTime":"2021-02-25T12:57:51Z", #QUERY_XML
                                                         "SigningCertificate":{
                                                             "Cert":{
                                                                 "CertDigest":{
                                                                     "DigestMethod":"",
-                                                                    "DigestValue":"ZGNjZTk3MGIzYjg0M2FlODczNGIyMDQ3ZjczOTM2NjgyNjljYmQ4NGYyZThkOTlmY2ZjYTU0ODFhZWE3MjE4NA", #QUERY_XML
+                                                                    "DigestValue":"9ef6c0b90ae609868bb614772e1d5375464ed1a1793ded751feb1e3414980f7c", #QUERY_XML
                                                                 },
                                                                 "IssuerSerial":{
-                                                                    "X509IssuerName":"CN=eInvoicing",
-                                                                    "X509SerialNumber":"1641728828389", #QUERY_XML
+                                                                    "X509IssuerName":"CN=CommonName,O=GAZT,L=Katowice,ST=Silesia,C=PL",
+                                                                    "X509SerialNumber":"15007377309689649296", #QUERY_XML
                                                                 }
                                                             }
                                                         }, #QUERY_XML
@@ -350,34 +351,21 @@ class AccountMove(models.Model):
                     }
                 }
             ]
-
+            
             res["ProfileID"] = move.business_process_type
             res["ID"] = move.id
             res["UUID"] = move.uuid_number,
-            res["IssueDate"] = move.invoice_time.date().strftime("%Y-%M-%d") if move.invoice_time else "",
+            res["IssueDate"] = move.invoice_time.date().strftime("%Y-%m-%d") if move.invoice_time else "",
             res["IssueTime"] = move.invoice_time.time().strftime("%H:%M:%S") if move.invoice_time else "",
             res["InvoiceTypeCode"] = move.invoice_type_code
             res["DocumentCurrencyCode"] = move.currency_id.name
             res["TaxCurrencyCode"] = move.currency_id.name
             res["LineCountNumeric"] = len(move.invoice_line_ids)
-            res["AdditionalDocumentReference"] = [
-                {
-                    "ID": "ICV", 
-                    "UUID": move.id,
-                },
-                {
-                    "ID": "PIH", 
-                    "Attachment": {
-                        "EmbeddedDocumentBinaryObject": move.previous_invoice_hash_number,
-                    }
-                },
-                {
-                    "ID": "QR",
-                    "Attachment": {
-                        "EmbeddedDocumentBinaryObject": move.qr_string,
-                    }
-                }
-            ]
+            res["AdditionalDocumentReference"] = {"ID": "ICV", "UUID": move.id,},                
+            res["AdditionalDocumentReference1"] = {"ID": "PIH", "Attachment": {
+                        "EmbeddedDocumentBinaryObject": move.previous_invoice_hash_number,}},
+            res["AdditionalDocumentReference2"] = {"ID": "QR","Attachment": {"EmbeddedDocumentBinaryObject": move.qr_string,}}
+            
 
             res["Signature"] = [
                 {
@@ -389,10 +377,16 @@ class AccountMove(models.Model):
             res["AccountingSupplierParty"] = [
                 {
                     "Party": {
+                        "PartyIdentification": {
+                            "ID1": "123456789",
+                        },
                         "PostalAddress": {
                             "StreetName": (move.partner_id.street + move.partner_id.street2) if move.partner_id.street2 else move.partner_id.street,
                             "BuildingNumber": move.partner_id.building_number,
+                            "PlotIdentification": move.partner_id.additional_number,                            
+                            "CitySubdivisionName": move.partner_id.district,                            
                             "CityName": move.partner_id.city,
+                            "PostalZone": move.partner_id.zip,                            
                             "CountrySubentity": move.partner_id.country_id.name,
                             "Country": {
                                 "IdentificationCode": move.partner_id.country_id.code
@@ -418,6 +412,9 @@ class AccountMove(models.Model):
             res["AccountingCustomerParty"] = [
                 {
                     "Party": {
+                        "PartyIdentification": {
+                            "ID2": "123456789",
+                        },
                         "PostalAddress": {
                             "StreetName": (vendor.street + vendor.street2) if vendor.street2 else vendor.street,
                             "BuildingNumber": vendor.building_number,
@@ -431,7 +428,7 @@ class AccountMove(models.Model):
                             }
                         },
                         "PartyTaxScheme": {
-                            "CompanyID": move.company_id.vat,
+#                            "CompanyID": move.company_id.vat,
                             "TaxScheme": {
                                 "ID": "VAT"
                             }
@@ -444,18 +441,19 @@ class AccountMove(models.Model):
             ]
 
             res["Delivery"] = {
-                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else "" ,
+                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else "",
+#                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else move.invoice_date.strftime("%Y-%m-%d"),
                 "LatestDeliveryDate": move.supply_end_date.strftime("%Y-%m-%d") if move.supply_end_date else "",
             }
             res["PaymentMeans"] = {
-                "PaymentMeansCode": move.payment_mean_id.name
+                "PaymentMeansCode": move.payment_mean_id.code
             }
             res["TaxTotal"] = [
                 {
                     "TaxAmount": move.amount_tax,
                     "TaxSubtotal": {
                         "TaxableAmount": move.amount_untaxed,#--Subtotal
-                        "TaxSubtotalTaxAmount": move.amount_tax,
+                        "TaxAmount": move.amount_tax,
                         "TaxCategory": { #tODISCUSS
                             "ID": "S",
                             "Percent": 15,
@@ -465,10 +463,11 @@ class AccountMove(models.Model):
                         }
                     }
                 },
-                {
-                    "TaxAmount": move.amount_tax,
-                },
+#                {
+#                    "TaxAmount": move.amount_tax,
+#                },
             ]
+            res["TaxTotal1"] = {"TaxAmount": move.amount_tax,}
             res["LegalMonetaryTotal"] = {
                 "LineExtensionAmount": move.amount_untaxed,
                 "TaxExclusiveAmount": move.amount_untaxed,
@@ -476,12 +475,17 @@ class AccountMove(models.Model):
                 "AllowanceTotalAmount": 0,
                 "PayableAmount": move.amount_total,
             }
+            
             invoice_lines = list()
+            inv_res = dict()
+            count = 1
+            mylist = []
             for line in move.invoice_line_ids:
+                #_logger.info(f"************* OrderLines: {line.id}*************")
                 invoice_lines.append({
                     "ID": line.id,
-                    "InvoicedQuantity": line.quantity,
-                    "LineExtensionAmount": line.price_subtotal,
+                    "InvoicedQuantity": int(line.quantity),
+                    "LineExtensionAmount1": line.price_subtotal,
                     "TaxTotal": {
                         "TaxAmount": line.tax_amount,
                         "RoundingAmount": line.price_total,
@@ -490,7 +494,7 @@ class AccountMove(models.Model):
                         "Name": line.product_id.name,
                         "ClassifiedTaxCategory": [{
                             "ID": "S",
-                            "Percent": tax_info.amount,
+                            "Percent": int(tax_info.amount),
                             "TaxScheme": {
                                 "ID": "VAT"
                             }
@@ -500,20 +504,35 @@ class AccountMove(models.Model):
                         "PriceAmount": line.price_total
                     }
                 })
-            res["InvoiceLine"] = invoice_lines
+
+                inv_res.update({'InvoiceLines': [invoice_lines]})                
+                _logger.info(f"************* OrderLines: {inv_res}*************")
+                mylist.append(inv_res)
+                invoice_lines = []
+                inv_res = {}
+                
+
+            res["InvoiceLine"] = mylist                        
+
             xml_json_str = json.dumps(res, indent=4)
             clean_xml_data = generate_einvoice_xml(res)
-            
+            #raise UserError(f"Testing {clean_xml_data}.")            
+            x = etree.fromstring(clean_xml_data.encode('utf-8'))
+            #x = etree.fromstring(clean_xml_data)
+            #string = etree.tostring(x, pretty_print=True).decode()
+            #x = etree.parse('/home/fareed/Desktop/test.xml')
+            string = etree.tostring(x, pretty_print=True, encoding=str)
+
             move.update({
                     'xml_json_str':xml_json_str,
-                    'invoice_xml_document':base64.b64encode(clean_xml_data.encode('utf-8')),
+                    'invoice_xml_document':base64.b64encode(string.encode('utf-8')),
                     'invoice_xml_document_filename': "E-Invoice{}.xml".format(move.id)
                 })
 
     xml_json_str = fields.Text("JSON For XML", compute="_compute_xml_json_str")
     invoice_xml_document = fields.Binary("Invoice XML Document", compute="_compute_xml_json_str")
     invoice_xml_document_filename = fields.Char("Invoice XML Document Filename", compute="_compute_xml_json_str")
-    
+
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):

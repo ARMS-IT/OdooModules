@@ -1,4 +1,5 @@
 @if $login_page_style == "style_2" {
+    body.bg-100,body.bg-100 .o_database_list{font-family: $body_font_family !important;}
 	body.bg-100 a{text-decoration: none !important;}
     body.bg-100 .o_database_list .justify-content-between.mt-2.d-flex.small {
         justify-content: center !important;
@@ -177,8 +178,6 @@
     }
 }
 
-
-/* === 19-12-2020 ==== */
 @if $login_page_style == "style_2" {
 	@media only screen and (max-width: 992px) and (min-width: 577px){
 		body.bg-100 .o_database_list{position: relative !important;}
@@ -187,7 +186,6 @@
 		body.bg-100 .o_database_list {max-width: 360px !important;margin-top: 1rem !important;}
 	}
 }
-/*== 11-3-2021 ==*/
 @if $login_page_style == "style_2" {
     body.bg-100 .o_database_list{align-items: center;height: 100vh;min-height: 100vh;justify-content: center;display: flex;}
 }

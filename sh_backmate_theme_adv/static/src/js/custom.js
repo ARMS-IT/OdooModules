@@ -10,11 +10,12 @@ odoo.define('sh_backmate_theme_adv.custom', function (require) {
 
 	var theme_style = ''
 	var sidebar_collapse_style = ''
+	var search_style = ''
 	rpc.query({
 		model: 'sh.back.theme.config.settings',
 		method: 'search_read',
 		domain: [['id', '=', 1]],
-		fields: ['theme_style', 'sidebar_collapse_style']
+		fields: ['theme_style', 'sidebar_collapse_style','search_style']
 	}).then(function (data) {
 		if (data) {
 
@@ -22,6 +23,11 @@ odoo.define('sh_backmate_theme_adv.custom', function (require) {
 				sidebar_collapse_style = 'collapsed'
 			} else {
 				sidebar_collapse_style = 'expanded'
+			}
+			if (data[0]['search_style'] == 'collapsed') {
+				search_style = 'collapsed'
+			} else {
+				search_style = 'expanded'
 			}
 			if (data[0]['theme_style'] == 'style_3') {
 				theme_style = 'style_3'
@@ -119,10 +125,10 @@ odoo.define('sh_backmate_theme_adv.custom', function (require) {
 				$('.o_mail_systray_dropdown').css("left", "260px");
 				$('.o_switch_company_menu .dropdown-menu').css("left", "260px");
 				// $('a.child_app.o_app2.active').parents('.cssmenu').first().find('ul.dropdown-menu.dropdown-menu-right').css("display",'block');
-				if (sidebar_collapse_style != 'expanded') {
+				if (sidebar_collapse_style != 'expanded' && search_style != 'collapsed') {
 					$('.sh_search_input').css("margin-left", '190px');
-					$(this).find('.o_app2.sh_dropdown.active').parents('.dropdown').find('ul.show_ul').css("transition", "all 0.6s ease 0s;");
-					$(this).find('.o_app2.sh_dropdown.active').parents('.dropdown').find('ul.show_ul').slideDown("slow");
+					// $(this).find('.o_app2.sh_dropdown.active').parents('.dropdown').find('ul.show_ul').css("transition", "all 0.6s ease 0s;");
+					// $(this).find('.o_app2.sh_dropdown.active').parents('.dropdown').find('ul.show_ul').slideDown("slow");
 					$('#object1').css("padding-left", "255px");
 				}
 
@@ -133,6 +139,13 @@ odoo.define('sh_backmate_theme_adv.custom', function (require) {
 
 
 			}
+			$(document).on("mouseover", ".o_app2.active", function () {
+				$(this).parents('.dropdown').find('ul.show_ul').css("transition", "all 0.6s ease 0s;");
+				$(this).parents('.dropdown').find('ul.show_ul').slideDown("slow");
+	
+				
+	
+			});
 
 		});
 		$(document).on("mouseleave", ".sh_backmate_theme_appmenu_div", function () {

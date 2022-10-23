@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
+
+	<t t-name="ZoomWidget">
+       <li class="sh_zoom_view_layout">
+			<button class=" btn sh_zoom" data-toggle="collapse" data-target="#zoomPanel" aria-expanded="false">
+				<svg id="Layer_1" style="width: 15px;fill: #fff;" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.31 414.03"><title>zoomin</title><path d="M455.15,394.85Q410,349.57,364.61,304.44c-1.7-1.69-2-2.8-.73-5,14.79-25.75,22-53.57,22.7-83.28-.82-8.58-1.21-17.23-2.52-25.74C369.83,98.14,281.83,35.85,189.77,52.77,95.79,70.05,35.55,162.26,57.86,255,83.63,362.24,203.69,415.72,302,360.88c2.85-1.59,4.29-1.29,6.53,1,19.78,20,39.71,39.83,59.59,59.71,10.27,10.28,20.45,20.66,30.85,30.81C421.2,474.12,458.41,464,466.08,434,469.9,419,466.08,405.8,455.15,394.85ZM314.62,242H248.19v66.91H192.61V242.07h-66.9V186.91h66.82V120H247.9v66.61h66.72Z" transform="translate(-53.21 -50)"/></svg>
+			</button>
+			<div class="sh-zoom-panel collapse" id="zoomPanel">
+				<div class="d-flex align-items-center">
+					<div class="sh_full">100%</div>
+					<div class="d-flex align-items-center mx-2">
+						<button class="btn btn-small sh_dec">-</button>
+						<button class="btn btn-small sh_inc">+</button>
+					</div>
+					<button class="fa fa fa-repeat btn btn-secondary sh_reset"></button>
+				</div>
+			</div>
+      </li>
+    </t>
    <t t-name="ThemeConfiguration">
       <div class="backmate_theme_layout" id="backmate_layout">
       		<div class="theme_header">
@@ -424,7 +442,7 @@
 				</table>
             </div>
              <div class="sh_theme_design collapsed" type="button" data-toggle="collapse" data-target="#loginPopup" aria-expanded="true" aria-controls="filterFav">
-                 <span class="title_config">Login Page &amp; Loading GIF</span>
+                 <span class="title_config">Login Page &amp; Loading Style &amp;  Progressbar</span>
                   <i class="fa fa-plus-circle"/>
               </div>
                <div class="collapse" id="loginPopup">
@@ -442,12 +460,26 @@
 							</select>
 				         </td>
 				          <td>
-					         <label>Loading GIF</label>
+					         <label>Loading Style</label>
 					      </td>
 					      	<td>
-					            <form method="POST" enctype="multipart/form-data" id="loading_gif">
+					          <!-- <form method="POST" enctype="multipart/form-data" id="loading_gif">
 								    <input type="file" name="loading_gif"/>
-								</form>
+								</form>--> 
+								<select id="loading_style">
+								   <option value="style_1">Style 1</option>
+								   <option value="style_2">Style 2</option>
+								   <option value="style_3">Style 3</option>
+								   <option value="style_4">Style 4</option>
+								    <option value="style_5">Style 5</option>
+								   <option value="style_6">Style 6</option>
+								   <option value="style_7">Style 7</option>
+								   <option value="style_8">Style 8</option>
+								    <option value="style_9">Style 9</option>
+								   <option value="style_10">Style 10</option>
+								   <option value="style_11">Style 11</option>
+								   <option value="style_12">Style 12</option>
+							</select>
 					         </td>
 				       
 				      </tr>
@@ -507,7 +539,33 @@
 							</form>
 				         </td>
 				      </tr>
-				       
+				       <tr>
+				         <td><label>Progress Style</label></td>
+				         <td>
+				         	<select id="progress_style">
+								   <option value="style_1">Style 1</option>
+								   <option value="none">None</option>
+							</select>
+				         </td>
+				          <td>
+					         
+					      </td>
+					    	<td>
+					          	
+					    	</td>
+				      </tr>
+					  <tr id="progress_color_height">
+				         <td><label>Progress Color</label></td>
+				         <td>
+				         	<input class="" id="progress_color" type="color" value=""></input>
+				         </td>
+				          <td>
+						  	<label>Progress Height</label>
+					      </td>
+					    	<td>
+							<input class="" id="progress_height" type="text" value=""></input>
+					    	</td>
+				      </tr>
 				   </tbody>
 				</table>
             </div>
@@ -684,7 +742,93 @@
 				   </tbody>
 				</table>
             </div>
-            
+            <div class="sh_theme_design collapsed" type="button" data-toggle="collapse" data-target="#chatterStyle" aria-expanded="true" aria-controls="filterFav">
+                 <span class="title_config">Chatter Position Style</span>
+                  <i class="fa fa-plus-circle"/>
+              </div>
+               <div class="collapse" id="chatterStyle">
+               	<table width="100%">
+				   <tbody>
+				      <tr>
+				         <td><label>Chatter Position</label></td>
+				         <td>
+				         	
+				         	<input type="radio" id="chatter_position_normal" name="chatter_position" value="normal" checked="checked"/>
+							<label for="chatter_position_normal">Normal</label>
+							<input type="radio" id="chatter_position_sided" name="chatter_position" value="sided"/>
+							<label for="chatter_position_sided">Sided</label>
+							
+				         </td>
+				       	  <td></td>
+				         <td>
+				         
+				         </td>
+				      </tr>
+				     
+				       
+				   </tbody>
+				</table>
+            </div>
+			<div class="sh_theme_design collapsed" type="button" data-toggle="collapse" data-target="#checkbox_style_div" aria-expanded="true" aria-controls="filterFav">
+				<span class="title_config">Checkbox Style</span>
+				 <i class="fa fa-plus-circle"/>
+			 </div>
+			  <div class="collapse" id="checkbox_style_div">
+				  <table width="100%">
+				  <tbody>
+					 <tr>
+						<td width="25%"><label style="margin-bottom: 0px;"> Checkbox Style</label></td>
+						<td width="25%">
+							<select id="checkbox_style">
+								<option value="style_1">Style 1</option>
+								<option value="style_2">Style 2</option>
+								<option value="style_3">Style 3</option>
+								<option value="style_4">Default</option>
+						   </select>
+						</td>
+					  
+						<td width="25%"><label style="margin-left: 10px;margin-bottom: 0px;"> Radio Button Style</label></td>
+						<td width="25%">
+							<select id="radio_btn_style">
+								<option value="style_1">Style 1</option>
+								<option value="style_2">Style 2</option>
+								<option value="style_3">Style 3</option>
+								<option value="style_4">Default</option>
+						   </select>
+						</td>
+					  
+					 </tr>
+					  
+				  </tbody>
+			   </table>
+		   	</div>
+			<div class="sh_theme_design collapsed" type="button" data-toggle="collapse" data-target="#scrollbar_style_div" aria-expanded="true" aria-controls="filterFav">
+				<span class="title_config">Scrollbar Style</span>
+				<i class="fa fa-plus-circle"/>
+			</div>
+			<div class="collapse" id="scrollbar_style_div">
+				<table width="100%">
+					<tbody>
+						<tr>
+							<td width="25%"><label style="margin-bottom: 0px;"> Scrollbar Style</label></td>
+							<td width="25%">
+								<select id="scrollbar_style">
+									<option value="style_1">Style 1</option>
+									<option value="style_2">Style 2</option>
+									<option value="style_3">Style 3</option>
+									<option value="style_4">Style 4</option>
+									<option value="style_5">Style 5</option>
+							</select>
+							</td>
+							<td width="25%"><label style="margin-left: 10px;margin-bottom: 0px;"></label></td>
+							<td width="25%">
+							</td>
+						
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
              <div class="py-3">
                  <button type="button" class="btn btn-primary save_color mr-3 ">Save</button>
                   <button type="button" class="btn btn-secondary discard_color mr-3">Discard</button>

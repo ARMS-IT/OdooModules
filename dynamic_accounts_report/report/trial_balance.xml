@@ -57,6 +57,8 @@
                                     </t>
                                     <th class="text-right">Debit</th>
                                     <th class="text-right">Credit</th>
+                                    <th class="text-right">Balance</th>
+
                                 </tr>
                             </thead>
                             <t t-foreach="account_data" t-as="line">
@@ -99,6 +101,11 @@
                                             <span t-esc="line['credit']"
                                                   t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                         </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['debit'] - line['credit']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </td>
+
                                     </tr>
                             </t>
                             <td colspan="6" style="border-bottom: 1px solid ;" class="mon_fld"><strong>Total</strong></td>
@@ -109,6 +116,8 @@
 
 							<td class="text-right" style="border-bottom: 1px solid ;"><strong><t t-esc="debit_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
 							<td class="text-right" style="border-bottom: 1px solid;"><strong><t t-esc="debit_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
+							<td class="text-right" style="border-bottom: 1px solid ;"><strong><t t-esc="debit_total - credit_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong></td>
+
 
                         </table>
                     </div>

@@ -28,8 +28,10 @@
 }
 
 /* === 19-12-2020 === */
-@media only screen and (min-width: 1600px){
-	.o_FormRenderer_chatterContainer .o_Chatter_fixedPanel{top: 0px !important;position: sticky;}
+@if $chatter_position == 'sided'{
+      @media only screen and (min-width: 1600px){
+            .o_FormRenderer_chatterContainer .o_Chatter_fixedPanel{top: 0px !important;position: sticky;}
+      }
 }
 
 

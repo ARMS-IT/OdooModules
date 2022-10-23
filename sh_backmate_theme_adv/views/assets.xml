@@ -32,16 +32,16 @@
 			
 			
 			<!--sidebar links-->
-			<link href="sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_1.scss" rel="stylesheet" type="text/scss"/>
-			<link href="sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_2.scss" rel="stylesheet" type="text/scss"/>
-			<link href="sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_3.scss" rel="stylesheet" type="text/scss"/>
-		 	<link href="sh_backmate_theme_adv/static/src/scss/sidebar/expaned.scss" rel="stylesheet" type="text/scss"/>
-			<link href="sh_backmate_theme_adv/static/src/scss/sidebar/collapsed.scss" rel="stylesheet" type="text/scss"/>
-			<link href="sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_bg.scss" rel="stylesheet" type="text/scss"/>	
+			<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_1.scss" rel="stylesheet" type="text/scss"/>
+			<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_2.scss" rel="stylesheet" type="text/scss"/>
+			<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_style_3.scss" rel="stylesheet" type="text/scss"/>
+		 	<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/expaned.scss" rel="stylesheet" type="text/scss"/>
+			<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/collapsed.scss" rel="stylesheet" type="text/scss"/>
+			<link href="/sh_backmate_theme_adv/static/src/scss/sidebar/sidebar_bg.scss" rel="stylesheet" type="text/scss"/>	
 			<!--sidebar links-->
 
 			<!-- breadcrumb -->
-			<link href="sh_backmate_theme_adv/static/src/scss/breadcrumb/breadcrumb.scss" rel="stylesheet" type="text/scss"/>
+			<link href="/sh_backmate_theme_adv/static/src/scss/breadcrumb/breadcrumb.scss" rel="stylesheet" type="text/scss"/>
 			
 			<!-- Separator -->
 			<link href="/sh_backmate_theme_adv/static/src/scss/separator/separator.scss" rel="stylesheet" type="text/scss"/>
@@ -73,17 +73,44 @@
 			
 			<!-- Notification -->
     		<link href="/sh_backmate_theme_adv/static/src/scss/notification/notification.scss" rel="stylesheet" type="text/scss"/>
+			
+			<!-- predefine_list_view -->
+			<!-- <link href="/sh_backmate_theme_adv/static/src/scss/predefine_list_view/predefine_list_view.scss" rel="stylesheet" type="text/scss"/> -->
+
+			<!--chatter position -->
+			<link href="/sh_backmate_theme_adv/static/src/scss/chatter_position/chatter_position.scss" rel="stylesheet" type="text/scss"/>
 
 			<!--Web notitication-->
 			 <script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/sh_bus_notification.js" />
-       <script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/web_notification.js"></script>	
+       			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/web_notification.js"></script>	
+
+				<!-- Loader Design -->
+			<link href="/sh_backmate_theme_adv/static/src/scss/loader/loader.scss" rel="stylesheet" type="text/scss"/>
+
+			<!-- Zoom in/out Design  -->
+			<link href="/sh_backmate_theme_adv/static/src/scss/zoom_in_out/zoom_in_out.scss" rel="stylesheet" type="text/scss"/>
+
+			<!-- Checkbox Style-->
+			<link href="/sh_backmate_theme_adv/static/src/scss/checkbox_style/checkbox_style.scss" rel="stylesheet" type="text/scss"/>
+
+			<!-- Radio Button Style-->
+			<link href="/sh_backmate_theme_adv/static/src/scss/radio_btn_style/radio_btn_style.scss" rel="stylesheet" type="text/scss"/>
+
+			<!-- scroll bar Style-->
+			<link href="/sh_backmate_theme_adv/static/src/scss/scrollbar/scrollbar_style.scss" rel="stylesheet" type="text/scss"/>
+
+			<!--Progresss bar-->
+			<link href="/sh_backmate_theme_adv/static/src/scss/nprogress/nprogress.scss" rel="stylesheet" type="text/scss"/>
+			 <script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/nprogress.js" />
+			  <script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/progressbar.js" />
+
 
 			<!-- Predefined Style_1 / Theme_2 CSS -->
 			<link href="/sh_backmate_theme_adv/static/src/scss/predefine_style_1/body_style.scss" rel="stylesheet" type="text/scss"/>
 			<link href="/sh_backmate_theme_adv/static/src/scss/predefine_style_1/navbar_style.scss" rel="stylesheet" type="text/scss"/>
 			<link href="/sh_backmate_theme_adv/static/src/scss/predefine_style_1/control_panel_style.scss" rel="stylesheet" type="text/scss"/>
 			
-			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/customize_user.js"></script>		
+			<!-- <script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/customize_user.js"></script>		 -->
 			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/night_mode.js"></script>
 					
 			<!--  Sticky  -->
@@ -95,20 +122,24 @@
 			
 			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/menu.js"></script>		
 			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/status_bar.js"></script>	
-			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/control_panel.js"></script>	
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/control_panel.js"></script>
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/calendar_contoller.js"></script>
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/basic_contoller.js"></script>
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/language_selector.js"></script>
+			
+			<!-- Zoom widget-->
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/zoomwidget.js"></script>
+			<link rel="stylesheet" type="text/scss" href="/sh_backmate_theme_adv/static/src/scss/night_mode/night_mode_user.scss"/>	
 			<!-- <script type="text/javascript" src="/sh_backmate_theme/static/src/js/full_screen.js"></script>
-				 -->				
+				 -->	
+				 
+			<!-- TO DO -->
+			<link href="/sh_backmate_theme_adv/static/src/scss/todo/todo.scss" rel="stylesheet" type="text/scss"/>
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/todo_widget.js"></script>
+			<script type="text/javascript" src="/sh_backmate_theme_adv/static/src/js/todo.js"></script>	
+
+
         </xpath>
-    </template>
-    <template id="sh_assets_primary_variables" inherit_id="web._assets_primary_variables" active="False">
-	      <xpath expr="." position="inside">
-	        <link rel="stylesheet" type="text/scss" href="/sh_backmate_theme_adv/static/src/scss/night_mode/night_mode.scss"/>
-	       </xpath>
-    </template>
-    <template id="sh_assets_night_variable_scss" inherit_id="web.assets_backend" active="False">
-	      <xpath expr="." position="inside">
-	        <link href="/sh_backmate_theme_adv/static/src/scss/night_variable.scss" rel="stylesheet" type="text/scss"/>
-	       </xpath>
     </template>
      
      <template id="sh_assets_background_color_scss" inherit_id="web.assets_backend" active="True">
@@ -151,4 +182,3 @@
     </template> 
 
 </odoo>
-

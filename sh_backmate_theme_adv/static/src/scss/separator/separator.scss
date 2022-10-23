@@ -36,7 +36,7 @@
 /*--sep-6--*/
 @if $separator_style == 'style_6'{
 .o_form_view .o_horizontal_separator{position:relative;width: 90%;}
-.o_form_view .o_horizontal_separator:after {content: "";position: absolute;width: 65%;right: 0;top: 14px;border-bottom: 2px solid $separator_color;}
+.o_form_view .o_horizontal_separator:after {content: "";position: absolute;width: 55%;right: 0;top: 14px;border-bottom: 2px solid $separator_color;}
 }
 /*--sep-6--*/
 /*--sep-7--*/
@@ -46,9 +46,6 @@
 .o_form_view .o_horizontal_separator{padding-bottom: 10px;margin-bottom: 15px;padding-left: 0 !important;}
 }
 /*--sep-7--*/
-
-
-
 
 
 /*--separtor--*/

@@ -23,7 +23,7 @@ This module Adds two Consolidated Chart of account hierarical view.
     'license': 'OPL-1',
     'website': 'http://o4odoo.com',
     'category': 'Accounting &amp; Finance',
-    'version': '14.0.1.0.1',
+    'version': '14.0.1.0.2',
     'depends': ['account_parent'],
     'data': [
         'views/open_chart_view.xml',

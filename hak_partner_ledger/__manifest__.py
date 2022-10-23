@@ -1,6 +1,6 @@
 
 {
-    'name': 'Partner Ledger Report',
+    'name': 'Armsit Partner Ledger Report',
     'version': '14.0',
     'summary': 'Partner Ledger Report',
     'description': 'Partner Ledger Report',

@@ -10,7 +10,7 @@
                 """,
     "summary": "Advance Material Backend Theme, Responsive Theme, Fully functional Theme, flexible Backend Theme, fast Backend Theme, lightweight Backend Theme, Animated Backend Theme, Modern multipurpose theme, Customizable Backend Theme, Multi Tab Backend Theme Odoo",
     "category": "Theme/Backend",
-    "version": "14.0.2",
+    "version": "14.0.17",
     "depends":
     [
         "web", "mail"
@@ -32,7 +32,9 @@
         "views/global_search_view.xml",
         "views/pwa_configuration_view.xml",
         "views/views.xml",
-        "views/notifications_view.xml"
+        "views/notifications_view.xml",
+        "views/send_notifications.xml",
+        "views/web_push_notification.xml",
     ],
 
     "qweb":
@@ -45,6 +47,7 @@
         "static/src/xml/form_view.xml",
         "static/src/xml/theme_config.xml",
         "static/src/xml/base.xml",
+        "static/src/xml/todo.xml",
     ],
     'images': [
         'static/description/splash-screen.png',

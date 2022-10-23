@@ -46,10 +46,6 @@ $body_font_family: $body_google_font_family;
 /*====TO USE TABLE LIST VIEW COUSMIZATION======*/
 
 
-
-
-
-
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
 	background: $primaryColor
 }
@@ -147,7 +143,7 @@ $body_font_family: $body_google_font_family;
     border: 2px solid $primaryColor;
 }
 
-[type='radio']:checked + label:after,
+
 [type='radio'].with-gap:checked + label:after
 {
     background-color: $primaryColor;
@@ -202,11 +198,6 @@ $body_font_family: $body_google_font_family;
 .custom-checkbox .custom-control-label::after {
 	top: 2px;
 	left: -1.5rem;
-}
-
-.o_radio_item .custom-control-label::after {
-	//top: 0px;
-	//left: -1.7rem;
 }
 
 .o_menu_apps .fa-bars:before {
@@ -284,9 +275,6 @@ $body_font_family: $body_google_font_family;
 .o_followers .o_followers_title_box .o_followers_list .o_partner {
 	border-bottom:1px solid #e9ecef;
 }
-
-
-
 
 /*--------------
 top-navbar
@@ -378,12 +366,7 @@ buttons top
 	margin-left: 0px;
 }
 
-.o_cp_right .o_cp_switch_buttons {
-	//box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
-}
-
 .o_form_view .o_form_sheet_bg {
-	/* border-bottom: 1px solid #ddd; */
 	background: #fff;
 }
 
@@ -540,91 +523,6 @@ view-List
 	    padding: 0.3rem;
 }
 
-/*=====chekbox===*/
-.custom-control{    padding-left: 0.5rem;}
-[type='checkbox']:not(.filled-in) + label:not(.lever):after{
-transform: scale(0);
-    border: 0;
-    }
-[type='checkbox'] + label:not(.lever) {
-    font-size: 1.1rem;
-    line-height: 25px;
-    position: relative;
-    display: inline-block;
-    height: 25px;
-    padding-left: 35px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-[type='checkbox'] + label:not(.lever):before, [type='checkbox']:not(.filled-in) + label:not(.lever):after{
-position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    margin-top: 3px;
-    content: '';
-    -webkit-transition: .2s;
-    -moz-transition: .2s;
-    -o-transition: .2s;
-    transition: .2s;
-    border: 2px solid #5a5a5a;
-    border-radius: 1px;
-    border-radius: 4px !important;    
-}
-[type='checkbox'] + label:not(.lever):before, [type='checkbox']:not(.filled-in) + label:not(.lever):after {
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    margin-top: 3px;
-    content: '';
-    -webkit-transition: .2s;
-    -moz-transition: .2s;
-    -o-transition: .2s;
-    transition: .2s;
-    border: 2px solid #5a5a5a !important;
-    border-radius: 1px;
-    }
-[type='checkbox']:checked + label:not(.lever):before {
-    top: 0px;
-    left: -5px;
-    width: 10px;
-    height: 18px;
-    -webkit-transform: rotate(40deg);
-    -moz-transform: rotate(40deg);
-    -ms-transform: rotate(40deg);
-    -o-transform: rotate(40deg);
-    transform: rotate(40deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    border-top: 2px solid transparent !important;
-    border-right: 2px solid $primaryColor;
-    border-bottom: 2px solid $primaryColor;
-    border-left: 2px solid transparent !important;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-.modal-dialog  .o-export-panel .o_import_compat .form-check-input{opacity: 0;}
-.modal-dialog  .o-export-panel .o_import_compat{padding-left: 0;}
-
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before{background-color: transparent!important;}
-.custom-control-input:checked ~ .custom-control-label::before{background-color: transparent!important;}
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before{box-shadow:none;}
-.custom-control.custom-checkbox .custom-control-input:not(:checked):not(:indeterminate)~.custom-control-label:before{
-	outline:0px;
-}
-/*===checkbox====*/
 .o_field_widget.o_field_many2one .o_external_button{
 	font-size:20px;
 	color: $primaryColor;
@@ -676,7 +574,7 @@ form
 }
 
 .o_form_view .o_group .o_td_label .o_form_label {
-	font-family: 'Roboto', sans-serif;
+	// font-family: 'Roboto', sans-serif;
 	//font-weight: normal;
 	color: #757575;
 	font-size: 14px;
@@ -785,47 +683,6 @@ form
 /*---------------
  model
 ----------------*/
-
-
-/*-------------
-scrollbar
------------------*/
-
-
-/* Let's get this party started */
-
-::-webkit-scrollbar {
-	width: 3px;
-	height: 3px;
-}
-
-
-/* Track */
-
-::-webkit-scrollbar-track {
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-}
-
-
-/* Handle */
-
-::-webkit-scrollbar-thumb{
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	background: #c1c0c0;
-}
-
-::-webkit-scrollbar-thumb:window-inactive {
-	background: #c1c0c0;
-}
-
-
-/*------------------
-scrollbar
------------------*/
-
-
 /*------------
 chatter
 ------------*/
@@ -957,7 +814,6 @@ sales-kanban-page
 }
 
 .o_view_controller .o_kanban_ungrouped .oe_kanban_global_click:hover {
-	/*--box-shadow: 0 10px 9px -8px rgba(0, 0, 0, 0.3);--*/
 	box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 3px 6px 0px rgba(0, 0, 0, 0.12);
 }
 
@@ -1008,8 +864,6 @@ sales-kanban-page
 	color: #777777;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)!important;
 }
-
-
 
 .o_field_widget .o_input_dropdown .o_dropdown_button:after {
 	content: "\f107";
@@ -1252,7 +1106,6 @@ invoicing kanban page
 	left: 0px;
 	bottom: 0;
 	right: auto;
-	/* width: 100%!important; */
 }
 
 .o_has_banner .o_account_kanban .o_kanban_record {
@@ -1313,7 +1166,6 @@ invoicing kanban page
 /*------------------------
  Point of Sale kanban page
  ------------------------- */
-
 
 /*----------------------
 Employees kanban page
@@ -1548,10 +1400,6 @@ Employees kanban page
 
 /*---left-side----*/
 
-/*.o_attachments_previews .o_attachment {
-	width: auto!important;
-}*/
-
 
 /*--responsive--*/
 
@@ -1638,8 +1486,8 @@ Employees kanban page
 }
 
 .o_calendar_container .o_calendar_view .o_calendar_widget .fc-widget-header {
-	background-color: #e6e5e5;
-	ont-weight: normal;
+	background-color: $primary !important;
+	color: #fff;
 }
 
 .fc-event {
@@ -1650,11 +1498,6 @@ Employees kanban page
 .fc-event .fc-bg {
 	opacity: unset!important;
 }
-
-
-/*--.oe_title .o_field_widget{
-padding:5px 0px 0px 0px;
-}--*/
 
 select.o_field_widget.o_input {
 	padding: .429rem 1.072rem;
@@ -1677,7 +1520,6 @@ select.o_field_widget.o_input {
 }
 
 .o_kanban_view.o_kanban_ungrouped .o_kanban_record:hover {
-	/*--box-shadow: 0 10px 9px -8px rgba(0, 0, 0, 0.3);--*/
 	box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 3px 6px 0px rgba(0, 0, 0, 0.12)
 }
 
@@ -1773,8 +1615,6 @@ padding: 0.3em 0.4em;
  ----------------*/
 
 .o_onboarding .o_onboarding_step .o_onboarding_dot {
-	//width: 15px;
-	//height: 15px;
 	border-radius: 3px;
 }
 
@@ -1845,7 +1685,6 @@ padding: 0.3em 0.4em;
 
 .o_form_statusbar .o_field_widget .o_arrow_button {
 	background: #e8e8e8;
-	/*margin-right: 15px;*/
 	text-transform: uppercase;
 }
 
@@ -2068,48 +1907,6 @@ contact
 contact
 ------------*/
 
-
-/*---------------------------chatter sided---------------------------*/
-@media screen and (min-width: 1600px) {
-	.o_sale_order .o_form_sheet_bg,.o_form_view .o_form_sheet_bg{
-	    width: 60%;
-	    display: inline-block; 
-	    border-right: 1px solid #ddd;      
-	}
-	.o_sale_order .o_form_sheet_bg > .o_form_sheet{
-		border: 1px solid #cfd4db;
-	    border-width: 0px 0px 0px 0px!important;
-	}
-	/*
-	.o_form_view .o_form_statusbar{
-	border-right: 1px solid #ddd;  
-	}
-	*/
-	.o_sale_order .o_FormRenderer_chatterContainer,.o_form_view .o_FormRenderer_chatterContainer{
-	    max-width: 40% !important;
-	    position: absolute;
-	    top: 0;
-	}
-	.o_sale_order .o_FormRenderer_chatterContainer,.o_form_view .o_FormRenderer_chatterContainer{
-		display: inline-block;
-	    min-width: 40%;
-	    margin: 0;
-	    padding: 0px 5px 48px;
-	     
-	}
-	
-	.o_followers .o_followers_title_box{
-	margin-left: 0px!important;
-	}
-	.o_chatter .o_chatter_topbar{
-	margin: 0px 0 0!important;
-	}
-	.o_content .o_form_view .o_form_sheet_bg, .modal-content .o_form_view .o_form_sheet_bg{display: inline-block !important;overflow: auto !important;}
-	.o_sale_order .o_form_sheet_bg, .o_form_view .o_form_sheet_bg, .o_FormRenderer_chatterContainer,
-	.o_content .o_form_view {height: 100%;}
-	.o_FormRenderer_chatterContainer{overflow: auto !important;}
-}
-
 @media (min-width: 1025px) and (max-width: 1280px) {
 
 	.o_control_panel>.o_cp_bottom_left {
@@ -2182,10 +1979,6 @@ padding: 8px 0px;
 	.o_cp_sidebar .btn-group .dropdown-menu {
 		background: #fff;
 	}
-	
-	/*--.o_control_panel>.o_cp_right{
-		width: 100%;
-	}--*/
 	.o_cp_right .o_search_options{
 		position: absolute;
 	    right: 14px;
@@ -2205,13 +1998,6 @@ padding: 8px 0px;
 	.o_kanban_view.o_kanban_dashboard.o_pos_kanban.o_kanban_ungrouped .o_kanban_record {
 		width: 350px!important;
 	}
-	/*.o_cp_bottom_left .o_cp_buttons .btn-primary .d-none {
-   		 display: none !important;
-	}
-	.o_cp_bottom_left .o_cp_buttons .btn-secondary .d-none {
-   		 display: none !important;
-	}*/
-	
 
 }
 
@@ -2338,7 +2124,6 @@ padding: 8px 0px;
 		height: calc(100vh - 0px)!important;
 		max-height: unset!important;
 	}
-	//.sh_backmate_theme_appmenu_div a.dropdown-item.o_app{font-size: 12px!important;padding-left: 0px !important;padding: 10px 0px !important;display: inline-block; width: 50%!important;}
 	.sh_backmate_theme_appmenu_div a.dropdown-item.o_app {
 		padding: 10px 0px !important;
 	}
@@ -2391,7 +2176,6 @@ padding: 8px 0px;
 		margin: 0px auto !important;
 	}
 	.o_control_panel {
-		//border-bottom: 1px solid #cccccc;
 	}
 	.o_control_panel>.breadcrumb {
 		font-size: 18px!important;
@@ -2443,9 +2227,6 @@ padding: 8px 0px;
 	}
 	.o_web_client .o_mobile_search .o_searchview_input_container {
 		padding: 15px 5px 0 5px;
-	}
-	.o_control_panel .o_cp_bottom_left {
-		//flex-basis: 15%!important;
 	}
 
 	.modal.o_technical_modal .modal-dialog .modal-content {
@@ -2552,7 +2333,6 @@ padding: 8px 0px;
 		border: 1px solid #dee2e6!important;
 	}
 	.o_control_panel .o_cp_switch_buttons.show .dropdown-menu{
-		//transform: translate3d(-67px, 31px, 0px)!important;
 		justify-content: flex-end;
 	}
 	.show .list-inline{
@@ -2748,24 +2528,6 @@ padding: 8px 0px;
 		color: transparent!important;
 		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 	}
-	.o-kanban-button-new .fa.fa-plus,.o-kanban-button-new span{
-	//visibility: hidden;
-	}
-	.o_form_button_save .fa.fa-check, .o_form_button_save span{
-	//visibility: hidden;
-	}
-	.o_form_button_cancel .fa.fa-times, .o_form_button_cancel span{
-	//visibility: hidden;
-	}
-	.o_list_button_add .fa.fa-plus, .o_list_button_add span{
-	//visibility: hidden;
-	}
-	.o_form_button_edit .fa.fa-pencil, .o_form_button_edit span{
-	//visibility: hidden;
-	}
-	.o_form_button_create .fa.fa-plus, .o_form_button_create span{
-	//visibility: hidden;
-	}
 	.o_cp_bottom_left .o_cp_buttons .oe_import_file:before {
 		content: "\f067";
 		font-family: FontAwesome;
@@ -2842,16 +2604,10 @@ padding: 8px 0px;
 	.o_form_view.o_xxs_form_view .o_group.o_inner_group>tbody>tr>td {
 		width: 59% !important;
 	}
-	//.o_form_view .o_group .o_field_widget{width: 59% !important;}
 	.o_cp_switch_buttons .dropdown-menu li {
 		display: inline-block;
 	}
-	.o_main_navbar>ul.o_menu_systray {
-		/*--display: none--*/
-	}
-	.o_main_navbar>ul {
-		/*--display: none--*/
-	}
+
 	
 	.o_form_view .o_group .o_group_col_6 {
 		width: 100%;
@@ -3149,15 +2905,12 @@ padding: 8px 0px;
 		text-align: center;
 	}
 	.show .list-inline {
-		//background:  #fff none repeat scroll 0% 0%;
 		border: 0px;
 		padding: 0px;
 		border-radius: 0px;
 	}
 	.show .list-inline .btn-secondary {
-		//background-color: $primaryColor;
-		//border-color: $primaryColor;
-		//color: #fff;
+
 		border-radius: 0px;
 		padding: 0.675rem 0.70rem;
 	}
@@ -3182,7 +2935,6 @@ padding: 8px 0px;
 		border-radius: 0px;
 	}
 	.o-no-caret .float-right {
-		//float: none !important;
 		padding-left: 10px;
 	}
 	.o_web_client .o_mobile_search .o_mobile_search_filter .o_dropdown {
@@ -3193,7 +2945,6 @@ padding: 8px 0px;
 	}
 	.btn-secondary.disabled,
 	.btn-secondary:disabled {
-		//color: #fff!important;
 		background-color: $primaryColor;
 		border-color: $primaryColor;
 		opacity: 1;
@@ -3210,10 +2961,6 @@ padding: 8px 0px;
 		text-align: center;
 		border-radius: 0px;
 	}
-	/*--.o_web_client .o_mobile_search .o_mobile_search_filter .dropdown-menu
-    {
-    	min-width: 0px!important;
-    }--*/
 	.o_chatter .o_chatter_topbar>.btn {
 		background-color: $primaryColor;
 		border-color: $primaryColor;
@@ -3318,13 +3065,6 @@ padding: 8px 0px;
 		width: 100% !important;
 	}
 	
-	/*--.o_main_navbar>ul {
-		display: none!important;
-	}--*/
-	/*--.o_main_navbar>ul {
-		display: none;
-	}--*/
-	
 	.o_form_view .o_group .o_group_col_6 {
 		width: 100%;
 	}
@@ -3418,7 +3158,6 @@ padding: 8px 0px;
 		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 	}
 	.o_cp_bottom_left .o_cp_buttons .o_form_button_cancel:before {
-		//content: "\f014";
 		content: "\f00d";
 		font-family: FontAwesome;
 		color: #424242;
@@ -3575,7 +3314,6 @@ padding: 8px 0px;
 	}
 	.show .list-inline {
 		left: 0px!important;
-		//min-width: 15.9rem!important;
 	}
 	.show .list-inline li {
 		display: inline-block!important;
@@ -3595,15 +3333,6 @@ padding: 8px 0px;
 	.o_control_panel>.breadcrumb {
 		font-size: 15px;
 	}
-	/*--.o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td
-	{
-	max-width: 50%;
-	}--*/
-	/*--.o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td.o_td_label
-	{
-		width: 100% !important;
-	}--*/
-	/*--.modal-footer .btn{padding: 5px;}--*/
 	.o_form_view.o_xxs_form_view .oe_subtotal_footer>tbody>tr>td.o_td_label {
 		max-width: 50%;
 	}
@@ -3618,15 +3347,11 @@ padding: 8px 0px;
 		text-align: center;
 	}
 	.show .list-inline {
-		//background: $primaryColor none repeat scroll 0% 0%;
 		border: 0px;
 		padding: 0px;
 		border-radius: 0px;
 	}
 	.show .list-inline .btn-secondary {
-		//background-color: $primaryColor;
-		//border-color: $primaryColor;
-		//color: #fff;
 		border-radius: 0px;
 		padding: 0.675rem 0.70rem;
 	}
@@ -3662,7 +3387,6 @@ padding: 8px 0px;
 	}
 	.btn-secondary.disabled,
 	.btn-secondary:disabled {
-		//color: #fff!important;
 		background-color: $primaryColor;
 		border-color: $primaryColor;
 		opacity: 1;
@@ -3678,7 +3402,6 @@ padding: 8px 0px;
 		width: 100%;
 	}
 	.o_web_client .o_mobile_search .o_mobile_search_filter .o_dropdown_toggler_btn {
-		//text-align: center;
 		border-radius: 0px;
 	}
 	.o_chatter .o_chatter_topbar>.btn {
@@ -3761,7 +3484,6 @@ padding: 8px 0px;
 	.o_cp_switch_buttons .dropdown-menu li {
 		display: inline-block;
 	}
-	//.o_cp_right .o_cp_switch_buttons{height:25px;}
 }
 
 
@@ -3856,7 +3578,7 @@ navbar
 .sh_backmate_theme_appmenu_div {
 	min-width: 0px !important;
 	overflow: auto;
-	z-index: 99;
+	z-index: 115;
 	width: 0px !important;
 	overflow-y: unset;
 	box-shadow: 5px 0 5px -3px #848484 !important;
@@ -4302,12 +4024,6 @@ html .o_web_client .o_main .o_main_content {
 }
 .tooltip > .tooltip-inner > p{color:#fff!important}
 
-
-
-
-
-
-
 /*
 ===========================================================================================
 Version 13 SCSS start here
@@ -4329,10 +4045,6 @@ Version 13 SCSS start here
 .o_form_sheet .oe_button_box{float: right;text-align: right;float: right;margin-bottom: 4px;margin-top: 0;margin-left: 0;margin-right: 0;box-shadow: none;}
 .o_form_view .o_form_sheet_bg > .o_form_sheet{padding: 10px;}
 
-
-/* Rachana */
-
-/* .o_list_view .o_optional_columns_dropdown_toggle{top: 10px;} */
 .o_list_view .o_optional_columns_dropdown_toggle{top: 7px;}
 
 .o_view_controller .o_form_view .o_form_statusbar{margin-top: 0;}
@@ -4346,15 +4058,10 @@ Version 13 SCSS start here
 .o_calendar_container .o_calendar_sidebar_container .ui-datepicker .ui-widget-header{padding-top: 0;}
 .o_calendar_container .o_calendar_sidebar_container .ui-datepicker .ui-widget-header .ui-datepicker-title{margin: 0;padding: 0;}
 
-
-
 /*   view activity   */
 .o_activity_view .o_record_selector{color: $primaryColor;}
 .o_calendar_view .o_calendar_widget .fc-month-view .fc-content-skeleton .fc-today .fc-day-number{background-color: $primaryColor;}
 /*   view activity   */
-
-
-
 
 
 @media only screen and (max-width: 992px){
@@ -4387,18 +4094,10 @@ Version 13 SCSS start here
   /*.o_searchview_input_container{width: 30em;}*/
 }
 
-
-
-
-/* Rachana */
-/*.o_list_view .o_optional_columns .o_optional_columns_dropdown .dropdown-item label{padding-left: 25px;}*/
 .o_list_view .o_optional_columns .o_optional_columns_dropdown .dropdown-item label{padding-left: 30px;}
 
 [type='checkbox']:checked + label:not(.lever):before{left: 0;}
 [type='checkbox'] + label:not(.lever):before, [type='checkbox']:not(.filled-in) + label:not(.lever):after{left: 5px;}
-
-
-
 
 
 .o_settings_container .o_setting_box .o_setting_right_pane{margin-left: 45px;}
@@ -4408,17 +4107,12 @@ Version 13 SCSS start here
 
 
 
-
-
-
-
-
 /*  toggle btn */
 .o_list_table .o_boolean_toggle_cell label.custom-control-label{line-height: normal;position: relative;display: inline-block;height: auto;padding-left: 0;}
 .o_content .o_list_view .table-responsive .ui-sortable div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{border-radius: 100px !important;transform: rotate(0deg);}
 .o_recruitment_kanban_boxes .o_recruitment_kanban_box div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before,
 .o_field_cell.o_boolean_toggle_cell div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{height: 18px !important;}
-div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::after{border-radius: 100px !important;border: 0 !important;margin-top: 2px;}
+div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::after{border-radius: 100px !important;border: 0 !important;margin-top: 0; top: -1px;}
 /*  toggle btn  */
 
 /* checkbox */
@@ -4426,9 +4120,7 @@ div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label
 /* checkbox */
 
 
-.o_form_sheet .ribbon{height: 140px;}
-.o_form_sheet .ribbon-top-right{margin-top: 50px;}
-.o_form_sheet .ribbon-top-right span{left: -15px; top: 30px;}
+.o_form_sheet .ribbon{height: 140px;width: 140px;font-size: 14px;}
 .o_followers .o_followers_list{width: 40vh;}
 .o_form_view .o_group.o_inner_group > tbody > tr > td{vertical-align: middle !important;}
 .o_form_view .oe_button_box > .o_dropdown_more{border: 0px;box-shadow: none;}
@@ -4452,7 +4144,6 @@ Version 13 SCSS End here
 
 
 @media only screen and (min-width: 768px) and (max-width: 992px){
-  /* .o_control_panel .o_form_buttons_view > button i,.o_cp_bottom_left .o_cp_buttons .btn i{display: none;} */
   .o_form_sheet .oe_button_box{text-align: right !important;}
 }
 
@@ -4473,10 +4164,7 @@ Version 13 SCSS End here
 }
 
 .o_main_navbar > ul.o_menu_systray{z-index: 3 !important;}
-/*
-.o_form_view .o_notebook ul{overflow-x: auto;-webkit-flex-flow: row nowrap;flex-flow: row nowrap;}
-.o_form_view .o_notebook ul li{white-space: nowrap;}
-*/
+
 
 .o_chatter .o_chatter_topbar > .btn{background-color: transparent;
     border-color: transparent;
@@ -4500,26 +4188,16 @@ Version 13 SCSS End here
 }
 
 
-
-
-
-/* 01-10-2020 */
-
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app.active > .sh_fa_icon,
  .sh_backmate_theme_appmenu_div a.dropdown-item.o_app:active > .sh_fa_icon,
  .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2.active > span.sh_fa_icon,
  .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2:active > span.sh_fa_icon{color: $sidebar_font_hover_color;}
 .sh_backmate_theme_appmenu_div .logo img{margin-right: 7px;}
-/*.dropdown-menu.sh_backmate_theme_appmenu_div .logo #hide_top_bar:hover,.dropdown-menu.sh_backmate_theme_appmenu_div .logo #hide_top_bar:focus,
-.dropdown-menu.sh_backmate_theme_appmenu_div .logo #show_top_bar:hover,.dropdown-menu.sh_backmate_theme_appmenu_div .logo #show_top_bar:focus{color: $primaryColor !important;}
-*/
+
 .o_field_widget.o_priority{margin-top: 3px;}
 
 
 .dropdown-menu.sh_backmate_theme_appmenu_div .sh_standard_icon{margin-left: 2px !important;}
-
-
-/* 02-10-2020 */
 
 @if $theme_style == 'style_1'{
 	.o_control_panel .o_cp_searchview, .o_control_panel .o_cp_right,
@@ -4530,12 +4208,6 @@ Version 13 SCSS End here
 	.o_control_panel .o_cp_searchview .o_searchview{flex: 0 0 61% !important;}
 }
 
-
-
-
-/* 07-10-2020 */
-
-/* .o_form_view .o_notebook .o_group .o_group_col_6{width: 98% !important;} */
 .o_notebook .o_list_view .table-responsive {overflow-x: auto !important;}
 
 
@@ -4550,25 +4222,14 @@ Version 13 SCSS End here
 	.o_form_view .o_group .o_group_col_6{margin: 10px 0px;}
 }
 
-
-
-
-/* 15-10-2020 */
-
 .o_searchview .o_searchview_icon{top: 10px;}
 
-
-
-/* 17-10-2020 */
-.o_form_view .o_group.o_inner_group div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{height: 17px;}
+.o_form_view .o_group.o_inner_group div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{height: 18px;}
 .o_main_navbar .o_switch_company_menu > a .oe_topbar_name{display: none;}
-
-
-/* 24-10-2020 */
 
 @media only screen and (max-width: 992px){
 	.o_control_panel .o_cp_bottom_left, .o_control_panel .o_cp_top_left,
-	.o_control_panel .o_cp_top_right, .o_control_panel .o_cp_bottom_right{width: 100% !important;margin: 0px 0px;}
+	/*.o_control_panel .o_cp_top_right,*/ .o_control_panel .o_cp_bottom_right{width: 100% !important;margin: 0px 0px;}
 	.o_form_view .oe_avatar{float: left;margin-right: 5px;}
 	.o_control_panel .o_cp_bottom_left > .o_cp_action_menus .o_dropdown_toggler_btn{margin-right: 0px;}
 	.o_control_panel .o_cp_bottom_left > .o_cp_action_menus{padding-right: 0px;}
@@ -4578,7 +4239,6 @@ Version 13 SCSS End here
 /* 26-10-2020 */
 
 @media only screen and (max-width: 576px){
-	//.o_control_panel .o_cp_top_right{display: none;}
 	.o_control_panel .o_cp_searchview, .o_control_panel .o_cp_right, .o_control_panel .o_cp_searchview .o_searchview{flex: 0 0 100% !important;}
 	.o_searchview .o_searchview_icon{z-index: 1;}
 	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons{display: inline-flex;}
@@ -4586,13 +4246,8 @@ Version 13 SCSS End here
 	.o_search_options .o_dropdown_toggler_btn:first-child{margin-right: 5px;} 
 	.o_cp_top_right .o_searchview .o_searchview_input_container .o_searchview_input{padding: .4em 0em;}
 	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_list_button_add .d-none{display: block !important;}
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_form_button_save .d-none,.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_form_button_cancel .d-none,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o-kanban-button-new .d-none,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_form_button_save .d-none,
-	.modal.o_technical_modal .modal-content .modal-footer button.o_form_button_save .d-none{display: unset !important;}
 	.o_control_panel .o_cp_bottom_right .o_search_options .fa,.o_control_panel .o_cp_bottom_left > .o_cp_action_menus .fa{width: 7px;}
 	.o_control_panel .o_form_buttons_view .o_form_button_create,.o_control_panel .o_form_buttons_view > button:first-child{z-index: 3;}
-	/* .o_kanban_view.o_kanban_grouped{background: #f1f0f4;} */
 	
 	.o_ChatterTopbar_rightSection{justify-content: center;}
 	.btn-secondary.o_pager_previous{margin-right: 5px !important;}
@@ -4606,14 +4261,6 @@ Version 13 SCSS End here
 	.o_form_view.oe_form_configuration h2{margin-top: 0px !important;}
 	.o_settings_container .o_setting_box .o_setting_right_pane{margin-left: 35px;}
 	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons{display: block;}
-	/*
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_navigation_buttons .o_calendar_button_prev,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_navigation_buttons .o_calendar_button_today,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_navigation_buttons .o_calendar_button_next,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_scale_buttons button,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .btn-time-off,
-	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .btn-allocation{margin-bottom: 6px;}
-	*/
 	.o_calendar_view .o_calendar_widget .fc-dayGridMonth-view{padding-left: 0px;}
 	.o_timeoff_calendar .o_content .o_timeoff_container{height: 20% !important;}
 	.o_calendar_container .o_calendar_view .o_calendar_widget .fc-widget-header.fc-thu,.o_calendar_container .o_calendar_view .o_calendar_widget .fc-widget-header.fc-sat,
@@ -4627,34 +4274,20 @@ Version 13 SCSS End here
 	.modal-body .oe_title > h2,.modal-body .oe_title > h3,.modal-body .oe_title > h1{margin-bottom: 5px;}
 }
 
-
-
-/* 27-10-2020 */
 .o_FormRenderer_chatterContainer{max-width: 100%;}
 
-
-
-
-/* 30-10-2020 */
-
 .o_list_view .o_optional_columns .o_optional_columns_dropdown{position: relative;}
-
-
 
 @media only screen and (max-width: 576px){
 	.o_form_view.o_xxs_form_view .o_notebook .o_group.o_inner_group > tbody > tr > td .o_field_widget.o_field_boolean{float: right;margin-right: 18px;width: auto !important;}
 	.o_form_view.o_xxs_form_view .o_group.o_inner_group{width: 100% !important;}
 	.nav-tabs .nav-link{padding: 15px 15px !important;}
-	/* .dropdown-menu{right: 10%;left: auto;} */
 	.dropdown-menu{right: auto;left: 0px;}
 }
-
-/* === 19-12-2020 === */
 
 @media only screen and (max-width: 576px){
 	.o_main_navbar .o_menu_systray .o_debug_manager{display: none !important;}
 }
-
 
 .o_main_navbar .o_menu_systray .o_MessagingMenu.o-is-open .o_MessagingMenu_dropdownMenu{transform: scale(1);transition: all .4s;max-height: 90vh;overflow: auto;transform-origin: 100% 0px;display: flex;flex-flow: column nowrap;}
 .o_main_navbar .o_menu_systray .o_MessagingMenu.o-is-open{background: transparent;}
@@ -4662,10 +4295,8 @@ Version 13 SCSS End here
 .o_main_navbar .o_menu_systray .o_MessagingMenu .o_MessagingMenu_dropdownMenu{position: absolute;top: 100%;width: 300px !important;min-width: auto !important;min-height: 100%;bottom: auto;left: auto !important;}
 .o_main_navbar .o_menu_systray .o_MessagingMenu.o-is-open{margin-top: 0px;}
 .o_main_navbar .o_menu_systray .o_MessagingMenu_dropdownMenu .o_MessagingMenu_notificationList{-webkit-box-flex: 0;flex: 0 1 auto;max-height: 400px;min-height: 50px;overflow-y: auto;}
-.o_menu_systray .sh_bookmark_menu_list span{vertical-align: middle;}
 .backmate_theme_layout.sh_theme_model .sh_theme_design,.backmate_theme_layout.sh_theme_model .sh_theme_design i.fa{line-height: 30px;}
-.o_main_navbar .o_menu_systray .o_MessagingMenu i.fa:hover,
-.o_main_navbar .o_menu_systray .sh_bookmark_menu_list span:hover{color: $primaryColor;}
+.o_main_navbar .o_menu_systray .o_MessagingMenu i.fa:hover{color: $primaryColor;}
 .o_control_panel .o_cp_bottom_right .o_cp_switch_buttons button:hover {box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;border: 1px solid transparent !important;}
 .o_control_panel .o_cp_bottom_right .o_cp_switch_buttons button:active,
 .o_control_panel .o_cp_bottom_right .o_cp_switch_buttons button.active,
@@ -4686,17 +4317,10 @@ Version 13 SCSS End here
 }
 .modal .o_debug_manager{margin: 0px 10px 2px 0;}
 
-
-/* 21-12-2020 */
 .o_main_navbar{margin-bottom: 3px;}
 .o_main_navbar .o_menu_systray li.o_MessagingMenu i.fa,
 .o_main_navbar .o_menu_systray li.o_user_bookmark_menu i.fa,
-.o_menu_systray .sh_bookmark_menu_list a,
 nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: middle;font-size: 16px;}
-
-
-
-
 
 .o_MessagingMenu_counter.badge{font-size: 10px;}
 
@@ -4713,13 +4337,9 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 .o_rtl .sh_backmate_theme_appmenu_div .logo img{margin-left: 5px;}
 .o_rtl .sh_wqm_quick_menu_submenu_list_cls .sh_wqm_remove_quick_menu_cls{float: right !important;}
 
-
-/* 23-12-2020 */
 .note-popover .popover .note-color .note-back-color-preview .dropdown-toggle, .note-popover .popover .note-color .note-fore-color-preview .dropdown-toggle, .note-editor .note-color .note-back-color-preview .dropdown-toggle, .note-editor .note-color .note-fore-color-preview .dropdown-toggle{height: auto !important;}
 .o_kanban_view .oe_kanban_card .o_field_many2manytags, .o_kanban_view .oe_kanban_card .o_kanban_tags, .o_kanban_view .o_kanban_record .o_field_many2manytags, .o_kanban_view .o_kanban_record .o_kanban_tags{margin-bottom: 0px;}
 
-
-/* 28-12-2020 */
 .o_Message.o-not-discussion{justify-content: center;}
 
 /* RTL */
@@ -4739,11 +4359,9 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 	.o_form_view.o_xxs_form_view .o_group.o_inner_group,
 	.o_form_view.o_xxs_form_view .o_group.o_inner_group.o_group_col_6{width: 100% !important;display: inline-block;}
 	.o_form_view.o_xxs_form_view .o_group.o_inner_group.o_label_nowrap > tbody > tr > td .o_field_widget.o_field_boolean{text-align: right;}
-	.o_main_navbar .sh_bookmark_menu_list .dropdown-menu.sh_wqm_quick_menu_submenu_list_cls .dropdown-item{width: 100% !important;}
 	.o_form_view .o_group  .o_field_image.o_field_widget.oe_avatar{width: auto !important;}
 	.o_view_controller > .o_content > .o_list_view > .table-responsive{width: 100%;overflow: auto;}
 }
-.sh_bookmark_menu_list.show .sh_wqm_quick_menu_submenu_list_cls.show a.dropdown-item{width: 100% !important;}
 
 @media only screen and (max-width: 992px){
 	.o_main_navbar .o_menu_systray .o_MessagingMenu .o_MessagingMenu_dropdownMenu{width: 100% !important;}
@@ -4751,14 +4369,7 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 @media only screen and (max-width: 576px){
 	.o_cp_top_right .o_cp_searchview .o_searchview .o_searchview_input_container{display: none;}
 	.o_cp_bottom_left .o_cp_buttons .btn{padding: 5px 8px !important;}
-	/* 
-	.o_action_manager .o_widget_Discuss .o_cp_bottom .o_cp_bottom_right .btn-group.o_dropdown.o_filter_menu,
-	.o_action_manager .o_widget_Discuss .o_cp_bottom .o_cp_bottom_right .btn-group.o_dropdown.o_favorite_menu{display: none !important;}
-	*/
 }
-
-
-/* 29-12-2020 */
 
 /* ==== control panel === */
 
@@ -4808,8 +4419,6 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 	.dropdown-menu.sh_backmate_theme_appmenu_div .dropdown-menu{right: 0%;left: auto;}
 }
 
-/* 30-12-2020 */
-
 @media only screen and (max-width: 576px){
 	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_navigation_buttons{display: none;}
 	.o_cp_bottom .o_cp_bottom_left .o_cp_action_menus .o_dropdown_toggler_btn span{font-size: 0px;}
@@ -4841,15 +4450,14 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 	.o_control_panel .o_cp_bottom_left .o_cp_buttons .btn-group.o_dropdown.o_graph_measures_list button{color: #fff;}
 	.o_onboarding .o_onboarding_step .o_onboarding_progress{display: none !important;}
 	.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_buttons button[name="action_create_invoice"]{display: none;}
-	/* .o_cp_bottom_left .o_cp_buttons .o_list_button_add:before{color: #424242 !important;} */
 	.o_view_controller > .o_content > .o_list_view.o_list_optional_columns > .table-responsive{overflow: visible;}
 	.tab-content .o_list_view .table-responsive .o_optional_columns.dropdown.show{left: 9%;}
 	.o_action_manager .o_view_controller .o_form_view.o_dashboard.o_form_nosheet.o_form_editable{padding: 0px !important;}
 }
 
 @media only screen and (max-width: 992px) and (min-width: 577px){
-	.o_control_panel .o_cp_top_right, .o_control_panel .o_cp_bottom_right{width: 56% !important;}
-	.o_control_panel .o_cp_bottom_left, .o_control_panel .o_cp_top_left {width: 44% !important;}
+	/*.o_control_panel .o_cp_top_right,*/ .o_control_panel .o_cp_bottom_right{width: 56% !important;}
+	.o_control_panel .o_cp_bottom_left /*, .o_control_panel .o_cp_top_left*/ {width: 44% !important;}
 	.o_control_panel .o_cp_bottom_right .o_search_options .o_dropdown span{font-size: 0px;padding: 0px;} 
 }
 
@@ -4857,7 +4465,6 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 
 
 @media only screen and (max-width: 576px){
-	/* === 18-12-2020 === */
 	/* mobile setting tab */
 	
 	.o_base_settings .o_setting_container{flex-flow: column nowrap;display: flex;-webkit-box-flex: 1;flex: 1 1 auto;overflow: auto;}
@@ -4921,24 +4528,24 @@ nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a i{vertical-align: m
 	    font-family: 'fontAwesome';
 	}
 }
-/*== 12-2-2021 == */
 
-.o_main_navbar .o_menu_systray .sh_bookmark_menu_list.show .dropdown-menu.dropdown-menu-right.sh_wqm_quick_menu_submenu_list_cls.show{min-width: 300px !important;}
-/* nav.o_main_navbar .o_menu_systray li.o_full_screen .compress_img,nav.o_main_navbar .o_menu_systray li.o_full_screen .expand_img{line-height: 30px !important;} */
 .o_field_widget.o_field_many2one .fa.fa-external-link.o_external_button{font-size: 15px !important;box-shadow: none !important;border: none !important;background: transparent !important;color: $primaryColor !important;}
 .o_field_widget.o_field_many2one .fa.fa-external-link.o_external_button:hover{color: $primaryColor !important;}
 .backmate_theme_layout.sh_theme_model #color_list_id label[for="tab_horizontal"],.backmate_theme_layout.sh_theme_model #color_list_id label[for="tab_vertical"],.backmate_theme_layout.sh_theme_model #color_list_id label[for="tab_mobile_horizontal"],.backmate_theme_layout.sh_theme_model #color_list_id label[for="tab_mobile_vertical"]{padding-left: 28px !important;padding-right: 5px !important;}
-.backmate_theme_layout #color_list_id #horizontal_tab_style,.backmate_theme_layout #color_list_id #vertical_tab_style,.backmate_theme_layout #color_list_id #form_element_style,.backmate_theme_layout #color_list_id #breadcrumb_style{width: 100%;color: #616161;border-radius: 3px;font-size: 12px;padding: 3px 5px;}
+.backmate_theme_layout #color_list_id #horizontal_tab_style,.backmate_theme_layout #color_list_id #vertical_tab_style,.backmate_theme_layout #color_list_id #form_element_style,.backmate_theme_layout #color_list_id #breadcrumb_style,
+.backmate_theme_layout #color_list_id #checkbox_style_div #checkbox_style,
+.backmate_theme_layout #color_list_id #scrollbar_style_div #scrollbar_style,
+.backmate_theme_layout #color_list_id #checkbox_style_div #radio_btn_style{width: 100%;color: #616161;border-radius: 3px;font-size: 12px;padding: 3px 5px;}
 .backmate_theme_layout.sh_theme_model #color_list_id .collapse#tabStyle td{padding-top: 5px;}
 .o_list_view .o_optional_columns .o_optional_columns_dropdown{position: inherit;}
 .nav-tabs .nav-link{padding: 10px 25px !important;}
 .o_Message.o-not-discussion{justify-content: left;}
 .o_content .o_form_view .oe_title span.o_field_widget{vertical-align: bottom;}
 .o_list_view .o_list_table .o_field_x2many_list_row_add a:focus, .o_list_view .o_list_table .o_field_x2many_list_row_add a:active, .o_list_view .o_list_table .o_group_field_row_add a:focus, .o_list_view .o_list_table .o_group_field_row_add a:active{color: #fff;outline: none;}
-/* .o_form_view .o_notebook .o_group.oe_right, .o_form_view .o_notebook .o_group.o_inner_group.oe_subtotal_footer.oe_right{float: unset !important;} */
 
-/* == 13-2-2021 == */
-.backmate_theme_layout.sh_theme_model #color_list_id #formElementStyle{padding-top: 12px;}
+.backmate_theme_layout.sh_theme_model #color_list_id #formElementStyle,
+.backmate_theme_layout.sh_theme_model #color_list_id #checkbox_style_div,
+.backmate_theme_layout #color_list_id #scrollbar_style_div{padding-top: 12px;}
 nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s infinite linear!important;}
 @keyframes spin-icon {
     0% {
@@ -4956,9 +4563,6 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 .o_form_view .o_group .o_input .o_input:focus,
 .o_form_view .o_group .o_input .o_input:hover{background: transparent !important;border: 0px !important;box-shadow: none !important;}
 
-
-
-/* == 16-2-2021 ==*/
 .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button:not(:first-child):before{right: -12px;}
 .o_cp_bottom .o_calendar_buttons .o_calendar_scale_buttons .dropdown.btn-group .dropdown-menu{padding: 0px;}
 @media only screen and (min-width: 1600px){
@@ -4966,8 +4570,6 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 }
 .backmate_theme_layout.sh_theme_model #pre_theme_color_id #preThemeColors .sh_pre_color_plates{border: 0;margin-top: 5px;padding: 10px;}
 
-
-/*== 17-2-2021 ==*/
 .o_list_view .o_list_table thead > tr > th:not(.o_list_record_selector),.o_content .o_form_view .oe_title span.o_field_widget, .modal-content .o_form_view .oe_title span.o_field_widget,.o_Discuss .o_DiscussSidebar.o_Discuss_sidebar .o_DiscussSidebarItem_name.o-item-unread,.o_Discuss .o_DiscussSidebar.o_Discuss_sidebar .o_DiscussSidebar_groupHeader,.o_Discuss .o_DiscussSidebar.o_Discuss_sidebar .o_DiscussSidebarItem{font-weight: 600 !important;}
 .o_view_controller .o_kanban_view.o_kanban_ungrouped .oe_kanban_global_click .o_kanban_record_title span,.o_form_view .o_group .o_td_label .o_form_label,.o_form_view .o_group .o_td_label .o_form_label b,.o_kanban_view strong {font-weight: 500 !important;}
 .text-bf{font-weight: 600;}
@@ -4975,14 +4577,11 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 @media only screen and (max-width: 992px){
 	.fc-view, .fc-view > table{z-index: 0;}
 }
-/* == 19-2-2021 == */
 .o_Discuss .o_Discuss_content .o_Message_core .o_Message_content *:not(li):not(li div){overflow-x: initial;}
 
-/* == 22-2-2021 == */
 .modal .modal-content .modal-body .o_list_view {width: 100%;}
 
-/* == 23-2-2021 == */
-.fc-view, .fc-view > table {position: relative;z-index: 0 !important;}
+.fc-view, .fc-view > table {position: relative;}
 .o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-active,.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-default:hover{border-radius: 2px;}
 .o_content.o_controller_with_searchpanel .o_search_panel{padding: 8px 8px 32px 10px !important;}
 .o_control_panel .o_searchview .o_searchview_input_container .o_searchview_facet .o_facet_values{border-radius: 0px 3px 3px 0px !important;}
@@ -4992,40 +4591,28 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 .o_content.o_controller_with_searchpanel .o_search_panel .o_search_panel_field .o_search_panel_filter_value [type='checkbox'] + label:not(.lever){line-height: 22px;}
 .o_settings_container .o_setting_box .o_setting_right_pane{border-left: 0px;padding-left: 0px;}
 .o_control_panel .o_cp_bottom .o_list_selection_box{padding: 6px 10px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;}
-::-webkit-scrollbar-thumb:hover{background: #9E9E9E;transition: all .5s;}
-::-webkit-scrollbar-thumb{transition: all .5s;}
-/*== 24-2-2021 ==*/
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb{transition: all .5s;}
+
 .o_action .o_controller_with_searchpanel .o_search_panel .o_search_panel_section.o_search_panel_filter .list-group{padding-top: 10px;background: #fff;border-radius: 3px;}
 .o_action .o_controller_with_searchpanel .o_search_panel .o_search_panel_section.o_search_panel_filter .o_search_panel_filter_value .o_search_panel_label_title{color: #495057;}
 
-/* ==27-2-2021== */
 
-.backmate_theme_layout #color_list_id #searchStyle [for="search_collapsed"],.backmate_theme_layout #color_list_id #searchStyle [for="search_expanded"]{margin-top: 10px;padding-left: 25px;margin-right: 10px;}
+.backmate_theme_layout #color_list_id #searchStyle [for="search_collapsed"],.backmate_theme_layout #color_list_id #searchStyle [for="search_expanded"],
+.backmate_theme_layout #color_list_id #chatterStyle [for="chatter_position_normal"],.backmate_theme_layout #color_list_id #chatterStyle [for="chatter_position_sided"]{margin-top: 10px;padding-left: 25px;margin-right: 10px;}
 .backmate_theme_layout #color_list_id #formElementStyle label.brdcrmb_label{margin-left: 10px;}
 
-/*== 1-3-2021 ==*/
-/*html .o_web_client.o_fullscreen .o_main_navbar {display:block;} */
 .o_web_client.o_fullscreen .dropdown-menu.sh_backmate_theme_appmenu_div{width: 0px !important;}
 .o_web_client.o_fullscreen .o_action_manager{margin-left: 0px !important;}
 .o_web_client.o_fullscreen .o_kanban_view.o_theme_kanban.o_kanban_ungrouped{margin-left: 0px;}
 .o_web_client.o_fullscreen .o_view_kanban_theme_preview_controller .o_kanban_view.o_theme_kanban .o_theme_preview.o_kanban_record .o_theme_preview_bottom h5{text-overflow: ellipsis;width: 70%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;}
 .o_web_client.o_fullscreen .o_view_kanban_theme_preview_controller .o_theme_preview,.o_web_client.o_fullscreen .o_view_kanban_theme_preview_controller .o_theme_preview:hover{box-shadow: none !important;}
 
-/*== 8-3-2021 ==*/
 .o_control_panel .o_cp_bottom .o_cp_bottom_right .btn{border-radius: 3px !important;height: 33px;}
 .o_control_panel .o_cp_bottom .o_cp_bottom_right .o_cp_switch_buttons{align-items: center;} 
-/*.o_form_view.o_form_editable .o_notebook table.o_group.o_inner_group.o_group_col_6{margin-left: 0px;}*/
 .o_onboarding .o_onboarding_step .o_onboarding_step_content .o_onboarding_step_action.btn,
 .o_content .o_kanban_view .o_kanban_card_content .oe_kanban_action_button.btn{border-radius: 3px;}
 
-
-/*== 9-3-2021 ==*/
 .o_control_panel .o_cp_top .o_cp_top_right .o_searchview .o_searchview_icon{right: 10px;}
-/*
-@media only screen and (max-width: 768px){
-	.o_control_panel .o_searchview .o_searchview_input_container .o_searchview_facet .o_facet_values{width: 100%;overflow: auto;}
-}
-*/
 
 .o_action .o_controller_with_searchpanel .o_search_panel ul.list-group{border-radius: 3px !important;}
 .o_action .o_controller_with_searchpanel .o_search_panel .list-group-item-action:last-child header.list-group-item-action{border-bottom-left-radius: 3px !important;border-bottom-right-radius: 3px !important;}
@@ -5036,10 +4623,9 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 @media only screen and (max-width: 576px){	
 	.o_calendar_view .o_calendar_widget .fc-dayGridYear-view{padding-left: 0px;}
 }
-/*== 10-3-2021 ==*/
+
 @media only screen and (max-width: 992px){
 	.o_content .o_form_view .o_group.o_inner_group > tbody > tr > td{padding: 0px 5px 0px 0px !important;}
-	/* .o_searchview .o_searchview_input_container{left: 10px;width: 96% !important;overflow: auto !important;flex-flow: nowrap !important;} */
 }
 @media only screen and (max-width: 576px){
 	.o_Chatter .o_Chatter_scrollPanel .o_AttachmentBox,.o_Chatter .o_Chatter_scrollPanel > .o_ThreadView.o_Chatter_thread{position: unset;}
@@ -5048,12 +4634,9 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 	.o_FormRenderer_chatterContainer .o_Chatter_fixedPanel .o_Chatter_topbar .o_ChatterTopbar_actions .btn.o_ChatterTopbar_buttonScheduleActivity{margin-right: 1px !important;}
 }
 
-/*== 12-3-2021 ==*/
 @media only screen and (max-width: 576px){
 	.o_action .o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_buttons .btn.btn-primary.o-kanban-button-new span,.o_action .o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_buttons .btn.btn-primary.o_form_button_save span{color: transparent !important;}
 }
-
-/*== 13-3-2021 ==*/
 
 
 .o_ChatterContainer .o_Chatter .o_Message.o-not-discussion{background: #fff;}
@@ -5065,10 +4648,9 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 	.o_main_navbar .o_menu_systray .sh_search_container .sh_search_results{top: 88px;}
 }
 
-/*== 15-3-2021 ==*/
 .badge.badge-pill, .badge {box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;}
-@media only screen and (max-width: 576px){
-	.modal-open .ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{position:absolute;left: 0 !important;z-index: 9999 !important;}
+@media only screen and (max-width: 767.98px){
+	.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{position:absolute;left: 0 !important;z-index: 9999 !important;}
 	.modal.o_technical_modal .modal-dialog .modal-content .modal-body{padding: 15px 10px;}
 	.modal.o_technical_modal .modal-dialog{margin: 5px;}
 	.o_form_view .o_field_widget.oe_avatar{float: unset;}
@@ -5078,40 +4660,27 @@ nav.o_main_navbar .o_menu_systray li.theme_settings a{animation: spin-icon 4s in
 	.o_form_view .o_group span.o_form_label.oe_edit_only{padding-top: 8px;}
 }
 
-/*== 18-3-2021 ==*/
-
 .o_control_panel .o_search_options .o_favorite_menu .o_dropdown_menu.dropdown-menu.show .dropdown-item-text [role="menuitem"].dropdown-item-text{padding-left: 9px;padding-right: 9px;}
 
-/*== 19-3-2021 ==*/
 .o_form_view.o_form_readonly .o_form_sheet .oe_title .no-gutters .o_row:not(.o_row_readonly), .o_form_view.o_form_readonly .o_form_sheet .oe_title .no-gutters .o_row:not(.o_row_readonly) > div{display: flex;}
 .o_cp_bottom .o_cp_bottom_left .o_calendar_buttons .o_calendar_scale_buttons .dropdown.btn-group .dropdown-menu .btn.dropdown-item{margin-left: 0px !important;}
 .o_action.o_view_controller .o_controller_with_searchpanel .o_list_view.o_renderer_with_searchpanel.o_list_optional_columns div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{height: 18px;}
 .o_action.o_view_controller .o_controller_with_searchpanel .o_list_view.o_renderer_with_searchpanel.o_list_optional_columns div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::after{margin-top: 2px;}
 
-/*== 22-3-2021 ==*/
-/*
-.o_MessagingMenu .o_MessagingMenu_dropdownMenu {position: absolute;top: 100%;bottom: auto;transform: scale(0, 0);transition: all .4s;display: block;left: auto !important;max-height: 0;overflow: hidden;transform-origin: 100% 0px;}
-.o_MessagingMenu.o-is-open .o_MessagingMenu_dropdownMenu{transform: scale(1);transition: all .4s;max-height: 90vh;overflow: auto;transform-origin: 100% 0px;}
-*/
 .o_dashboard .oe_dashboard .oe_action .oe_header .oe_header_text{width: 45%;}
 .o_cp_bottom .o_cp_bottom_right .o_cp_switch_buttons .btn:last-child{margin-right: 0px !important;}
 .o_content .o_form_view .o_form_sheet_bg .o_group .o_group.o_inner_group div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{border-radius: 100px !important;transform: rotate(0deg);}
 .o_search_panel .o_search_panel_section.o_search_panel_filter .o_search_panel_filter_value.list-group-item .o_search_panel_label_title{width: 90%;max-width: 90%;}
 
 
-/*== 23-3-2021 ==*/ 
 .o_content .o_form_view .o_form_sheet_bg .o_form_sheet div.o_boolean_toggle.custom-control.custom-checkbox > label.custom-control-label::before{transform: rotate(0deg);}
-/*== 24-3-2021 ==*/ 
 .o_content .o_form_sheet_bg .o_notebook .card-body.collapse .o_field_image.oe_avatar{float: unset;}
 
-/*== 4-5-2021 ==*/ 
 textarea.o_field_text.o_field_widget.o_input{line-height: 18px;}
 .o_form_view .oe_form_field.oe_form_field_html.o_field_widget,.o_form_view span.o_field_text.o_field_widget{width: 100%;word-break: break-word;}
 
-/*== 5-5-2021 ==*/ 
 .ace-view-editor.ace_editor .ace_line span{font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;font-size: 12px !important;font-weight: normal !important;}
 
-/*=== 21-5-2021 ==*/ 
 .o_content .o_form_view .oe_title [name="options_active"] span.o_field_char{margin-bottom: 0px;}
 @media only screen and (max-width: 767.98px){
 	.o_kanban_view .o_is_line_note.o_kanban_record .col-12 span[modifiers]{width: 100%;word-break: break-word;}
@@ -5121,7 +4690,72 @@ textarea.o_field_text.o_field_widget.o_input{line-height: 18px;}
 	.o_form_view .o_form_sheet_bg .o_form_sheet .o_FormRenderer_chatterContainer{position: unset !important;max-width: 100% !important;}
 }
 
-/* == 24-5-2021 ==*/ 
 .note-editor .note-popover .popover{max-width: unset;}
 .modal .modal-content .modal-body .o_form_view .o_form_sheet_bg > .o_form_sheet{padding: 10px 0px;}
 .modal .modal-content .modal-body .o_form_view .o_group .o_group_col_6 {width: 50%;margin: 10px 0px;}
+
+.o_form_sheet .oe_button_box{margin-right: 20px;}
+.ribbon-top-right span{font-size: 15px;}
+
+.o_content .o_calendar_container .o_calendar_view > .o_calendar_widget{margin: 10px 16px;}
+.o_content .o_calendar_container .o_calendar_view .o_calendar_widget .fc-view-container .fc-head .fc-head-container.fc-widget-header .fc-widget-header{padding: 3px 3px 3px;}
+.o_content .o_calendar_container .o_calendar_view .o_calendar_widget .fc-dayGridMonth-view{padding-left: 0px;}
+
+.o_content .o_calendar_container .o_calendar_view .o_calendar_widget .o_cw_popover.popover.card .card-header,.o_content .o_calendar_container .o_calendar_view .o_calendar_widget .o_cw_popover.popover.card .popover-header{background: $primaryColor;color: #fff;} 
+
+.o_web_client .backmate_theme_layout.sh_theme_model #color_list_id #loginPopup #loading_style ,
+.o_web_client .backmate_theme_layout.sh_theme_model #color_list_id #loginPopup #progress_height{width: 68%;color: #616161;border-radius: 3px;font-size: 12px;padding: 3px 5px;}
+.o_web_client .backmate_theme_layout.sh_theme_model #color_list_id #loginPopup #progress_style{width: 90%;color: #616161;border-radius: 3px;font-size: 12px;padding: 3px 5px;}
+.o_web_client .backmate_theme_layout.sh_theme_model #color_list_id #loginPopup #progress_height{border: 1px solid #919191;}
+
+
+
+.o_calendar_sidebar_container .o_calendar_sidebar .o_calendar_filter .o_calendar_filter_items .o_calendar_filter_item > [type='checkbox']:checked + label:not(.lever):before , 
+.o_calendar_sidebar_container .o_calendar_sidebar .o_calendar_filter .o_calendar_filter_items .o_calendar_filter_item > [type='checkbox']:checked + label:not(.lever):before,
+.o_calendar_sidebar_container .o_calendar_sidebar .o_calendar_filter .o_calendar_filter_items .o_calendar_filter_item > [type='checkbox'] + label:not(.lever):before{display: none !important;}
+.o_calendar_sidebar_container .o_calendar_sidebar .o_calendar_filter .o_calendar_filter_items .o_calendar_filter_item > [type='checkbox'] + label:not(.lever){padding-left: 0px !important;}
+
+.modal .modal-dialog .modal-header .dropdown-menu.dropdown-menu-right.o_debug_dropdown.show{left: 0 !important;right: auto !important;}
+@if $tab_style_mobile == 'vertical' or $tab_style == 'vertical'{
+	.o_form_view .oe_right, .o_form_view .o_group.o_inner_group.oe_subtotal_footer{float: unset !important;display: flex;justify-content: flex-end;width: 100% !important;}
+}
+
+.o_content .o_form_view .o_notebook .sh_refresh,.backmate_theme_layout.sh_theme_model .sh_theme_design[data-target="#fontColors"]{display: none !important;}
+
+/*-------------
+scrollbar
+-----------------*/
+
+
+/* Let's get this party started */
+
+::-webkit-scrollbar {
+	width: 3px;
+	height: 3px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb{
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	background: #c1c0c0;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #c1c0c0;
+}
+
+
+/*------------------
+scrollbar
+-----------------*/

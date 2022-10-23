@@ -337,18 +337,16 @@
             </ul>
         </t>
     </t>
-    <t t-name="NightModeTemplate">
-		<li class="o_night_mode" style="margin-top: 13px;">
-			<t t-if="widget.day_mode">
-				<span class="icon-moon" id="moon_button"/> 
-			</t>
-			<t t-else="">
-			 	<span class="icon-sun" id="sun_button"/> 
-			</t>
+    
+	<t t-name="NightModeTemplate">
+		<li class="o_night_mode">
+			<span class="icon-moon" id="moon_button" style="height: 15px; width: 15px;"/>
+			<span class="icon-sun"  id="sun_button" style="height: 15px; width: 15px;display:none;"/>
+			
 			 <input type="checkbox" id="night_checkbox" style="display:none;"/>
+
         </li>
 	</t>
-	
 	
 	<t t-name="FullScreenTemplate">
 		 <li class="o_full_screen">
@@ -358,6 +356,13 @@
                 <input type="checkbox" id="fullscreen_checkbox"/>
             </a>
         </li>
+	</t>
+	<t t-name="ToDoTemplate">
+		<li class="todo">
+			<a class="float-right" role="button" >
+				<span class="fa fa-tasks"  id="todo_icon"/>
+			</a>
+		</li>
 	</t>
 	<t t-name="ThemeConfigurationTemplate">
 		 <li class="theme_settings">

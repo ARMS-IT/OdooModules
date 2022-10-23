@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_request_leaves_form" model="ir.ui.view">
+		<field name="name">request.leaves.form</field>
+		<field name="model">leave.request</field>
+		<field name="arch" type="xml">
+			<form>
+			     <header>
+                    <button name="button_first_approv" type="object" string="HR Approval" states="new"/>
+                    <button name="button_second_approv" type="object" string="Manager Approval" states="1st_approve"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,1st_approve,2nd_approve" readonly="1"/>
+                </header>
+    			<sheet>
+    			       <group>
+                            <group>
+                                <field name="employee_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="reason" placeholder="Please attach needed document incase of request to leave for work"/>
+                                <!-- <p>Please attach needed document incase of request to leave for work</p> -->
+                                <field name="from_time" widget="float_time"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="request_type"/>
+                                <field name="to_time" widget="float_time"/>
+                                <field name="request_time" widget="float_time"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="empl_signature" widget="signature"/>
+                            </group>
+                        </group>
+                        <group string="Direct Manager">
+                            <group>
+                                <field name="dir_manager_id"/>
+                                
+                            </group>
+                            <group>
+                                <field name="dir_manager_signature" widget="signature"/>
+                            </group>
+                        </group>
+    			</sheet>
+    		</form>
+		</field>
+	</record>
+	
+	<record id="view_request_leaves_tree" model="ir.ui.view">
+		<field name="name">request.leaves.tree</field>
+		<field name="model">leave.request</field>
+		<field name="arch" type="xml">
+			<tree>
+                <field name="employee_id"/>
+                <field name="date" />
+                <field name="request_type"/>
+                <field name="dir_manager_id"/>
+                <field name="state"/>
+            </tree>
+		</field>
+	</record>
+
+
+    <record id="view_request_leaves_action" model="ir.actions.act_window">
+        <field name="name">Hourly Request To Leave</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">leave.request</field>
+        <field name="view_mode">tree,form,graph</field>
+    </record>
+	
+	<menuitem action="leave_request.view_request_leaves_action"
+		id="view_request_leaves_menu"
+		parent="hr_holidays.menu_hr_holidays_root" sequence="1" />
+
+</odoo>

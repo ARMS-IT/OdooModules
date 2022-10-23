@@ -63,18 +63,22 @@
              <field name="h6_color">#464d69</field>
              <field name="p_color">#464d69</field>
              
-             <field name="sidebar_font_hover_background_color">#2C3782</field>
-              <field name="sidebar_background_color">#FFFFFF</field>
-              <field name="sidebar_background_style">color</field>
-              <field name="sidebar_font_color">#181F4C</field>
-              <field name="sidebar_font_hover_color">#FFFFFF</field>
+            <field name="sidebar_font_hover_background_color">#2C3782</field>
+            <field name="sidebar_background_color">#FFFFFF</field>
+            <field name="sidebar_background_style">color</field>
+            <field name="sidebar_font_color">#181F4C</field>
+            <field name="sidebar_font_hover_color">#FFFFFF</field>
+            <field name="sidebar_collapse_style">expanded</field>
             	
-              <field name="separator_color">#2C3782</field>
-               <field name="icon_style">2d</field>
-              <field name="separator_style">style_7</field>
-               <field name="button_style">style_2</field>
-              <field name="is_button_with_icon_text">True</field>
-                <field name="is_button_with_box_shadow">True</field>
+            <field name="separator_color">#2C3782</field>
+            <field name="icon_style">2d</field>
+            <field name="separator_style">style_7</field>
+            <field name="button_style">style_2</field>
+            <field name="checkbox_style">style_1</field>
+            <field name="radio_btn_style">style_1</field>
+            <field name="scrollbar_style">style_1</field>
+            <field name="is_button_with_icon_text">True</field>
+            <field name="is_button_with_box_shadow">True</field>
                 
             <field name="body_background_image" type="base64" file="sh_backmate_theme_adv/static/src/img/background/body_bg.jpg"/> 
             <field name="sidebar_background_image" type="base64" file="sh_backmate_theme_adv/static/src/img/background/businessmen-Copy.jpg"/> 
@@ -85,9 +89,12 @@
              <field name="body_font_family">Poppins</field>
             <field name="login_page_style">style_2</field> 
             <field name="login_page_background_type">bg_img</field>     
-            <field name="modal_popup_style">style_2</field>                        			
-  			<field name="loading_gif" type="base64" file="sh_backmate_theme_adv/static/src/img/loading/spinner.gif"/> 
-  			
+            <field name="modal_popup_style">style_2</field>          
+            <field name="loading_style">style_1</field>                       			
+  			<!-- <field name="loading_gif" type="base64" file="sh_backmate_theme_adv/static/src/img/loading/spinner.gif"/> --> 
+  			<field name="progress_style">style_1</field> 
+            <field name="progress_height">4px</field>
+            <field name="progress_color">#2C3782</field>    
   			<field name="login_page_background_image" type="base64" file="sh_backmate_theme_adv/static/src/img/login/login_bg.png"/> 
   			<field name="login_page_banner_image" type="base64" file="sh_backmate_theme_adv/static/src/img/login/login_predefined.jpg"/> 
   			
@@ -102,6 +109,7 @@
              <field name="horizontal_tab_style">style_5</field> 
              <field name="vertical_tab_style">style_5</field> 
              <field name="search_style">collapsed</field> 
+             <field name="chatter_position">normal</field>
             
         
         </record>        

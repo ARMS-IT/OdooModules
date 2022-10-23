@@ -36,8 +36,12 @@
 	.o_search_options .o_dropdown .o_dropdown_toggler_btn,.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_action_menus .o_dropdown .o_dropdown_toggler_btn{padding: 5px 4px !important;text-transform: uppercase;}
 	.o_cp_switch_buttons .btn.o_switch_view{padding: .4rem 0.75rem !important;}
 	.o_control_panel .o_cp_bottom_right .o_cp_pager .o_pager button.btn{padding: .6rem 0.75rem !important;}
-	.o_control_panel .o_cp_top_left,.o_control_panel .o_cp_bottom_left{width: 42% !important;}
-	.o_control_panel .o_cp_top_right,.o_control_panel .o_cp_bottom_right{width: 69% !important;}
+	.o_control_panel .o_cp_bottom_left{width: 42% !important;}
+	.o_control_panel .o_cp_bottom_right{width: 69% !important;}
+	@media only screen and (min-width: 768px){
+		.o_control_panel .o_cp_top_left{width: 42% !important;}
+		.o_control_panel .o_cp_top_right{width: 69% !important;}
+	}
 	
 	/* == old == */
 	@media (max-width: 992px){

@@ -1,4 +1,6 @@
 from odoo import fields,models
+import logging
+logger = logging.getLogger(__name__)
 class PartnerLedger(models.TransientModel):
 
     _name = 'partner.ledger'
@@ -6,10 +8,17 @@ class PartnerLedger(models.TransientModel):
     start_date = fields.Date(string='From Date', required=True, default=fields.Date.today().replace(day=1))
     end_date = fields.Date(string='To Date', required=True, default=fields.Date.today())
     partner_id = fields.Many2one('res.partner', string='Partner', required=True, help='Select Partner for movement')
+    state = fields.Selection(selection=[
+        ('all', ''),
+        ('draft', 'Draft'),
+        ('posted', 'Posted'),
+        ('cancel', 'Cancelled')
+    ], string='Status',   copy=False, tracking=True, required=True,
+        default='posted')
 
 
     def print_report(self):
-        data = {'partner_id': self.partner_id.id,'start_date': self.start_date, 'end_date': self.end_date}
+        data = {'state': self.state,'partner_id': self.partner_id.id,'start_date': self.start_date, 'end_date': self.end_date}
         return self.env.ref('hak_partner_ledger.partner_ledger_pdf').report_action(self,data)
 
 class CustomReport(models.AbstractModel):
@@ -28,19 +37,42 @@ where a.reconcile = True
         openbal = cr.dictfetchall()
 
         cr = self._cr
-        query = """
-        select m.ref,m.name as doc_no, m.date, m.narration, j.name as journal, p.name as partner_name, 
-l.name as line_desc, a.name as gl_account, m.currency_id, l.debit, l.credit
-from account_move_line l
-join account_move m on l.move_id = m.id
-join res_partner p on l.partner_id = p.id
-join account_account a on l.account_id = a.id
-join account_journal j on m.journal_id = j.id
-where a.reconcile = True
-        and l.partner_id = %s and (m.date between %s and %s)
-        order by m.date
-        """
-        cr.execute(query, [data['partner_id'], data['start_date'], data['end_date']])
+        logger.info(f"###################################333: {[data['state']]}.")
+        if [data['state']] == ['all']:
+            logger.info(f"alllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+            query = """
+                    select m.ref,m.name as doc_no, m.date, m.narration, m.state, j.name as journal, p.name as partner_name, 
+            l.name as line_desc, a.name as gl_account, m.currency_id, l.debit, l.credit
+            from account_move_line l
+            join account_move m on l.move_id = m.id
+            join res_partner p on l.partner_id = p.id
+            join account_account a on l.account_id = a.id
+            join account_journal j on m.journal_id = j.id
+            where a.reconcile = True
+                    
+                    and l.partner_id = %s and (m.date between %s and %s)
+                    order by m.date
+                    """
+            cr.execute(query, [data['partner_id'], data['start_date'], data['end_date']])
+
+        if [data['state']] != ['all']:
+                logger.info(f"Sppppppppppppppppppppppppppppppppppppppppppppppp")
+                query = """
+                    select m.ref,m.name as doc_no, m.date, m.narration, m.state, j.name as journal, p.name as partner_name, 
+            l.name as line_desc, a.name as gl_account, m.currency_id, l.debit, l.credit
+            from account_move_line l
+            join account_move m on l.move_id = m.id
+            join res_partner p on l.partner_id = p.id
+            join account_account a on l.account_id = a.id
+            join account_journal j on m.journal_id = j.id
+            where a.reconcile = True
+                    and m.state = %s
+                    and l.partner_id = %s and (m.date between %s and %s)
+                    order by m.date
+                    """
+
+                cr.execute(query, [data['state'], data['partner_id'], data['start_date'], data['end_date']])
+
         dat = cr.dictfetchall()
         print(dat)
 

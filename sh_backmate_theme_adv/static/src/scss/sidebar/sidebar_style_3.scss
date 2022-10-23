@@ -32,16 +32,25 @@
 	.dropdown-menu.sh_backmate_theme_appmenu_div .cssmenu a{border-radius: 3px !important;}
 	.dropdown-menu.sh_backmate_theme_appmenu_div:hover .cssmenu{margin: 5px 7px 0px 10px;} 
 	.sh_backmate_theme_appmenu_div .cssmenu ul.dropdown-menu-right{margin: 5px 0px;}
-}
 
-/*== 19-3-2021 ==*/
+	@media screen and (max-width:1024px){
+		.o_web_client.backmate_safari .sh_backmate_theme_appmenu_div { overflow: auto !important;}
+		.o_web_client.backmate_safari .sh_backmate_theme_appmenu_div .cssmenu .o_app.dropdown-item span:not(.sh_fa_icon){ white-space: nowrap; 
+			width: 120px; 
+			overflow: hidden;
+			text-overflow: ellipsis; }
+		.o_web_client.backmate_safari .sh_backmate_theme_appmenu_div .cssmenu .o_app2.dropdown-item span:not(.sh_fa_icon){ white-space: nowrap; 
+				width: 140px; 
+				overflow: hidden;
+				text-overflow: ellipsis; }
+	}
+}
 @if $theme_style == 'style_3'{
 	@if $sidebar_collapse_style == 'expanded'{
 		.sh_backmate_theme_appmenu_div .logo #company_name_logo{padding-left: 22px !important;}
 	}
 }
 
-/*== 20-3-2021 ==*/
 @if $theme_style == 'style_3'{
 	body.o_web_client > header{height: 0;}
    	body header nav.o_main_navbar{width: 0;}
@@ -52,6 +61,7 @@
 	@media only screen and (max-width: 992px){
 		body.o_web_client > header{height: auto !important;}
 		body header nav.o_main_navbar{width: auto !important;}
+		nav.o_main_navbar .o_menu_systray li .sh_search_container{display: block;}
 	}
 	@media only screen and (max-width: 992px) and (min-width: 768px){
 		.dropdown-menu.sh_backmate_theme_appmenu_div:before{width: 70%;}

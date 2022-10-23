@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_template_property_form_consumption_location" model="ir.ui.view">
+        <field name="name">product.template.stock.property.form.consumption.location</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.view_template_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='stock_property']/field[@name='property_stock_inventory']" position="after">
+                <field name="consumption_location_id" attrs="{'required': [('type', '=', 'product')]}"/>
+            </xpath>
+            <xpath expr="//group[@name='stock_property']" position="attributes">
+            	<attribute name="groups">base.group_user</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+
+    <record id="product_template_form_view_inherited" model="ir.ui.view">
+        <field name="name">product.template.common.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <field name="purchase_ok" position="before">
+                <div>
+	                <field name="is_recipe"/>
+	                <label for="is_recipe"/>
+                </div>
+            </field>
+            
+            <xpath expr="//field[@name='type']" position="attributes">
+            	<attribute name="attrs">{'readonly':[('is_recipe','=', True)]}</attribute>
+            	<attribute name="force_save">True</attribute>
+            </xpath>
+
+            <notebook>
+                <page string="Recipe Structure" attrs="{'invisible': [('is_recipe', '=', False)]}">
+                    <field name="recipe_structure_ids" widget="one2many_list">
+                        <tree editable="top">
+                            <field name="product_id" required="1"/>
+			    <field name="uom_id"/>
+			    <field name="cost_price"/>
+                            <field name="location_id"/>
+                            <field name="qty_to_consum"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+    
+    <!-- Recipe Product form view starts here -->
+    
+    <!-- <record id="recipe_product_template_form_view" model="ir.ui.view">
+        <field name="name">recipe.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <form string="Recipe Product">
+            	<sheet>
+					<div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Product Name"/>
+                        <h1><field name="name" placeholder="Product Name"/></h1>
+                        <div name="options" groups="base.group_user">
+                            <div>
+                                <field name="sale_ok"/>
+                                <label for="sale_ok"/>
+                            </div>
+                            <div>
+                                <field name="is_recipe"/>
+                                <label for="is_recipe"/>
+                            </div>
+                            <div>
+                                <field name="purchase_ok"/>
+                                <label for="purchase_ok"/>
+                            </div>
+                        </div>
+                    </div>
+					<notebook>
+		                <page string="Recipe Structure">
+		                    <field name="recipe_structure_ids" widget="one2many_list">
+		                        <tree editable="top">
+		                            <field name="product_id" required="1"/>
+		                            <field name="location_id"/>
+		                            <field name="qty_to_consum"/>
+		                        </tree>
+		                    </field>
+		                </page>
+		            </notebook>
+				</sheet>
+			</form>
+        </field>
+    </record> -->
+    
+    <record model="ir.ui.view" id="view_product_recipe_structure_tree">
+        <field name="name">product.recipe.structure.tree</field>
+        <field name="model">recipe.structure</field>
+        <field name="arch" type="xml">
+            <tree editable="top" string="Recipe Structure">
+                <field name="parent_id" string="Recipe Product"/>
+                <field name="product_id" />
+                <field name="location_id" />
+                <field name="company_id" />
+				<field name="qty_to_consum" />
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_product_recipe_structure_search">
+        <field name="name">product.recipe.structure.search</field>
+        <field name="model">recipe.structure</field>
+        <field name="arch" type="xml">
+            <search string="Search Recipe Product">
+                <field name="parent_id" string="Recipe Product"/>
+                <field name="product_id" />
+                <field name="location_id" />
+                <group expand="0" string="Group By...">
+                    <filter name="parent_id" string="Recipe Product" domain="[]" context="{'group_by':'parent_id'}"/>
+                    <filter name="location_id" string="Location" domain="[]" context="{'group_by':'location_id'}"/>
+                    <filter name="company_id" string="Company" domain="[]" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_product_recipe_structure">
+        <field name="name">Recipe Structure</field>
+        <field name="res_model">recipe.structure</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_product_recipe_structure_tree"/>
+        <field name="search_view_id" ref="view_product_recipe_structure_search"/>
+        <!-- <field name="domain">[('parent_id.company_id', '=', company_id.id)]</field> -->
+    </record>
+    
+    <record id="action_product_template_recipe_product" model="ir.actions.act_window">
+        <field name="name">Recipe Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_recipe', '=', True)]</field>
+        <field name="search_view_id" ref="stock.product_template_search_form_view_stock"/>
+        <field name="context">{"search_default_consumable": 0, 'default_type': 'service'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new product
+            </p>
+        </field>
+    </record>
+    
+    
+    
+</odoo>

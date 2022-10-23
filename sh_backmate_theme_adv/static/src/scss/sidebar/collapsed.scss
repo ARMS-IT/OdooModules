@@ -1,16 +1,9 @@
 /*--style-9--*/
 
-
-
-  
-
-
 @if $sidebar_collapse_style == 'collapsed' {
 
 #hide_top_bar {display:none;}
 #show_top_bar {display:block;}
-//.usermenu_search_input2 {display:none;}
-//#topbar_full_search_icon {display:none;}
 .o_web_client > header{height:0px;}
 .o_main_navbar{width:0px;}
 .sh_search_container {padding-left: 15px;padding-right: 15px;}
@@ -31,15 +24,9 @@
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .o_menu_header_lvl_1 span{padding: 0px;display: inline-block;color: $sidebar_font_color;padding-left: 0px;font-size: 14px;}
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .o_menu_header_lvl_1 span.fa{width: 30px;text-align: center;margin-right: 15px;}
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .dropdown-header{color: $sidebar_font_color;}
-/*.sh_backmate_theme_appmenu_div a.dropdown-item.o_app > span{display: none;transition: all .4s;}
-.sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 > span{display: none;transition: all .4s;}*/
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app > span{display: inline-block;vertical-align: middle;}
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 > span{display: inline-block;vertical-align: middle;}
 
-
-/* Rachana */
-/*.sh_backmate_theme_appmenu_div a.dropdown-item.o_app{position: relative;padding-left: 21px !important;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: $sidebar_font_color;}*/
-/*.sh_backmate_theme_appmenu_div a.dropdown-item.o_app2{position: relative;padding-left: 21px !important;cursor: pointer;}*/
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app{position: relative;padding-left: 18px !important;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: $sidebar_font_color;}
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2{position: relative;padding-left: 18px !important;cursor: pointer;}
 
@@ -75,7 +62,6 @@
 .o_action_manager {margin-left: 70px}
 .o_menu_systray > li{display: inline-block !important;}
 .o_main_navbar > ul.o_menu_systray {z-index:111;min-height:50px;padding-bottom: 10px;display: inline-flex;}
-//.o_main_navbar > ul.o_menu_systray > li > a {height:35px;}
 .o_main_navbar .o_user_menu .oe_topbar_avatar {width:22px;}
 .user_setting{position: relative;background: transparent;border: 0;}
 .user_setting ul li a{color: $sidebar_font_color;}
@@ -92,10 +78,6 @@
 .sh_backmate_theme_appmenu_div a.dropdown-item.sh_dropdown.o_app.child_app:before{content:'\f106'}
 .sh_backmate_theme_appmenu_div a.dropdown-item.sh_dropdown.o_app2.child_app:before{content:'\f106'}
 .sh_backmate_theme_appmenu_div .cssmenu .dropdown-menu-right .dropdown-toggle.sh_sub_dropdown:after{content:'\f106'}
-
-
-
-
 
 .o_main_navbar > ul > .o_user_menu.show_ul > a{background: transparent;}
 .o_main_navbar .o_user_menu .user_setting{box-shadow: none;}
@@ -131,10 +113,7 @@
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2:focus,
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2:active{background: $sidebar_font_hover_bg_color;color:$sidebar_font_hover_color;}
 
-
 .sh_backmate_theme_appmenu_div ul.dropdown-menu.show_ul .dropdown-item.o_menu_header_lvl_1 a:hover{background: $sidebar_font_hover_bg_color;color: $sidebar_font_hover_color;}
-
-
 
 .o_main_navbar > ul.o_menu_systray > .o_debug_manager > a:hover{background: transparent;}
 .o_main_navbar > ul > .o_user_menu > a:hover{background: transparent;}
@@ -152,9 +131,6 @@
 .o_menu_systray .show .dropdown-toggle{background: transparent !important;}
 .o_menu_systray li > a{color: $sidebar_font_color !important;}
 
-/* Rachana */
-
-/* .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 img{margin-right: 15px !important;} */
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2 img{margin-right: 20px !important;}
 
 
@@ -172,21 +148,7 @@
 //::-webkit-scrollbar-thumb{display: none;}
 /* scrollbar css */
 
-
-/* Rachana */
-/* .logo{background: #263238;} */
 .logo{background: #fff;}
-
-
-
-
-
-
-
-
-
-
-
 
 /* ===============   topbar   ================= */
 
@@ -195,7 +157,6 @@ nav.o_main_navbar .o_menu_systray li{padding: 0 15px;line-height: 48px;}
 nav.o_main_navbar .o_menu_systray li .sh_search_container{padding: 0;height: 100%;}
 nav.o_main_navbar .o_menu_systray li .sh_search_container .sh_search_input .input-group-text{margin: 0;}
 nav.o_main_navbar .o_menu_systray li.o_switch_company_menu a{padding-left: 0;}
-.o_main_navbar > ul.o_menu_systray > li > a{}
 .o_main_navbar .o_user_menu .oe_topbar_avatar{width: 22px;height: 22px;}
 .o_main_navbar > ul.o_menu_systray{padding-bottom: 0;align-items: center;min-height: 48px;}
 nav.o_main_navbar .o_menu_systray li.o_night_mode{line-height: normal;margin-top: 0 !important;}
@@ -212,8 +173,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu{transform: scale
 nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: scale(1);transition: all .4s;max-height: 90vh; overflow: auto;transform-origin: 100% 0px;}
 .o_main_navbar .o_menu_systray .sh_search_container .sh_search_results{width: 50% !important;background: #fff;text-align: left;padding-right: 0;margin-top: 3px;box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.25);}
 
-
-/* Rachana */
 @media only screen and (max-width: 992px){
 	.o_main_navbar .o_menu_systray .sh_search_container .sh_search_results{width: 100% !important;background: #fff;text-align: left;padding-right: 0;left: 0%;margin-top: 0px;box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.25);}
 }
@@ -221,20 +180,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 
 
 /* ===============   topbar   ================= */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media only screen and (min-width: 769px){
 .dropdown-menu.sh_backmate_theme_appmenu_div:hover{width: 260px !important;}
@@ -253,7 +198,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 
 
 /* Collapse option */
-//.o_view_controller .o_control_panel .o_cp_searchview, 
 .o_view_controller .o_control_panel .o_cp_right{flex: 0 0 66%;}
 /* Collapse option */
 
@@ -284,21 +228,12 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 
 
 /* sidebar mobile view */
-/* .dropdown-menu.sh_backmate_theme_appmenu_div.sidebar_toggle{min-width: 100% !important;width: 100% !important;} */
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2.child_app:before{content: "\f107";font-family: FontAwesome;transform: translateY(-50%); position: absolute;right: 10px;top: 50%;transition: all .4s;display: block;}
 #js_bar_toggle_btn_mobile i{color: #fff;font-size: 20px !important;padding-top: 10px;}
 #js_bar_toggle_btn_mobile{position: fixed;top: 5px;left: 6px;z-index: 111 !important;height: auto !important;line-height: normal !important;background: transparent;display: block;}
 #js_bar_toggle_btn_mobile{max-width: 100%;}
-/*
-.fa-remove:before, .fa-close:before, 
-.fa-times:before{color: $sidebar_font_color;position: fixed;width: 100%;text-align: right;left: -15px}
-*/
 .sh_backmate_theme_appmenu_div ul.dropdown-menu .dropdown-header{background: transparent;}
 /* sidebar mobile view */
-
-/* search  */
-//.o_view_controller .o_control_panel .o_cp_searchview{flex: 0 0 64%;}
-/* search */
 
 /* toggle btn */
 .dropdown-menu.sh_backmate_theme_appmenu_div{transition: all .4s !important;}
@@ -313,7 +248,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 /* sale order button */
 .o_form_view .o_form_statusbar > .o_statusbar_status > .dropdown-menu .dropdown-item.btn{background: #ffffff;}
 .o_form_view .o_form_statusbar > .o_statusbar_status > .dropdown-menu .dropdown-item.btn{border: 0px !important;box-shadow: none !important;}
-//.o_form_statusbar .o_statusbar_buttons .btn{border-bottom: 0px !important;}
 /* sale order button */
 }
 
@@ -330,8 +264,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 }
 
 
-
-
 /* sidebar hover style */
 .dropdown-menu.sh_backmate_theme_appmenu_div .cssmenu{padding-right: 0;}
 .sh_backmate_theme_appmenu_div a.dropdown-item.o_app2{border-radius: 0;}
@@ -346,9 +278,6 @@ nav.o_main_navbar .o_menu_systray li.o_user_menu .dropdown-menu.show{transform: 
 .o_view_controller .o_form_view .o_form_statusbar{padding-left: 10px;}
 html .o_web_client .o_control_panel{padding-left: 10px;padding-right: 10px;}
 /* statusbar btn */
-
-
-
 
 .o_menu_systray .o_night_mode{vertical-align: middle;}
 .o_menu_systray .theme-switch-wrapper{padding: 0;}

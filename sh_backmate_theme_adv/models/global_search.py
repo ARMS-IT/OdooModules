@@ -27,7 +27,7 @@ class GlobalSearch(models.Model):
     
     field_ids = fields.Many2many('ir.model.fields', string='Fields',domain="[('model_id','=',model_id)]")
     main_field_id = fields.Many2one('ir.model.fields',string="Name Field",required=True,domain="[('model_id','=',model_id)]", ondelete='cascade')
-    global_field_ids = fields.One2many('global.search.fields','global_search_id', string='Fields')
+    global_field_ids = fields.One2many('global.search.fields','global_search_id', string='Fields ')
     
     
     @api.model
@@ -138,14 +138,15 @@ class GlobalSearch(models.Model):
 
 class GlobalSearchFields(models.Model):
     _name = 'global.search.fields'  
+    _description = "Global Search"
 
     global_search_id = fields.Many2one('global.search', string='Related Model')
     sequence = fields.Integer(string='Sequence', default=10)
     field_id = fields.Many2one('ir.model.fields', string='Position Field', ondelete='cascade')
     name = fields.Char("Label", related="field_id.field_description")
     model_id = fields.Many2one('ir.model',string='Model')
-    related_model_id = fields.Char(string='Relation With', related="field_id.relation")
-    ttype = fields.Selection(selection=FIELD_TYPES, string='Field Type', required=True,related="field_id.ttype")
+    related_model_id = fields.Char(string='Relation With ', related="field_id.relation")
+    ttype = fields.Selection(string='Field Type', required=True,related="field_id.ttype")
     field_ids = fields.One2many('o2m.global.search.fields','global_o2m_search_id', string='Fields')
     
     @api.onchange('field_id')
@@ -186,14 +187,15 @@ class GlobalSearchFields(models.Model):
             
 class O2MGlobalSearch(models.Model):
     _name = 'o2m.global.search.fields'
+    _description = 'O2M Global Search'
     
     sequence = fields.Integer(string='Sequence', default=10)
     name = fields.Char("Label")
     field_id = fields.Many2one('ir.model.fields', string='Position Field', ondelete='cascade')
     global_o2m_search_id = fields.Many2one('global.search.fields', string='Global O2M Search')
     model_id = fields.Many2one('ir.model', string='Relation With', ondelete='cascade')
-    related_model_id = fields.Char(string='Relation With', related="field_id.relation")
-    ttype = fields.Selection(selection=FIELD_TYPES, string='Field Type', required=True,related="field_id.ttype")
+    related_model_id = fields.Char(string=' Relation With', related="field_id.relation")
+    ttype = fields.Selection(string='Field Type', required=True,related="field_id.ttype")
     
     @api.onchange('field_id')
     def _onchange_field_id(self):

@@ -1,6 +1,7 @@
 /* =================== style 3 ============== */
 
 @if $login_page_style == "style_3" {
+    body.bg-100,body.bg-100 .card-body{font-family: $body_font_family !important;}
     body.bg-100 .justify-content-between.mt-2.d-flex.small a {
         color: #ffffff;
         padding-top: 15px;
@@ -246,9 +247,6 @@
     body.bg-100 .o_database_list .card-body {
         background-color: transparent !important;
     }
-    // body.bg-100 .card {
-    //     position: unset;
-    // }
      body.bg-100 .card .card-body .field-login label,
      body.bg-100 .card .card-body .field-password label {
         color: #ffffff;
@@ -285,7 +283,6 @@
 
     body.bg-100 .o_database_list .card-body .field-db .input-group-append a {
         background: rgba(0, 0, 0, 0.5);
-        /* line-height: 44px; */
         line-height: 38px;
         padding: 0 20px;
         box-shadow: none;
@@ -315,13 +312,8 @@
 }
 /* =================== style 3 ============== */
 
-
-
-/* === 19-12-2020 === */
 @if $login_page_style == "style_3" {
 	@media only screen and (max-width: 1024px) and (min-width: 991px){
-	    // body.bg-100 .sh_backmate_th_login_left_img_st_2 .sh_logo_icon_img,
-		// body.bg-100 .o_database_list .card-body {height: 100vh !important;}
 		body.bg-100 .sh_backmate_th_login_left_img_st_2 .sh_logo_icon_img{padding-top: 50px;}
 	}
     @media only screen and (max-width: 992px) and (min-width: 768px){
@@ -352,8 +344,6 @@
 		body.bg-100 .card-body {border-radius: 10px;position: absolute;top: 40%;left: 50% !important;transform: translate(-50%, -25%);width: 89%;}
 	}
 }
-
-/*== 15-3-2021 ==*/
 
 @if $login_page_style == "style_3" {
 	@if $login_page_background_type == "bg_img" {

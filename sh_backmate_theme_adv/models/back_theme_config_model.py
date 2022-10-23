@@ -132,6 +132,30 @@ class sh_back_theme_config_settings(models.Model):
         ], string = 'Sidebar View Style')            
     
     
+    loading_style = fields.Selection([
+        ('style_1', 'Style 1'),
+        ('style_2', 'Style 2'),
+        ('style_3', 'Style 3'),
+        ('style_4', 'Style 4'),
+        ('style_5', 'Style 5'),
+        ('style_6', 'Style 6'),
+        ('style_7', 'Style 7'),
+        ('style_8', 'Style 8'),
+        ('style_9', 'Style 9'),
+        ('style_10', 'Style 10'),
+        ('style_11', 'Style 11'),
+        ('style_12', 'Style 12'),
+        ], string='Loading Style', default="style_1")
+
+    progress_style = fields.Selection([
+        ('style_1', 'Style 1'),
+        ('none', 'None'),
+        ], string='Progress Bar Style', default="style_1")
+
+
+    progress_height = fields.Char("Height")
+    progress_color = fields.Char("Color")
+
     
     loading_gif = fields.Binary(string = "Loading GIF",attachment=False) 
     loading_gif_file_name = fields.Char(string = "Loading GIF File Name")
@@ -162,11 +186,11 @@ class sh_back_theme_config_settings(models.Model):
         ],string = "Background Type", default = "bg_color")    
     
     login_page_background_color = fields.Char(string = 'Background Color')   
-    login_page_background_image = fields.Binary(string = 'Background Image',attachment=False)    
+    login_page_background_image = fields.Binary(string = 'Background Image')    
     login_page_box_color = fields.Char(string = 'Box Color')      
-    login_page_banner_image = fields.Char(string = 'Banner Image',attachment=False)
-    login_page_icon_img = fields.Char(string = 'Login Icon Image',attachment=False)
-    login_page_icon_img_long = fields.Char(string = 'Login Icon Image',attachment=False)
+    login_page_banner_image = fields.Char(string = 'Banner Image')
+    login_page_icon_img = fields.Char(string = 'Login Icon Image')
+    login_page_icon_img_long = fields.Char(string = 'Login Icon Image ')
     #Sticky
     is_sticky_form = fields.Boolean(string = "Form Status Bar")
     is_sticky_chatter = fields.Boolean(string = "Chatter")
@@ -238,105 +262,36 @@ class sh_back_theme_config_settings(models.Model):
         ('style_6','Style 6'),
         ('style_7','Style 7'), 
         ],string = 'Breadcrumb Style',default='style_1') 
-    
-        
-    def search_primary_var_template(self):
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables'):
-            return self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables').active
-    
-    def deactivate_primary_variable_scss(self):
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables').write({'active':False})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_night_variable_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_night_variable_scss').write({'active':False})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_background_color_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_background_color_scss').write({'active':True})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_night_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_night_scss').write({'active':True})
-            
-        return True
-    
-    def activate_primary_variable_scss(self):
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_primary_variables').write({'active':True})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_night_variable_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_night_variable_scss').write({'active':True})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_background_color_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_background_color_scss').write({'active':False})
-        if self.env.ref('sh_backmate_theme_adv.sh_assets_night_scss'):
-            self.env.ref('sh_backmate_theme_adv.sh_assets_night_scss').write({'active':False})
-            
-        return True
 
-#     @api.onchange('body_font_family')
-#     def onchage_body_font_family(self):
-#         if self.body_font_family == 'custom_google_font':
-#             self.is_used_google_font = True
-#         else:
-#             self.is_used_google_font = False
-#             self.body_google_font_family = False
-        
+    chatter_position = fields.Selection([('normal','Normal'),('sided','Sided')],string="Chatter Position",default='normal')
+
+    checkbox_style = fields.Selection([
+        ('style_1','Style 1'),
+        ('style_2','Style 2'),
+        ('style_3','Style 3'),
+        ('style_4','Style 4'),                 
+        ],string = 'Checkbox Style',default='style_1')
+
+    radio_btn_style = fields.Selection([
+        ('style_1','Style 1'),
+        ('style_2','Style 2'),
+        ('style_3','Style 3'),
+        ('style_4','Style 4'),                  
+        ],string = 'Radio Button Style',default='style_1')
     
-#     def action_preview_theme_style(self):
-#         if self:
-#             
-#             context = dict(self.env.context or {})
-#             img_src = ""
-#             if context and context.get('which_style','') == 'theme':
-#                 img_src = "/sh_backmate_theme_adv/static/src/img/preview/theme/style_theme.png"
-#                 
-#             if context and context.get('which_style','') == 'button':
-#                 img_src = "/sh_backmate_theme_adv/static/src/img/preview/button/style_button.png"
-#                                 
-#             if context and context.get('which_style','') == 'separator':
-#                 img_src = "/sh_backmate_theme_adv/static/src/img/preview/separator/style_separator.png"
-# 
-#             if context and context.get('which_style','') == 'sidebar':
-#                 img_src = "/sh_backmate_theme_adv/static/src/img/preview/sidebar/style sidebar.png"
-#                 
-#             if context and context.get('which_style','') == 'login_page':
-#                 img_src = "/sh_backmate_theme_adv/static/src/img/preview/login_page/style_login.jpg"
-#                 
-#                             
-#             context['default_img_src'] = img_src
-#             
-#             return {
-#                 'name': _('Preview Style'),
-#                 'view_mode': 'form',
-#                 'res_model': 'sh.theme.preview.wizard',
-#                 'view_id': self.env.ref('sh_backmate_theme_adv.sh_back_theme_config_theme_preview_wizard_form').id,
-#                 'type': 'ir.actions.act_window',
-#                 'context': context,
-#                 'target': 'new',
-#                 'flags': {'form': {'action_buttons': False}}
-#             }             
-#             
-        
-        
-        
+    scrollbar_style = fields.Selection([
+        ('style_1','Style 1'),
+        ('style_2','Style 2'),
+        ('style_3','Style 3'),
+        ('style_4','Style 4'),
+        ('style_5','Style 5'),                 
+        ],string = 'Scrollbar Style',default='style_1')
+           
     
     def action_change_theme_style(self):
         if self:
             return
             
-#     @api.onchange('sidebar_style')
-#     def _onchange_sidebar_style(self):
-#         if self.sidebar_style == 'style_9':
-#             if self.env.ref('sh_backmate_theme_adv.backmate_assets_backend_app_menu'):
-#                 self.env.ref('sh_backmate_theme_adv.backmate_assets_backend_app_menu').write({'active':True})
-#         else:
-#             self.enable_list_footer_view_status_bar = False
-#             if self.env.ref('sh_backmate_theme_adv.backmate_assets_backend_app_menu'):
-#                 self.env.ref('sh_backmate_theme_adv.backmate_assets_backend_app_menu').write({'active':False})
-                
-                
-#     @api.onchange('theme_style')
-#     def onchage_theme_style(self):
-#          
-#         if self and self.theme_style:
-#             selected_theme_style_dict = dict_theme_style.get(self.theme_style,False)
-#             if selected_theme_style_dict:         
-#                 self.update(selected_theme_style_dict)
             
  
 
@@ -441,6 +396,14 @@ $vertical_tab_style: %s;
 $form_element_style: %s;
 $search_style: %s;
 $breadcrumb_style:%s;
+$chatter_position:%s;
+$loading_style:%s;
+$progress_style:%s;
+$progress_height:%s;
+$progress_color:%s;
+$checkbox_style:%s;
+$radio_btn_style:%s;
+$scrollbar_style:%s;
                 """ % (
                      
                     rec.primary_color,
@@ -531,6 +494,14 @@ $breadcrumb_style:%s;
                     rec.form_element_style,
                     rec.search_style,
                     rec.breadcrumb_style,
+                    rec.chatter_position,
+                       rec.loading_style,
+                    rec.progress_style,
+                    rec.progress_height,
+                    rec.progress_color,
+                    rec.checkbox_style,
+                    rec.radio_btn_style,
+                    rec.scrollbar_style,
                        )
                      
                  

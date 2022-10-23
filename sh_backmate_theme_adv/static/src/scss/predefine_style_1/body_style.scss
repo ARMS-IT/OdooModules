@@ -14,8 +14,6 @@
 	.modal-content .modal-body.o_act_window .o_searchview .o_searchview_input_container{width: 40em;}
 	.modal-body .o-export-panel .o_left_panel .o_left_field_panel .o_export_tree_item span.fa.pull-right{margin: auto !important;margin-left: .3em !important;}
 	.o_right_panel .o_right_field_panel .o_fields_list .o_export_field .fa.pull-right{margin: auto !important;margin-left: .3em !important;}
-	.modal-content .o_export.modal-body .o_import_compat{padding-left: 0px;}
-	.modal-content .o_export.modal-body .o_import_compat .form-check-input{display: none;}
 	
 	
 	/*== latest ==*/
@@ -44,7 +42,7 @@
 	[type='checkbox'] + label:not(.lever):before{border: 1px solid $primaryColor !important;}
 	.table.o_list_table th, .table.o_list_table td{border-top: 0px !important;}
 	.o_list_view .o_list_table.table tbody tr:nth-of-type(even){background: $list_view_even_row_color;}
-	.o_content .o_kanban_view .o_kanban_record,.o_content .o_kanban_view .o_kanban_quick_create{border: 0px !important;box-shadow: 0 1px 3px rgba(0 ,0, 0 , .12%), 0 1px 2px rgba(0, 0, 0, .24%) !important;transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;border-radius: 4px !important;}
+	.o_content .o_kanban_view .o_kanban_record,.o_content .o_kanban_view .o_kanban_quick_create{border: 0px !important;box-shadow: 0 1px 3px rgba(0 ,0, 0 , .12%), 0 1px 2px rgba(0, 0, 0, .24%) !important;border-radius: 4px !important;}
 	.o_content .o_kanban_view .o_kanban_record:hover,.o_content .o_kanban_view .o_kanban_quick_create:hover{box-shadow: 0 3px 6px 0px rgba(0, 0 ,0, .16%), 0 3px 6px 0px rgba(0, 0, 0,  .12%) !important;}
 	.o_kanban_view.o_kanban_dashboard.o_salesteam_kanban.o_kanban_ungrouped .o_kanban_record .o_kanban_primary_bottom.bottom_block{border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;}
 	.o_list_view .o_list_table tfoot > tr > td{border-top: 2px solid #dee2e6 !important;}
@@ -58,13 +56,13 @@
 	.o_base_settings .o_setting_container .settings_tab .tab {color: #6d6969;font-weight: 600;}
 	.o_base_settings .o_setting_container .settings_tab .selected {background-color: $primaryColor;box-shadow: inset 3px 0 0 $primaryColor;}
 	.o_base_settings  .o_form_statusbar {padding-left: 0px !important;}
-	/*.o_search_options .o_dropdown .o_dropdown_toggler_btn{box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;} */
 	.tooltip-inner{color: $primaryColor !important;box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14%), 0 6px 10px -5px $primaryColor !important;}
 	.tooltip .tooltip-inner .oe_tooltip_string{color: $primaryColor !important;}
 	.oe_tooltip_technical,.tooltip-inner{color: #fff !important}
-	nav.o_main_navbar .o_menu_systray li{padding: 0 10px!important;}
-	nav.o_main_navbar .o_menu_systray li > a{height: 30px!important;width: 30px !important;line-height: 28px!important;}
-	nav.o_main_navbar .o_menu_systray li.o_night_mode span{font-size: 17px !important;}
+	nav.o_main_navbar .o_menu_systray li:not(.sh_zoom_view_layout):not(.todo){padding: 0 10px!important;}
+	nav.o_main_navbar .o_menu_systray li > a,
+	.o_main_navbar .o_menu_systray .sh_language_icon > a,
+	.o_main_navbar .o_menu_systray .sh_bookmark .o_user_bookmark_menu{height: 30px!important;width: 30px !important;line-height: 28px!important;}
 	nav.o_main_navbar .o_menu_systray li.o_night_mode{height: 30px !important;width: 30px!important;line-height: 30px!important;padding: 0px 7px !important;margin: 0 10px!important;}
 	nav.o_main_navbar .o_menu_systray li.theme_settings .theme_setting_img{font-size: 19px !important;}
 	nav.o_main_navbar .o_user_menu img.oe_topbar_avatar{transform: translateY(-2px) !important;}	
@@ -74,7 +72,9 @@
 	.o_search_panel .list-group{padding-bottom: 0px;}
 	.o_Discuss .o_Discuss_content .o_MessageList .o_Message.o-not-discussion {justify-content: left;}
 	.o_form_sheet .o_notebook .o_kanban_view .o_kanban_record .o_kanban_image img{box-shadow: 0 3px 6px rgba(0 ,0, 0, .16%), 0 3px 6px rgba(0, 0, 0,.23%);border-radius: 100%;}
-	.o_control_panel .o_cp_top_right{width: 69%!important;}
+	@media only screen and (min-width: 768px){
+		.o_control_panel .o_cp_top_right{width: 69%!important;}
+	}
 	.o_control_panel .o_cp_bottom_left, .o_control_panel .o_cp_top_left {width: 42%!important;}
 	
 	
@@ -85,14 +85,9 @@
 	.tooltip.bs-tooltip-top .arrow::after, .tooltip.bs-tooltip-auto[x-placement^="top"] .arrow::after{border-top-color: $primaryColor !important;}
 	.tooltip.bs-tooltip-bottom .arrow::after, .tooltip.bs-tooltip-auto[x-placement^="bottom"] .arrow::after{border-bottom-color: $primaryColor !important;}
 	
-	
 	/* == latest == */
 	.backmate_theme_layout.sh_theme_model .theme_header i.fa{cursor: pointer;}
 	.badge.badge-pill{border-radius: 3px;}
-	/*nav.o_main_navbar .o_menu_systray li > a,nav.o_main_navbar li.o_night_mode{background: $secondaryColor;border-radius: 3px !important;}
-	nav.o_main_navbar .o_menu_systray li.theme_settings{background: $primaryColor !important;}
-	*/
-	
 	
 	/* == old == */
 	@media only screen and (max-width: 568px){
@@ -119,7 +114,6 @@
 		.fa-calendar-o.fa-stack-2x{font-size: 2.2em !important;}
   		.o_form_view.o_xxs_form_view .oe_button_box{float: none;}
   		.o_form_view .oe_button_box .btn.oe_stat_button{margin: 0px;}
-  		/* .o_content .o_form_view .o_form_sheet .oe_button_box .o_dropdown_more, .modal-content .o_form_view .o_form_sheet .oe_button_box .o_dropdown_more{width: 100% !important;border: 1px solid #ccc;box-shadow: none;} */
   		.o_content .o_form_view.o_lead_opportunity_form .o_form_sheet_bg .o_form_sheet {width: 100%;}
   		.modal-content .modal-body.o_act_window .o_searchview .o_searchview_input_container{width: 100%;}
   		.o_main_navbar > ul > li > a span.icon-activity{font-size: 16px;vertical-align: middle;padding-left: 3px;}

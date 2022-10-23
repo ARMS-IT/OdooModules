@@ -39,11 +39,28 @@ odoo.define('sh_backmate_theme_adv.calculator', function (require) {
      
     });
     calculator.prototype.sequence = 10;
-    session.user_has_group('sh_backmate_theme_adv.group_calculator_mode').then(function(has_group) {
-    	if(has_group){
-    		 SystrayMenu.Items.push(calculator);
-    	}
-    });
+    // session.user_has_group('sh_backmate_theme_adv.group_calculator_mode').then(function(has_group) {
+    // 	if(has_group){
+    // 		 SystrayMenu.Items.push(calculator);
+    // 	}
+    // });
+
+    rpc.query({
+		model: 'res.users',
+		method: 'search_read',
+		fields: ['sh_enable_calculator_mode'],
+		domain: [['id', '=', session.uid]]
+	}, { async: false }).then(function (data) {
+		if (data) {
+			_.each(data, function (user) {
+				if (user.sh_enable_calculator_mode) {
+					SystrayMenu.Items.push(calculator);
+
+				}
+			});
+
+		}
+	});
     
    
 

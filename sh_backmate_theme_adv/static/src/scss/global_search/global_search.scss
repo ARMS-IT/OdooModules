@@ -3,12 +3,9 @@
 	.usermenu_search_input2,#topbar_full_search_icon {display:none;}
 	nav.o_main_navbar .o_menu_systray li .sh_search_container .sh_search_input .input-group-text{height: 30px;line-height: 30px;}
 	nav.o_main_navbar .sh_search .sh_search_input{border: 0px !important;}
-	/* nav.o_main_navbar .o_menu_systray li .sh_search_container{background: $secondaryColor;border-radius: 5px;} */
 	.o_main_navbar .sh_search .sh_search_container .sh_search_input:hover, .o_main_navbar .sh_search .sh_search_container .sh_search_input:focus{border: 0px !important;}
 	nav.o_main_navbar .o_menu_systray li .sh_search_container .sh_search_input .input-group-text{background: $secondaryColor;}
-	
 }
-
 
 @if $search_style == 'expanded'{
 	.usermenu_search_input,#topbar_search_icon {display:none;}
@@ -29,12 +26,10 @@
 	}
 }
 
-@media only screen and (max-width: 576px){
+@media only screen and (max-width: 767.98px){
 	nav.o_main_navbar .o_menu_systray li .sh_search_container .sh_search_input .input-group-text{height: 30px;width: 30px;line-height: 30px;padding: 0px 7px;border-radius: 5px;justify-content: center;background: $secondaryColor;}
 	nav.o_main_navbar .sh_search .sh_search_container .sh_search_input:hover, nav.o_main_navbar .sh_search .sh_search_container .sh_search_input:focus{border: 0px !important;}
 }
-
-
 .sh_search_results {
         position: fixed !important;
 	    overflow-x: hidden;
@@ -58,10 +53,8 @@
 	color: #a1a1a1;
 }
 .sh_search_input {
-margin-top:5px;
+	margin-top:5px;
 }
-
-
 .sh_search_input .usermenu_search_input{
 	background: transparent;
     border: none;
