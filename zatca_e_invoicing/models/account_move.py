@@ -17,6 +17,11 @@ import codecs
 from .fatoorah import Fatoora
 from .xml_generator import generate_einvoice_xml
 import pytz
+import logging
+_logger = logging.getLogger(__name__)
+import dicttoxml
+from lxml import etree
+
 
 VAT_CHECKBOX_FIELDS = [
     'third_party_invoice',
@@ -226,6 +231,7 @@ class AccountMove(models.Model):
     virtual_import = fields.Boolean(string="Virtual Import", default=False)
     export_invoice = fields.Boolean(string="Export Invoice", default=False)
     short_invoice = fields.Boolean(string="Short Invoice", default=False)
+    journal_type = fields.Selection("Journal Type", related="journal_id.type")    
 
     # Invoice Number (using Default)    
     uuid_number = fields.Char(string='UUID')
