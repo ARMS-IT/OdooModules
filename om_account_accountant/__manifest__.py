@@ -3,29 +3,22 @@
 
 {
     'name': 'Odoo 14 Accounting',
-    'version': '14.0.5.3.0',
+    'version': '14.0.2.1.0',
     'category': 'Accounting',
     'summary': 'Accounting Reports, Asset Management and Account Budget For Odoo14 Community Edition',
     'live_test_url': 'https://www.youtube.com/watch?v=Kj4hR7_uNs4',
-    'sequence': '1',
+    'sequence': '8',
     'website': 'https://www.odoomates.tech',
     'author': 'Odoo Mates, Odoo SA',
     'maintainer': 'Odoo Mates',
     'license': 'LGPL-3',
     'support': 'odoomates@gmail.com',
-    'depends': ['accounting_pdf_reports',
-                'om_account_asset',
-                'om_account_budget',
-                'om_account_bank_statement_import'
-                ],
+    'website': '',
+    'depends': ['accounting_pdf_reports', 'om_account_asset', 'om_account_budget'],
     'demo': [],
     'data': [
-        'security/ir.model.access.csv',
         'security/account_security.xml',
-        'wizard/change_lock_date.xml',
-        'views/fiscal_year.xml',
-        'views/account.xml',
-        'views/account_type.xml'
+        'views/account.xml'
     ],
     'installable': True,
     'application': True,

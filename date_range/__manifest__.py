@@ -3,18 +3,14 @@
 {
     "name": "Date Range",
     "summary": "Manage all kind of date range",
-    "version": "14.0.2.1.0",
+    "version": "14.0.1.0.0",
     "category": "Uncategorized",
-    "website": "https://github.com/OCA/server-ux",
+    "website": "https://github.com/oca/server-ux",
     "author": "ACSONE SA/NV, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "installable": True,
-    "depends": [
-        "web",
-    ],
-    # odoo_test_helper is needed for the tests
+    "depends": ["web"],
     "data": [
-        "data/ir_cron_data.xml",
         "security/ir.model.access.csv",
         "security/date_range_security.xml",
         "views/assets.xml",

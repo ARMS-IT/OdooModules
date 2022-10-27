@@ -26,11 +26,11 @@ odoo.define("report_xlsx.report", function (require) {
                     new_url += "/" + cloned_action.context.active_ids.join(",");
                 }
             } else {
-                // new_url +=
-                //     "?options=" +
-                //     encodeURIComponent(JSON.stringify(cloned_action.data));
                 new_url +=
-                    "?context=" +
+                    "?options=" +
+                    encodeURIComponent(JSON.stringify(cloned_action.data));
+                new_url +=
+                    "&context=" +
                     encodeURIComponent(JSON.stringify(cloned_action.context));
             }
 
@@ -39,8 +39,6 @@ odoo.define("report_xlsx.report", function (require) {
                     url: new_url,
                     data: {
                         data: JSON.stringify([new_url, type]),
-                        options_data: JSON.stringify(cloned_action.data),
-                        context: JSON.stringify(cloned_action.context),
                     },
                     success: resolve,
                     error: (error) => {
