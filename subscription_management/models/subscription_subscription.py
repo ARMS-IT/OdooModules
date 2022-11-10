@@ -116,6 +116,7 @@ class subscription_subscription(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency',default=lambda self:self.env.user.company_id.currency_id)
 
     so_line = fields.Many2one('sale.order.line',string='sale order line')
+    einvoice_id = fields.Char(string='E-Inv Subscription ID')    
 
     _sql_constraints = [
     ('check_for_uniq_subscription', 'Check(1=1)', "You can't create Multiple Subscription for sale order with the same product and customer."),

@@ -48,6 +48,11 @@
                             <field name="is_paid" invisible="1"/>
                             <group><field name="active" attrs="{'readonly': [('state', '!=', 'draft')]}"/></group>
                         </div>
+
+            			<div class="oe_title">
+                            <group><field name="einvoice_id" placeholder="E-invoice Subscription ID..."/></group>
+                        </div>
+
                         <group name="customer">
                             <group name="customer" string="Customer Information">
                                 <field name="customer_name" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
