@@ -3,10 +3,7 @@ from odoo import fields, models, api, _
 
 import io
 import json
-from odoo.http import request
 from odoo.exceptions import AccessError, UserError, AccessDenied
-import logging
-logger = logging.getLogger(__name__)
 
 try:
     from odoo.tools.misc import xlsxwriter
@@ -33,7 +30,7 @@ class TrialView(models.TransientModel):
 
         data = {
             'display_account': r.display_account,
-            'model': self,
+            'model':self,
             'journals': r.journal_ids,
             'target_move': r.target_move,
 
@@ -83,46 +80,21 @@ class TrialView(models.TransientModel):
 
         return filters
 
-    def get_current_company_value(self):
-
-        cookies_cids = [int(r) for r in request.httprequest.cookies.get('cids').split(",")] \
-            if request.httprequest.cookies.get('cids') \
-            else [request.env.user.company_id.id]
-        for company_id in cookies_cids:
-            if company_id not in self.env.user.company_ids.ids:
-                cookies_cids.remove(company_id)
-        if not cookies_cids:
-            cookies_cids = [self.env.company.id]
-        if len(cookies_cids) == 1:
-            cookies_cids.append(0)
-        return cookies_cids
-
     def get_filter_data(self, option):
         r = self.env['account.trial.balance'].search([('id', '=', option[0])])
         default_filters = {}
-        company_id = self.env.companies.ids
-        company_domain = [('company_id', 'in', company_id)]
-        journal_ids = r.journal_ids if r.journal_ids else self.env['account.journal'].search(company_domain, order="company_id, name")
-
-
-        journals = []
-        o_company = False
-        for j in journal_ids:
-            if j.company_id != o_company:
-                journals.append(('divider', j.company_id.name))
-                o_company = j.company_id
-            journals.append((j.id, j.name, j.code))
+        company_id = self.env.company
+        company_domain = [('company_id', '=', company_id.id)]
+        journals = r.journal_ids if r.journal_ids else self.env['account.journal'].search(company_domain)
 
         filter_dict = {
             'journal_ids': r.journal_ids.ids,
-            'company_id': company_id,
+            'company_id': company_id.id,
             'date_from': r.date_from,
             'date_to': r.date_to,
             'target_move': r.target_move,
-            'journals_list': journals,
-            # 'journals_list': [(j.id, j.name, j.code) for j in journals],
-
-            'company_name': ', '.join(self.env.companies.mapped('name')),
+            'journals_list': [(j.id, j.name, j.code) for j in journals],
+            'company_name': company_id and company_id.name,
         }
         filter_dict.update(default_filters)
         return filter_dict
@@ -176,9 +148,9 @@ class TrialView(models.TransientModel):
             wheres.append(where_clause.strip())
         filters = " AND ".join(wheres)
         if data['target_move'] == 'posted':
-            filters += " AND account_move_line.parent_state = 'posted'"
+            filters += " AND account_move_line__move_id.state = 'posted'"
         else:
-            filters += " AND account_move_line.parent_state in ('draft','posted')"
+            filters += " AND account_move_line__move_id.state in ('draft','posted')"
         if data.get('date_from'):
             filters += " AND account_move_line.date >= '%s'" % data.get('date_from')
         if data.get('date_to'):
@@ -186,11 +158,11 @@ class TrialView(models.TransientModel):
 
         if data['journals']:
             filters += ' AND jrnl.id IN %s' % str(tuple(data['journals'].ids) + tuple([0]))
-        tables += ' JOIN account_journal jrnl ON (account_move_line.journal_id=jrnl.id)'
+        tables += 'JOIN account_journal jrnl ON (account_move_line.journal_id=jrnl.id)'
         # compute the balance, debit and credit for the provided accounts
         request = (
                     "SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" + \
-                    " FROM " + tables + " WHERE account_id IN %s " + filters +"AND account_move_line.date > '2021-12-31'" +" GROUP BY account_id")
+                    " FROM " + tables + " WHERE account_id IN %s " + filters + " GROUP BY account_id")
         params = (tuple(accounts.ids),) + tuple(where_params)
         self.env.cr.execute(request, params)
         for row in self.env.cr.dictfetchall():
@@ -203,31 +175,22 @@ class TrialView(models.TransientModel):
             res['code'] = account.code
             res['name'] = account.name
             res['id'] = account.id
-            int_balance = 0.0
             if data.get('date_from'):
 
                 res['Init_balance'] = self.get_init_bal(account, display_account, data)
-                print('wwwwwwwwwwwwwwwwwwww',res['Init_balance'])
-
-                if res['Init_balance']:
-                    if res['Init_balance']['debit'] != 0.0 or res['Init_balance']['credit'] != 0.0:
-                        int_balance = res['Init_balance']['debit'] or res['Init_balance']['credit']
-                        print('555555555555555555',res['Init_balance']['debit'])
 
             if account.id in account_result:
                 res['debit'] = account_result[account.id].get('debit')
                 res['credit'] = account_result[account.id].get('credit')
                 res['balance'] = account_result[account.id].get('balance')
-
             if display_account == 'all':
                 account_res.append(res)
             if display_account == 'not_zero' and not currency.is_zero(
                     res['balance']):
                 account_res.append(res)
-
-            if not int_balance and (res['debit'] or res['credit']):
-                account_res.append(res)
-            if int_balance :
+            if display_account == 'movement' and (
+                    not currency.is_zero(res['debit']) or not currency.is_zero(
+                    res['credit'])):
                 account_res.append(res)
         return account_res
 
@@ -244,20 +207,20 @@ class TrialView(models.TransientModel):
                 wheres.append(where_clause.strip())
             filters = " AND ".join(wheres)
             if data['target_move'] == 'posted':
-                filters += " AND account_move_line.parent_state = 'posted'"
+                filters += " AND account_move_line__move_id.state = 'posted'"
             else:
-                filters += " AND account_move_line.parent_state in ('draft','posted')"
+                filters += " AND account_move_line__move_id.state in ('draft','posted')"
             if data.get('date_from'):
-                filters += " AND account_move_line.date < '%s'" % data.get('date_from')
+                filters += " AND account_move_line.date < '%s' OR account_move_line.credit != 0 OR account_move_line.debit !=0 " % data.get('date_from')
 
             if data['journals']:
                 filters += ' AND jrnl.id IN %s' % str(tuple(data['journals'].ids) + tuple([0]))
-            tables += ' JOIN account_journal jrnl ON (account_move_line.journal_id=jrnl.id)'
+            tables += 'JOIN account_journal jrnl ON (account_move_line.journal_id=jrnl.id)'
 
             # compute the balance, debit and credit for the provided accounts
             request = (
                     "SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" + \
-                    " FROM " + tables + " WHERE account_id = %s" % account.id + filters +"AND account_move_line.date > '2021-12-31'" +" GROUP BY account_id")
+                    " FROM " + tables + " WHERE account_id = %s" % account.id + filters + " GROUP BY account_id")
             params = tuple(where_params)
             self.env.cr.execute(request, params)
             for row in self.env.cr.dictfetchall():
@@ -304,15 +267,13 @@ class TrialView(models.TransientModel):
             sheet.merge_range('C4:D4', 'To: '+ filters.get('date_to'), date_head)
         sheet.merge_range('A5:D6', 'Journals: ' + ', '.join([ lt or '' for lt in filters['journals'] ]) + '  Target Moves: '+ filters.get('target_move'), date_head)
         sheet.write('A7', 'Code', sub_heading)
-        sheet.write('B7', 'Account', sub_heading)
+        sheet.write('B7', 'Amount', sub_heading)
         if filters.get('date_from'):
             sheet.write('C7', 'Initial Debit', sub_heading)
             sheet.write('D7', 'Initial Credit', sub_heading)
-            sheet.write('E7', 'Initial Balance', sub_heading)
-            sheet.write('F7', 'Debit', sub_heading)
-            sheet.write('G7', 'Credit', sub_heading)
-            sheet.write('H7', 'Balance', sub_heading)
-            sheet.write('I7', 'Final Balance', sub_heading)
+            sheet.write('E7', 'Debit', sub_heading)
+            sheet.write('F7', 'Credit', sub_heading)
+            sheet.write('G7', 'Balance', sub_heading)
 
         else:
             sheet.write('C7', 'Debit', sub_heading)
@@ -329,71 +290,43 @@ class TrialView(models.TransientModel):
             sheet.set_column(9, 4, 15)
             sheet.set_column(10, 5, 15)
             sheet.set_column(11, 6, 15)
-            sheet.set_column(12, 7, 15)
-            sheet.set_column(13, 8, 15)
-            sheet.set_column(14, 9, 15)
         else:
+
             sheet.set_column(8, 3, 15)
             sheet.set_column(9, 4, 15)
-            sheet.set_column(10, 5, 15)
-            
-        total_debit= 0
-        total_credit= 0
-        
         for rec_data in report_data_main:
 
             row += 1
             sheet.write(row, col, rec_data['code'], txt)
             sheet.write(row, col + 1, rec_data['name'], txt)
             if filters.get('date_from'):
-                logger.info(f"********* Init Balance Excel STARTED *****: {rec_data['Init_balance']}.")
-                if rec_data.get('Init_balance') is not None:
-                    logger.info(f"********* onchange_partner_id STARTED *****: {rec_data['Init_balance']}.")
+                if rec_data.get('Init_balance'):
                     sheet.write(row, col + 2, rec_data['Init_balance']['debit'], txt)
                     sheet.write(row, col + 3, rec_data['Init_balance']['credit'], txt)
-                    sheet.write(row, col + 4, rec_data['Init_balance']['debit'] - rec_data['Init_balance']['credit'], txt)
-
                 else:
                     sheet.write(row, col + 2, 0, txt)
                     sheet.write(row, col + 3, 0, txt)
-                    sheet.write(row, col + 4, 0, txt)
-                    
-                    
-                sheet.write(row, col + 5, rec_data['debit'], txt)
-                sheet.write(row, col + 6, rec_data['credit'], txt)
-                sheet.write(row, col + 7, rec_data['debit'] - rec_data['credit'], txt)
-                if filters.get('date_from'):
-                    if rec_data.get('Init_balance') is not None:
-                        sheet.write(row, col + 8, (rec_data['Init_balance']['debit'] - rec_data['Init_balance']['credit']) + (rec_data['debit'] - rec_data['credit']), txt)
-                    else:
-                        sheet.write(row, col + 8, rec_data['debit'] - rec_data['credit'], txt)
-                        
-                
-                total_debit +=rec_data['Init_balance']['debit'] if rec_data.get('Init_balance') is not None else 0.0
-                total_credit +=rec_data['Init_balance']['credit'] if rec_data.get('Init_balance') is not None else 0.0
 
+                sheet.write(row, col + 4, rec_data['debit'], txt)
+                sheet.write(row, col + 5, rec_data['credit'], txt)
+                sheet.write(row, col + 6, rec_data['debit'] - rec_data['credit'], txt)
 
             else:
                 sheet.write(row, col + 2, rec_data['debit'], txt)
                 sheet.write(row, col + 3, rec_data['credit'], txt)
                 sheet.write(row, col + 4, rec_data['debit'] - rec_data['credit'], txt)
-                
-                
+
         sheet.write(row+1, col, 'Total', sub_heading)
         if filters.get('date_from'):
-            sheet.write(row + 1, col + 2, total_debit, txt_l)
-            sheet.write(row + 1, col + 3, total_credit, txt_l)
-            sheet.write(row + 1, col + 4, total_debit - total_credit, txt_l)
-            sheet.write(row + 1, col + 5, total.get('debit_total'), txt_l)
-            sheet.write(row + 1, col + 6, total.get('credit_total'), txt_l)
-            sheet.write(row + 1, col + 7, total.get('debit_total') - total.get('credit_total'), txt_l)
-            sheet.write(row + 1, col + 8, (total_debit - total_credit) + (total.get('debit_total') - total.get('credit_total')), txt_l)
+            sheet.write(row + 1, col + 4, total.get('debit_total'), txt_l)
+            sheet.write(row + 1, col + 5, total.get('credit_total'), txt_l)
+            sheet.write(row + 1, col + 6, total.get('debit_total') - total.get('credit_total'), txt_l)
 
         else:
             sheet.write(row + 1, col + 2, total.get('debit_total'), txt_l)
             sheet.write(row + 1, col + 3, total.get('credit_total'), txt_l)
             sheet.write(row + 1, col + 4, total.get('debit_total') - total.get('credit_total'), txt_l)
-            
+
         workbook.close()
         output.seek(0)
         response.stream.write(output.read())

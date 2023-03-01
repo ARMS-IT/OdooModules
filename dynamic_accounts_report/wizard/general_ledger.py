@@ -275,7 +275,7 @@ class GeneralView(models.TransientModel):
                         LEFT JOIN account_analytic_account anl ON (l.analytic_account_id=anl.id)
                         LEFT JOIN account_analytic_tag_account_move_line_rel anltag ON (anltag.account_move_line_id=l.id)
                         JOIN account_journal j ON (l.journal_id=j.id)"""
-                        + WHERE + new_filter + ' GROUP BY l.account_id')
+                        + WHERE + new_filter +"AND m.date > '2021-12-31'"+ ' GROUP BY l.account_id')
             if data.get('accounts'):
                 params = tuple(init_where_params)
             else:
@@ -327,7 +327,7 @@ class GeneralView(models.TransientModel):
                     LEFT JOIN account_analytic_tag_account_move_line_rel anltag ON (anltag.account_move_line_id=l.id)
                     JOIN account_journal j ON (l.journal_id=j.id)\
                     JOIN account_account a ON (l.account_id = a.id) '''
-                    + WHERE + new_final_filter + ''' GROUP BY l.id, m.id,  l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, c.position, p.name ORDER BY l.date ASC''' )
+                    + WHERE + new_final_filter + "AND m.date > '2021-12-31'"+''' GROUP BY l.id, m.id,  l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, c.position, p.name ORDER BY l.date DESC''' )
         if data.get('accounts'):
             params = tuple(where_params)
         else:

@@ -83,6 +83,7 @@ odoo.define('dynamic_cash_flow_statements.trial', function (require) {
                                             currency : datas['currency'],
                                             credit_total : self.format_currency(datas['currency'],datas['debit_total']),
                                             debit_total : self.format_currency(datas['currency'],datas['debit_total']),
+                                            total : self.format_currency(datas['currency'],datas['debit_total'] - datas['currency'],datas['credit_total']),
                                         }));
                 });
 

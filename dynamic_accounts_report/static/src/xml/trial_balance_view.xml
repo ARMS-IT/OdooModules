@@ -27,11 +27,14 @@
                             <t t-if="filter['date_from']">
                                 <th class="mon_fld">Initial Debit</th>
                                 <th class="mon_fld">Initial Credit</th>
-
+                                <th class="mon_fld">Initial Balance</th>
                             </t>
                             <th class="mon_fld">Debit</th>
                             <th class="mon_fld">Credit</th>
                             <th class="mon_fld">Balance</th>
+                            <t t-if="filter['date_from']">
+                                <th class="mon_fld">Final Balance</th>
+                            </t>
 
                         </tr>
                     </thead>
@@ -39,6 +42,10 @@
                     <tbody>
 
                         <t t-set="none_value" t-value="_"/>
+                        <t t-set="total_debit" t-value="0"/>                            
+                        <t t-set="total_credit" t-value="0"/>                            
+                        <t t-set="init_balance" t-value="0"/>                            
+
                         <t t-foreach="report_lines" t-as="account">
                             <t t-set="common_id" t-value="0"/>
                             <tr style="border: 1.5px solid black;" class="gl-line"
@@ -79,20 +86,35 @@
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>
                                                 <t t-raw="account['Init_balance']['debit']"/>
+				                                <t t-set="total_debit" t-value="total_debit+account['Init_balance']['debit']"/>
                                             </td>
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>
                                                 <t t-raw="account['Init_balance']['credit']"/>
+				                                <t t-set="total_credit" t-value="total_credit+account['Init_balance']['credit']"/>
                                             </td>
+                                            <td class="mon_fld">
+                                                <t t-esc="currency[0]"/>
+                                                <t t-raw="account['Init_balance']['debit'] - account['Init_balance']['credit']"/>
+				                                <t t-set="init_balance" t-value="init_balance+(account['Init_balance']['debit'] - account['Init_balance']['credit'])"/>
+                                            </td>
+
                                         </t>
                                         <t t-else="">
                                             <td class="mon_fld">
                                                 <t t-raw="account['Init_balance']['debit']"/>
                                                 <t t-esc="currency[0]"/>
+				                                <t t-set="total_debit" t-value="total_debit+account['Init_balance']['debit']"/>
                                             </td>
                                             <td class="mon_fld">
                                                 <t t-raw="account['Init_balance']['credit']"/>
                                                 <t t-esc="currency[0]"/>
+				                                <t t-set="total_credit" t-value="total_credit+account['Init_balance']['credit']"/>
+                                            </td>
+                                            <td class="mon_fld">
+                                                <t t-raw="account['Init_balance']['debit'] - account['Init_balance']['credit']"/>
+                                                <t t-esc="currency[0]"/>
+				                                <t t-set="init_balance" t-value="init_balance+(account['Init_balance']['debit'] - account['Init_balance']['credit'])"/>
                                             </td>
 
 
@@ -106,6 +128,10 @@
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>0
                                             </td>
+                                            <td class="mon_fld">
+                                                <t t-esc="currency[0]"/>0
+                                            </td>
+
                                         </t>
                                         <t t-else="">
                                             <td class="mon_fld">
@@ -116,6 +142,11 @@
                                                 0
                                                 <t t-esc="currency[0]"/>
                                             </td>
+                                            <td class="mon_fld">
+                                                0
+                                                <t t-esc="currency[0]"/>
+                                            </td>
+
                                         </t>
                                     </t>
                                 </t>
@@ -133,7 +164,20 @@
                                         <t t-esc="currency[0]"/>
                                         <t t-raw="account['balance'] "/>
                                     </td>
-
+				                    <t t-if="filter['date_from']">
+		                                <t t-if="account['Init_balance']">		                        
+				                            <td class="mon_fld">
+				                                <t t-esc="currency[0]"/>
+				                                <t t-raw="Math.round((account['Init_balance']['debit'] - account['Init_balance']['credit']) * Math.pow(10, 2)) / Math.pow(10, 2) + Math.round((account['balance']) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+				                            </td>
+				                        </t>
+		                                <t t-else="">		                                
+				                            <td class="mon_fld">
+				                                <t t-esc="currency[0]"/>
+				                                <t t-raw="account['balance'] "/>
+				                            </td>
+				                        </t>    
+		                            </t>    
                                 </t>
                                 <t t-else="">
                                     <td class="mon_fld">
@@ -149,6 +193,22 @@
                                         <t t-raw="account['balance'] "/>
                                         <t t-esc="currency[0]"/>
                                     </td>
+				                    <t t-if="filter['date_from']">
+		                                <t t-if="account['Init_balance']">		                        
+				                            <td class="mon_fld">
+				                                <t t-raw="Math.round((account['Init_balance']['debit'] - account['Init_balance']['credit']) * Math.pow(10, 2)) / Math.pow(10, 2) + Math.round((account['balance']) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+
+				                                <t t-esc="currency[0]"/>
+
+				                            </td>
+				                        </t>
+		                                <t t-else="">		                                
+				                            <td class="mon_fld">
+				                                <t t-raw="account['balance'] "/>
+				                                <t t-esc="currency[0]"/>
+				                            </td>
+				                        </t>    
+		                            </t>    
 
                                 </t>
 
@@ -161,13 +221,22 @@
                         <t t-if="filter['date_from']">
 
                             <td class="mon_fld" style="">
-                                <strong></strong>
+                                <strong>
+                                    <t t-esc="currency[0]"/>
+                                    <t t-raw="Math.round(total_debit * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+                                </strong>
                             </td>
                             <td class="mon_fld" style="">
-                                <strong></strong>
+                                <strong>
+                                    <t t-esc="currency[0]"/>
+                                    <t t-raw="Math.round(total_credit * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+                                </strong>
                             </td>
                             <td class="mon_fld" style="">
-                                <strong></strong>
+                                <strong>
+                                    <t t-esc="currency[0]"/>
+                                    <t t-raw="Math.round((total_debit-total_credit) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+                                </strong>
                             </td>
                         </t>
                         <t t-if="currency[1] == 'before'">
@@ -189,9 +258,19 @@
                                 <strong>
                                     <t t-esc="currency[0]"/>
 <!--                                    <t t-raw="Math.round(credit_total * Math.pow(10, 2)) / Math.pow(10, 2)"/>-->
-                                    <t t-esc="debit_total - credit_total"/>
+                                    <t t-esc="total"/>
                                 </strong>
                             </td>
+                        	<t t-if="filter['date_from']">                            
+                            <td class="mon_fld" style="">
+                                <strong>
+                                    <t t-esc="currency[0]"/>
+<!--                                    <t t-raw="Math.round(credit_total * Math.pow(10, 2)) / Math.pow(10, 2)"/>-->
+                                    <t t-esc="total"/>
+                                </strong>
+                            </td>
+                            </t>
+                            
 
                         </t>
                         <t t-else="">
@@ -210,10 +289,19 @@
                             </td>
                             <td class="mon_fld" style="">
                                 <strong>
-                                    <t t-raw="Math.round((debit_total-credit_total) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+                                    <t t-raw="Math.round((total) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
                                     <t t-esc="currency[0]"/>
                                 </strong>
                             </td>
+                        	<t t-if="filter['date_from']">                            
+                            <td class="mon_fld" style="">
+                                <strong>
+                                    <t t-raw="Math.round((total) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
+                                    <t t-esc="currency[0]"/>
+                                </strong>
+                            </td>
+                            </t>
+                            
 
                         </t>
 
