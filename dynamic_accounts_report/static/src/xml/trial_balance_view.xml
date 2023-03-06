@@ -27,25 +27,16 @@
                             <t t-if="filter['date_from']">
                                 <th class="mon_fld">Initial Debit</th>
                                 <th class="mon_fld">Initial Credit</th>
-                                <th class="mon_fld">Initial Balance</th>
+
                             </t>
                             <th class="mon_fld">Debit</th>
                             <th class="mon_fld">Credit</th>
-                            <th class="mon_fld">Balance</th>
-                            <t t-if="filter['date_from']">
-                                <th class="mon_fld">Final Balance</th>
-                            </t>
-
                         </tr>
                     </thead>
 
                     <tbody>
 
                         <t t-set="none_value" t-value="_"/>
-                        <t t-set="total_debit" t-value="0"/>                            
-                        <t t-set="total_credit" t-value="0"/>                            
-                        <t t-set="init_balance" t-value="0"/>                            
-
                         <t t-foreach="report_lines" t-as="account">
                             <t t-set="common_id" t-value="0"/>
                             <tr style="border: 1.5px solid black;" class="gl-line"
@@ -86,35 +77,20 @@
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>
                                                 <t t-raw="account['Init_balance']['debit']"/>
-				                                <t t-set="total_debit" t-value="total_debit+account['Init_balance']['debit']"/>
                                             </td>
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>
                                                 <t t-raw="account['Init_balance']['credit']"/>
-				                                <t t-set="total_credit" t-value="total_credit+account['Init_balance']['credit']"/>
                                             </td>
-                                            <td class="mon_fld">
-                                                <t t-esc="currency[0]"/>
-                                                <t t-raw="account['Init_balance']['debit'] - account['Init_balance']['credit']"/>
-				                                <t t-set="init_balance" t-value="init_balance+(account['Init_balance']['debit'] - account['Init_balance']['credit'])"/>
-                                            </td>
-
                                         </t>
                                         <t t-else="">
                                             <td class="mon_fld">
                                                 <t t-raw="account['Init_balance']['debit']"/>
                                                 <t t-esc="currency[0]"/>
-				                                <t t-set="total_debit" t-value="total_debit+account['Init_balance']['debit']"/>
                                             </td>
                                             <td class="mon_fld">
                                                 <t t-raw="account['Init_balance']['credit']"/>
                                                 <t t-esc="currency[0]"/>
-				                                <t t-set="total_credit" t-value="total_credit+account['Init_balance']['credit']"/>
-                                            </td>
-                                            <td class="mon_fld">
-                                                <t t-raw="account['Init_balance']['debit'] - account['Init_balance']['credit']"/>
-                                                <t t-esc="currency[0]"/>
-				                                <t t-set="init_balance" t-value="init_balance+(account['Init_balance']['debit'] - account['Init_balance']['credit'])"/>
                                             </td>
 
 
@@ -128,10 +104,6 @@
                                             <td class="mon_fld">
                                                 <t t-esc="currency[0]"/>0
                                             </td>
-                                            <td class="mon_fld">
-                                                <t t-esc="currency[0]"/>0
-                                            </td>
-
                                         </t>
                                         <t t-else="">
                                             <td class="mon_fld">
@@ -142,11 +114,6 @@
                                                 0
                                                 <t t-esc="currency[0]"/>
                                             </td>
-                                            <td class="mon_fld">
-                                                0
-                                                <t t-esc="currency[0]"/>
-                                            </td>
-
                                         </t>
                                     </t>
                                 </t>
@@ -160,24 +127,6 @@
                                         <t t-raw="account['credit']"/>
                                     </td>
 
-                                    <td class="mon_fld">
-                                        <t t-esc="currency[0]"/>
-                                        <t t-raw="account['balance'] "/>
-                                    </td>
-				                    <t t-if="filter['date_from']">
-		                                <t t-if="account['Init_balance']">		                        
-				                            <td class="mon_fld">
-				                                <t t-esc="currency[0]"/>
-				                                <t t-raw="Math.round((account['Init_balance']['debit'] - account['Init_balance']['credit']) * Math.pow(10, 2)) / Math.pow(10, 2) + Math.round((account['balance']) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-				                            </td>
-				                        </t>
-		                                <t t-else="">		                                
-				                            <td class="mon_fld">
-				                                <t t-esc="currency[0]"/>
-				                                <t t-raw="account['balance'] "/>
-				                            </td>
-				                        </t>    
-		                            </t>    
                                 </t>
                                 <t t-else="">
                                     <td class="mon_fld">
@@ -188,27 +137,6 @@
                                         <t t-raw="account['credit']"/>
                                         <t t-esc="currency[0]"/>
                                     </td>
-                                    <td class="mon_fld">
-<!--                                        <t t-raw="account['debit'] - account['credit']"/>-->
-                                        <t t-raw="account['balance'] "/>
-                                        <t t-esc="currency[0]"/>
-                                    </td>
-				                    <t t-if="filter['date_from']">
-		                                <t t-if="account['Init_balance']">		                        
-				                            <td class="mon_fld">
-				                                <t t-raw="Math.round((account['Init_balance']['debit'] - account['Init_balance']['credit']) * Math.pow(10, 2)) / Math.pow(10, 2) + Math.round((account['balance']) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-
-				                                <t t-esc="currency[0]"/>
-
-				                            </td>
-				                        </t>
-		                                <t t-else="">		                                
-				                            <td class="mon_fld">
-				                                <t t-raw="account['balance'] "/>
-				                                <t t-esc="currency[0]"/>
-				                            </td>
-				                        </t>    
-		                            </t>    
 
                                 </t>
 
@@ -221,22 +149,10 @@
                         <t t-if="filter['date_from']">
 
                             <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-esc="currency[0]"/>
-                                    <t t-raw="Math.round(total_debit * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-                                </strong>
+                                <strong></strong>
                             </td>
                             <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-esc="currency[0]"/>
-                                    <t t-raw="Math.round(total_credit * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-                                </strong>
-                            </td>
-                            <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-esc="currency[0]"/>
-                                    <t t-raw="Math.round((total_debit-total_credit) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-                                </strong>
+                                <strong></strong>
                             </td>
                         </t>
                         <t t-if="currency[1] == 'before'">
@@ -254,24 +170,6 @@
                                     <t t-esc="credit_total"/>
                                 </strong>
                             </td>
-                            <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-esc="currency[0]"/>
-<!--                                    <t t-raw="Math.round(credit_total * Math.pow(10, 2)) / Math.pow(10, 2)"/>-->
-                                    <t t-esc="total"/>
-                                </strong>
-                            </td>
-                        	<t t-if="filter['date_from']">                            
-                            <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-esc="currency[0]"/>
-<!--                                    <t t-raw="Math.round(credit_total * Math.pow(10, 2)) / Math.pow(10, 2)"/>-->
-                                    <t t-esc="total"/>
-                                </strong>
-                            </td>
-                            </t>
-                            
-
                         </t>
                         <t t-else="">
 
@@ -287,22 +185,6 @@
                                     <t t-esc="currency[0]"/>
                                 </strong>
                             </td>
-                            <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-raw="Math.round((total) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-                                    <t t-esc="currency[0]"/>
-                                </strong>
-                            </td>
-                        	<t t-if="filter['date_from']">                            
-                            <td class="mon_fld" style="">
-                                <strong>
-                                    <t t-raw="Math.round((total) * Math.pow(10, 2)) / Math.pow(10, 2)"/>
-                                    <t t-esc="currency[0]"/>
-                                </strong>
-                            </td>
-                            </t>
-                            
-
                         </t>
 
                     </tbody>
@@ -314,45 +196,53 @@
 
 
     <t t-name="TrialFilterView">
-
-        <div class="" style="position: relative;">
-            <div class="sub_container_left">
+        <div class="row" style="margin-right: 10px; margin-left: 10px;">
+            <div class="sub_container_left" style="width:70%;">
                 <div class="report_print">
                     <button type="button" class="btn btn-primary" id="pdf"
-                            style="left:10px; height:30px;position: relative;color:white;background-color: #00A0AD;border-color: #00A0AD; padding:3px;">
+                            style="position: relative;height:30px;color:white;background-color: #00A0AD;border-color: #00A0AD; padding:3px;">
                         Print (PDF)
                     </button>
                     <button type="button" class="btn btn-primary" id="xlsx"
-                            style="left:10px; height:30px;position: relative;color:white;background-color: #00A0AD;border-color: #00A0AD; padding:3px;">
+                            style="position: relative;height:30px;color:white;background-color: #00A0AD;border-color: #00A0AD; padding:3px;">
                         Export (XLSX)
                     </button>
                 </div>
             </div>
             <br></br>
-            <div class="sub_container_right" style="width:50%;height:3%;right:0px;top:0px;position: absolute;">
-                <div class="" style="right:80x;">
+            <div class="sub_container_right row" style="width:30%;height:3%;top:0px;position: relative;">
 
-                    <br></br>
-                    <div class="row" style="right:110px;top:0px;position: absolute;width:50;">
                         <div class="time_range" style="">
-                            <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <a type="button" class="dropdown-toggle" data-toggle="dropdown" >
                                 <span class="fa fa-calendar" title="Dates" role="img" aria-label="Dates"></span>
                                 Date Range
                             </a>
                             <div class="dropdown-menu" role="menu">
-                                <div class="">
+                                <div class="form-group">
                                     <label class="" for="date_from">Start Date :</label>
-                                    <div class="">
-                                        <div class="" aria-atomic="true" id="">
-                                            <input type="date" id="date_from"></input>
+                                        <div class="input-group date" id="date_from" data-target-input="nearest">
+<!--                                            <t t-set='date_formatted'><t t-options='{"widget": "date"}' t-esc="filter_data.date_from"/></t>-->
+<!--                                            <input type="text" name="date_from" class="form-control datetimepicker-input" t-att-value="date_formatted"  data-target="#date_from" t-att-name="prefix"/>-->
+                                            <input type="text" name="date_from" class="form-control datetimepicker-input" data-target="#date_from" t-att-name="prefix"/>
+
+                                            <div class="input-group-append" data-target="#date_from" data-toggle="datetimepicker">
+                                                <span class="input-group-text">
+                                                    <span class="fa fa-calendar" role="img" aria-label="Calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+
                                     <label class="" for="date_to">End Date :</label>
-                                    <div class="">
-                                        <div class="" aria-atomic="true" id="">
-                                            <input type="date" id="date_to"></input>
+                                    <div class="input-group date" id="date_to" data-target-input="nearest">
+
+                                        <input type="text" name="date_to" class="form-control datetimepicker-input" data-target="#date_to" t-att-name="prefix"/>
+                                        <div class="input-group-append" data-target="#date_to" data-toggle="datetimepicker">
+                                            <span class="input-group-text">
+                                                <span class="fa fa-calendar" role="img" aria-label="Calendar"></span>
+                                            </span>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -364,9 +254,23 @@
                             <select class="dropdown-menu  journals" name="states[]" multiple="multiple">
                                 <div role="separator" class="dropdown-divider"></div>
                                 <t t-foreach="filter_data.journals_list" t-as="journal">
-                                    <option t-attf-value="{{journal[0]}}">
-                                        <t t-esc="journal[1]"/>
-                                    </option>
+
+                                     <t t-if="journal[0]=='divider'">
+                                            <div role="separator" class="dropdown-divider"/>
+
+                                         <option disabled="disabled" role="menuitem" t-attf-value="{{journal[0]}}">
+                                            <t t-esc="journal[1]"/>
+                                        </option>
+                                            <div role="separator" class="dropdown-divider"/>
+                                     </t>
+
+
+                                    <t t-else="">
+                                        <option t-attf-value="{{journal[0]}}">
+                                            <t t-esc="journal[1]"/>
+                                        </option>
+                                    </t>
+
                                 </t>
                             </select>
                             <span id="journal_res"></span>
@@ -384,16 +288,18 @@
                             </select>
                             <span id="post_res"></span>
                         </div>
-                    </div>
+                        <div style="">
+                            <button type="button" id="apply_filter" class="btn btn-primary"
+                                    style="top:0px;height:30px;color:white;background-color: #00A0AD;border-color: #00A0AD;">
+                                Apply
+                            </button>
 
-                </div>
-                <div style="">
-                    <button type="button" id="apply_filter" class="btn btn-primary"
-                            style="top:0px;height:30px;right:20px;position: absolute;color:white;background-color: #00A0AD;border-color: #00A0AD;">
-                        Apply
-                    </button>
+                        </div>
+<!--                    </div>-->
 
-                </div>
+
+<!--                </div>-->
+
             </div>
         </div>
     </t>

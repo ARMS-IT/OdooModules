@@ -5,8 +5,6 @@ import io
 import json
 from odoo.http import request
 from odoo.exceptions import AccessError, UserError, AccessDenied
-import logging
-logger = logging.getLogger(__name__)
 
 try:
     from odoo.tools.misc import xlsxwriter
@@ -190,7 +188,7 @@ class TrialView(models.TransientModel):
         # compute the balance, debit and credit for the provided accounts
         request = (
                     "SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" + \
-                    " FROM " + tables + " WHERE account_id IN %s " + filters +"AND account_move_line.date > '2021-12-31'" +" GROUP BY account_id")
+                    " FROM " + tables + " WHERE account_id IN %s " + filters + " GROUP BY account_id")
         params = (tuple(accounts.ids),) + tuple(where_params)
         self.env.cr.execute(request, params)
         for row in self.env.cr.dictfetchall():
@@ -203,31 +201,22 @@ class TrialView(models.TransientModel):
             res['code'] = account.code
             res['name'] = account.name
             res['id'] = account.id
-            int_balance = 0.0
             if data.get('date_from'):
 
                 res['Init_balance'] = self.get_init_bal(account, display_account, data)
-                print('wwwwwwwwwwwwwwwwwwww',res['Init_balance'])
-
-                if res['Init_balance']:
-                    if res['Init_balance']['debit'] != 0.0 or res['Init_balance']['credit'] != 0.0:
-                        int_balance = res['Init_balance']['debit'] or res['Init_balance']['credit']
-                        print('555555555555555555',res['Init_balance']['debit'])
 
             if account.id in account_result:
                 res['debit'] = account_result[account.id].get('debit')
                 res['credit'] = account_result[account.id].get('credit')
                 res['balance'] = account_result[account.id].get('balance')
-
             if display_account == 'all':
                 account_res.append(res)
             if display_account == 'not_zero' and not currency.is_zero(
                     res['balance']):
                 account_res.append(res)
-
-            if not int_balance and (res['debit'] or res['credit']):
-                account_res.append(res)
-            if int_balance :
+            if display_account == 'movement' and (
+                    not currency.is_zero(res['debit']) or not currency.is_zero(
+                    res['credit'])):
                 account_res.append(res)
         return account_res
 
@@ -257,7 +246,7 @@ class TrialView(models.TransientModel):
             # compute the balance, debit and credit for the provided accounts
             request = (
                     "SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" + \
-                    " FROM " + tables + " WHERE account_id = %s" % account.id + filters +"AND account_move_line.date > '2021-12-31'" +" GROUP BY account_id")
+                    " FROM " + tables + " WHERE account_id = %s" % account.id + filters + " GROUP BY account_id")
             params = tuple(where_params)
             self.env.cr.execute(request, params)
             for row in self.env.cr.dictfetchall():
@@ -304,20 +293,15 @@ class TrialView(models.TransientModel):
             sheet.merge_range('C4:D4', 'To: '+ filters.get('date_to'), date_head)
         sheet.merge_range('A5:D6', 'Journals: ' + ', '.join([ lt or '' for lt in filters['journals'] ]) + '  Target Moves: '+ filters.get('target_move'), date_head)
         sheet.write('A7', 'Code', sub_heading)
-        sheet.write('B7', 'Account', sub_heading)
+        sheet.write('B7', 'Amount', sub_heading)
         if filters.get('date_from'):
             sheet.write('C7', 'Initial Debit', sub_heading)
             sheet.write('D7', 'Initial Credit', sub_heading)
-            sheet.write('E7', 'Initial Balance', sub_heading)
-            sheet.write('F7', 'Debit', sub_heading)
-            sheet.write('G7', 'Credit', sub_heading)
-            sheet.write('H7', 'Balance', sub_heading)
-            sheet.write('I7', 'Final Balance', sub_heading)
-
+            sheet.write('E7', 'Debit', sub_heading)
+            sheet.write('F7', 'Credit', sub_heading)
         else:
             sheet.write('C7', 'Debit', sub_heading)
             sheet.write('D7', 'Credit', sub_heading)
-            sheet.write('E7', 'Balance', sub_heading)
 
         row = 6
         col = 0
@@ -329,71 +313,37 @@ class TrialView(models.TransientModel):
             sheet.set_column(9, 4, 15)
             sheet.set_column(10, 5, 15)
             sheet.set_column(11, 6, 15)
-            sheet.set_column(12, 7, 15)
-            sheet.set_column(13, 8, 15)
-            sheet.set_column(14, 9, 15)
         else:
+
             sheet.set_column(8, 3, 15)
             sheet.set_column(9, 4, 15)
-            sheet.set_column(10, 5, 15)
-            
-        total_debit= 0
-        total_credit= 0
-        
         for rec_data in report_data_main:
 
             row += 1
             sheet.write(row, col, rec_data['code'], txt)
             sheet.write(row, col + 1, rec_data['name'], txt)
             if filters.get('date_from'):
-                logger.info(f"********* Init Balance Excel STARTED *****: {rec_data['Init_balance']}.")
-                if rec_data.get('Init_balance') is not None:
-                    logger.info(f"********* onchange_partner_id STARTED *****: {rec_data['Init_balance']}.")
+                if rec_data.get('Init_balance'):
                     sheet.write(row, col + 2, rec_data['Init_balance']['debit'], txt)
                     sheet.write(row, col + 3, rec_data['Init_balance']['credit'], txt)
-                    sheet.write(row, col + 4, rec_data['Init_balance']['debit'] - rec_data['Init_balance']['credit'], txt)
-
                 else:
                     sheet.write(row, col + 2, 0, txt)
                     sheet.write(row, col + 3, 0, txt)
-                    sheet.write(row, col + 4, 0, txt)
-                    
-                    
-                sheet.write(row, col + 5, rec_data['debit'], txt)
-                sheet.write(row, col + 6, rec_data['credit'], txt)
-                sheet.write(row, col + 7, rec_data['debit'] - rec_data['credit'], txt)
-                if filters.get('date_from'):
-                    if rec_data.get('Init_balance') is not None:
-                        sheet.write(row, col + 8, (rec_data['Init_balance']['debit'] - rec_data['Init_balance']['credit']) + (rec_data['debit'] - rec_data['credit']), txt)
-                    else:
-                        sheet.write(row, col + 8, rec_data['debit'] - rec_data['credit'], txt)
-                        
-                
-                total_debit +=rec_data['Init_balance']['debit'] if rec_data.get('Init_balance') is not None else 0.0
-                total_credit +=rec_data['Init_balance']['credit'] if rec_data.get('Init_balance') is not None else 0.0
 
+                sheet.write(row, col + 4, rec_data['debit'], txt)
+                sheet.write(row, col + 5, rec_data['credit'], txt)
 
             else:
                 sheet.write(row, col + 2, rec_data['debit'], txt)
                 sheet.write(row, col + 3, rec_data['credit'], txt)
-                sheet.write(row, col + 4, rec_data['debit'] - rec_data['credit'], txt)
-                
-                
         sheet.write(row+1, col, 'Total', sub_heading)
         if filters.get('date_from'):
-            sheet.write(row + 1, col + 2, total_debit, txt_l)
-            sheet.write(row + 1, col + 3, total_credit, txt_l)
-            sheet.write(row + 1, col + 4, total_debit - total_credit, txt_l)
-            sheet.write(row + 1, col + 5, total.get('debit_total'), txt_l)
-            sheet.write(row + 1, col + 6, total.get('credit_total'), txt_l)
-            sheet.write(row + 1, col + 7, total.get('debit_total') - total.get('credit_total'), txt_l)
-            sheet.write(row + 1, col + 8, (total_debit - total_credit) + (total.get('debit_total') - total.get('credit_total')), txt_l)
-
+            sheet.write(row + 1, col + 4, total.get('debit_total'), txt_l)
+            sheet.write(row + 1, col + 5, total.get('credit_total'), txt_l)
         else:
             sheet.write(row + 1, col + 2, total.get('debit_total'), txt_l)
             sheet.write(row + 1, col + 3, total.get('credit_total'), txt_l)
-            sheet.write(row + 1, col + 4, total.get('debit_total') - total.get('credit_total'), txt_l)
-            
+
         workbook.close()
         output.seek(0)
         response.stream.write(output.read())
