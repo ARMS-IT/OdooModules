@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <delete id="account.access_account_move_uinvoice" model="ir.model.access"/>
+
+    <record id="view_vat_invoice_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="after">
+                <group>
+                    <group>
+                        <field name="id" string="Invoice Counter Value" readonly="1"/>
+                        <field name="invoice_type" attrs="{'required':[('move_type','=', 'out_invoice')], 'invisible':[('move_type', 'not in', ['in_invoice','out_invoice'])], 'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="special_billing_agreement" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_type','=', 'simple')]}"/>
+                        <field name="inv_payment_type"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                    </group>
+                    <group>
+                        <field name="invoice_type_code"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="invoice_tx_code"/>
+                        <field name="transaction_type"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                    </group>
+                </group>
+            </xpath>
+        <field name="to_check" position="after">
+           <field name="journal_type" invisible="1"/>
+            <field name="draft_check" readonly="1"/>
+        </field>
+
+		  <xpath expr="//button[@name='button_draft']" position="replace">
+                    <button name="button_draft" string="Reset to Draft" type="object" attrs="{'invisible':[('journal_type','!=', 'general')]}"/>
+		  </xpath>
+            <xpath expr="//group/group[@id='header_right_group']/div[@class='o_td_label']" position="attributes">
+                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group/group[@id='header_right_group']/field[@name='invoice_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group/group[@id='header_right_group']/field[@name='invoice_date']" position="after">
+<!--                <field name="invoice_time" readonly="1" required="0"/>-->
+                <field name="invoice_date" readonly="1" required="0"/>
+                <field name="supply_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="supply_end_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+            </xpath>
+<!--            <field name="invoice_date_due" position="before">-->
+<!--                <field name="supply_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>-->
+<!--                <field name="supply_end_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>-->
+<!--            </field>-->
+            <field name="invoice_user_id" position="before">
+                <field name="business_process_type" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+            </field>
+            <field name="payment_reference" position="attributes">
+                <attribute name="attrs">{'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}</attribute>
+                <attribute name="string"></attribute>
+            </field>
+
+            <xpath expr="//div[@class='oe_title']" position="before">
+                <field name="qr_image" widget="image" class="oe_avatar" attrs="{'invisible':[('qr_image','=',False)]}"/>
+            </xpath>
+            <field name="payment_reference" position="before">
+                <field name="customer_vat" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="ref" string="Reference Invoice Number" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+            </field>
+            <xpath expr="//page[@id='other_tab']" position="inside">
+                <group string="Auto Generated">
+                    <group>
+                        <field name="discount_allowance" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="uuid_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('uuid_number','=', False)]}" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="previous_invoice_hash_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
+                        <field name="invoice_hash_number" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_hash_number','=', False)]}"/>
+                    </group>
+                    <group>
+                        <group>
+                            <!-- <field name="third_party_invoice"/> -->
+                            <field name="debit_credit_note" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+                            <!-- <field name="on_vendor_behalf" attrs="{'invisible':[('invoice_type','not in',['vat', 'debit', 'credit'])]}"/> -->
+                            <field name="is_acknowledged" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="short_invoice" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                        <field name="virtual_import" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('invoice_type','not in',['vat', 'simple'])]}"/>
+                        <field name="export_invoice" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('invoice_type','not in',['vat', 'debit', 'credit'])]}"/>
+                    </group>
+                </group>
+
+            </xpath>
+            <xpath expr="//group[@id='header_left_group']" position="inside">
+                <field name="debit_credit_note_reason" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+                <field name="vat_exempt_reason" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="payment_condition" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('inv_payment_type','!=','b2b-b2g')]}"/>
+                <field name="payment_mean_id"  attrs="{'readonly':[('state','!=', 'draft')], 'required':[('invoice_type','in', ['vat', 'simple'])]}"/>
+            </xpath>
+            <xpath expr="//group[@id='header_right_group']" position="inside">
+                <field name="import_invoice_date" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('move_type','not in',['out_refund', 'in_refund'])]}"/>
+
+
+                <field name="vendor_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_address': 1, 'show_vat': True}" options="{&quot;always_reload&quot;: True}" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+                <field name="vendor_vat" attrs="{'readonly':[('state','!=', 'draft')], 'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+                <field name="vendor_vat_group_reg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+                <field name="commercial_reg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+                <field name="vendor_reg_id" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+                <field name="vendor_ip" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('special_billing_agreement','!=', 'third_party')]}"/>
+
+
+                <field name="po_number" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                <field name="contract_ref" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+            </xpath>
+            <field name="narration" position="after">
+                <group string="Confirmation Message">
+                    <group>
+                        <field name="customer_confirmation_msg" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('invoice_type','!=','vat'), ('move_type','not in', ['out_refund', 'in_refund'])]}" placeholder="Customer Confirmation Message" nolabel="1"/>
+                    </group>
+                </group>
+            </field>
+            <field name="narration" position="attributes">
+                <attribute name="attrs">{'readonly':[('state','!=', 'draft')]}</attribute>
+            </field>
+            <!--  <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='analytic_account_id']" position="attributes">
+                 <attribute name="attrs">{'invisible':[('move_type', '!=', 'in_invioce')]}</attribute>
+             </xpath> -->
+
+<!-- By Fareed 
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='asset_category_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+-->
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='product_id']" position="after">
+                <field name="peppol_code"/>
+                <field name="discount_allowance"/>
+                <field name="move_type" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='discount']" position="attributes">
+                <attribute name="optional"></attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='tax_ids']" position="after">
+                <field name="tax_amount"/>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='discount']" position="after">
+                <field name="discount_amount"/>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_subtotal']" position="after">
+                <field name="price_total"/>
+            </xpath>
+            <field name="amount_tax" position="before">
+                <field name="total_discount" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('total_discount','&lt;=', 0)]}"/>
+                <field name="total_discount_percent" attrs="{'readonly':[('state','!=', 'draft')],'invisible':[('total_discount_percent','&lt;=', 0)]}"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Zatca QR Code">
+                    <group>
+                        <group>
+                            <field name="qr_seller_name"/>
+                            <field name="qr_seller_vat"/>
+                            <field name="qr_invoice_time"/>
+                        </group>
+                        <group>
+                            <field name="qr_amount_total"/>
+                            <field name="qr_tax_total" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="qr_string"/>
+                        <field name="qr_fail_reason"/>
+                    </group>
+                    <field name="qr_image_zatca" widget="image" class="oe_avatar" nolabel="1" attrs="{'invisible':[('qr_image_zatca','=',False)]}"/>
+                </page>
+                <page string="XML Details">
+                    <field name="invoice_xml_document_filename" invisible="1"/>
+                    <group>
+                        <field name="invoice_xml_document" widget="file" string="Download Invoice XML" filename="invoice_xml_document_filename"/>
+                    </group>
+                    <group>
+                        <field name="xml_json_str"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//header" position="after">
+                <header>    
+                    <button name="action_clearance_api_test" string="Clearance API" type="object"/>
+                    <field name="invoice_xml_document" widget="file" filename="invoice_xml_document_filename"/>
+                </header>
+            </xpath>
+            <xpath expr="//header" position="after">
+                <header>
+                    <button name="action_acknowledged" string="Acknowledged" attrs="{'invisible':[('is_acknowledged','=', True)]}" type="object"/>
+                    <button name="action_generate_report" string="Generate E-Vat Invoice" type="object" attrs="{'invisible':['|', ('move_type','!=', 'out_invoice'), ('invoice_type','!=','vat')]}"/>
+                    <button name="action_generate_report" string="Generate Simplified E-Invoice" type="object" attrs="{'invisible':[('invoice_type','!=','simple')]}"/>
+                    <button name="action_generate_report" string="Generate Credit Note" type="object" attrs="{'invisible':[('move_type','!=','out_refund')]}"/>
+                    <button name="action_generate_report" string="Generate Debit Note" type="object" attrs="{'invisible':[('move_type','!=','in_refund')]}"/>
+
+                    <button name="action_generate_report_a3" string="Generate E-Vat Invoice (A3)" type="object" attrs="{'invisible':['|', ('move_type','!=', 'out_invoice'), ('invoice_type','!=','vat')]}"/>
+                    <button name="action_generate_report_a3" string="Generate Simplified E-Invoice (A3)" type="object" attrs="{'invisible':[('invoice_type','!=','simple')]}"/>
+                    <button name="action_generate_report_a3" string="Generate Credit Note (A3)" type="object" attrs="{'invisible':[('move_type','!=','out_refund')]}"/>
+                    <button name="action_generate_report_a3" string="Generate Debit Note (A3)" type="object" attrs="{'invisible':[('move_type','!=','in_refund')]}"/>
+                    <button name="update_invoicetime" string="Update Invoice Time" type="object" groups="base.group_system"/>
+
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_tree_inherit_invoice_time" model="ir.ui.view">
+        <field name="name">invoice.tree.inherit.invoice.time</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='activity_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='invoice_date_due']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_dateinv" model="ir.ui.view">
+        <field name="name">account.invoice.date</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//filter[@name='invoice_date']" position="replace">-->
+<!--                <filter name="date" string="Date" date="date"/>-->
+<!--            </xpath>-->
+            <xpath expr="//filter[@name='duedate']" position="before">
+                <filter name="invoice_type" string="Invoice Type" context="{'group_by': 'invoice_type'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="peppol_code"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="cr_number"/>
+                <field name="seven_hundred_number"/>
+                <field name="group_vat_reg"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Identities">
+                    <field name="identities_ids">
+                        <tree editable="bottom">
+                            <field name="id_type"/>
+                            <field name="id_number"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <field name="country_id" position="before">
+                <field name="neighborhood" placeholder="Neighborhood"/>
+                <field name="additional_number" placeholder="Additional No."/>
+                <field name="district" placeholder="District"/>
+            </field>
+            <field name="street" position="before">
+                <field name="building_number" placeholder="Building No."/>
+            </field>
+        </field>
+    </record>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="group_vat_reg"/>
+                <field name="einv_report_format"/>
+            </field>
+            <field name="street" position="before">
+                <field name="building_number" placeholder="Building No."/>
+            </field>
+            <field name="country_id" position="before">
+                <field name="neighborhood" placeholder="Neighborhood"/>
+                <field name="additional_number" placeholder="Additional No."/>
+                <field name="district" placeholder="District"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Identities">
+                    <field name="identities_ids">
+                        <tree editable="bottom">
+                            <field name="id_type"/>
+                            <field name="id_number"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_tax_form" model="ir.ui.view">
+        <field name="name">account.tax.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="code_id"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="action_move_in_refund_type" model="ir.actions.act_window">
+        <field name="name">Debit Notes</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="account.view_invoice_tree"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="domain">[('debit_origin_id', '!=', False)]</field>
+        <field name="context">{'default_move_type': 'in_refund'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a debit note
+            </p><p>
+            Note that the easiest way to create a debit note is to do it directly
+            from the customer invoice.
+        </p>
+        </field>
+    </record>
+    
+	<!-- Domain Added  -->
+        <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+            <field name="domain">['&amp;',('debit_origin_id', '=', False),('move_type', '=', 'out_invoice')]</field>
+        </record>
+
+
+    <menuitem id="menu_action_move_in_refund_type" parent="account.menu_finance_payables" action="action_move_in_refund_type" sequence="3"/>
+
+</odoo>

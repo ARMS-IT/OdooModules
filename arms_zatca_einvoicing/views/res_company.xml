@@ -1,0 +1,29 @@
+<odoo>
+	<data>
+
+	    <record id="res_company_view_form_inherited" model="ir.ui.view">
+	        <field name="name">res.company.inherited.form</field>
+	        <field name="model">res.company</field>
+	        <field name="inherit_id" ref="base.view_company_form"/>
+	        <field name="arch" type="xml">
+	        	<xpath expr="//notebook" position="inside">
+	        		<page string="Zatca">
+	        			<group>
+	        				<group>
+	        					<field name="zatca_mode" widget="radio"/>
+	        				</group>
+	        			</group>
+        				<group>
+	        				<field name="zatca_production_binary_security_token" attrs="{'required':[('zatca_mode','=','production')] ,'invisible':[('zatca_mode','=', 'sandbox')]}"/>
+	        				<field name="zatca_production_secret_key" attrs="{'required':[('zatca_mode','=','production')] ,'invisible':[('zatca_mode','=', 'sandbox')]}"/>
+	        				<field name="zatca_production_otp" attrs="{'required':[('zatca_mode','=','production')] ,'invisible':[('zatca_mode','=', 'sandbox')]}"/>
+        				</group>
+                    	<label for="zatca_vendor_config"/>
+                    	<field name="zatca_vendor_config"/>
+	        		</page>
+	        	</xpath>
+	        </field>
+	    </record>
+
+	</data>
+</odoo>
