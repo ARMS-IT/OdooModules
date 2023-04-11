@@ -38,7 +38,7 @@
             </xpath>
             <xpath expr="//group/group[@id='header_right_group']/field[@name='invoice_date']" position="after">
 <!--                <field name="invoice_time" readonly="1" required="0"/>-->
-                <field name="invoice_date" readonly="1" required="0"/>
+                <field name="invoice_date" required="0" attrs="{'readonly':[('journal_type','in', ('sale'))]}"/>
                 <field name="supply_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
                 <field name="supply_end_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
             </xpath>

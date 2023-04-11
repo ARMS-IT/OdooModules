@@ -1730,11 +1730,13 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
+                                          <t t-if="len(vendor.get_other_ids()) > 0">                                            
                                             <tr>
-                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>
+                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>
                                             </tr>
+                                           </t> 
                                         </table>
                                     </div>
                                 </div>
@@ -1995,11 +1997,13 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="o.partner_id.vat"/></td>
                                                 <td class="text-info" style="text-align: right;direction: rtl;background-color:#fff;border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
+                                          <t t-if="len(o.partner_id.get_other_ids()) > 0">
                                             <tr>
-                                                <!--                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start text-info" style="border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>
+                                                <td class="text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>
                                             </tr>
+                                           </t> 
                                         </table>
                                     </div>
                                     <div class="col-6" style="">
@@ -2068,11 +2072,13 @@
                                                 <td class="text-center" style="border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
+                                          <t t-if="len(vendor.get_other_ids()) > 0">
                                             <tr>
-                                                <!--                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start text-info" style="background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>
+                                                <td class="text-end text-info" style="text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>
                                             </tr>
+                                            </t>
                                         </table>
                                     </div>
                                 </div>
@@ -2355,11 +2361,13 @@
                                                 <td class="text-center" style="color: #000 !important;border-color: #dee2e6;" colspan="2"><span t-field="vendor.vat"/></td>
                                                 <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff; border-color: #dee2e6;">الرقم الضریبي:</td>
                                             </tr>
+                                          <t t-if="len(vendor.get_other_ids()) > 0">
                                             <tr>
-                                                <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>
+                                                 <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>
                                             </tr>
+                                            </t>
                                         </table>
                                     </div>
                                 </div>
@@ -2627,11 +2635,13 @@
                                                 <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.vat"/></td>
                                                 <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">الرقم الضریبي: </td>
                                             </tr>
+                                          <t t-if="len(o.partner_id.get_other_ids()) > 0">                                            
                                             <tr>
-                                                <!--                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start " style="color: #000 !important;border-color: #dee2e6; background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="color: #000 !important;background-color:white; color: #333; border-color: #dee2e6;" colspan="2"><span t-esc="o.partner_id.get_other_ids()"/></td>
+                                                <td class="" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;"> معرفات التاجر الاخرى: </td>
                                             </tr>
+                                            </t>
                                         </table>
                                     </div>
                                     <div class="col-6" style="">
@@ -2705,11 +2715,13 @@
                                                 <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.vat"/></td>
                                                 <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">الرقم الضریبي: </td>
                                             </tr>
+                                          <t t-if="len(vendor.get_other_ids()) > 0">                                            
                                             <tr>
-                                                <!--                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>-->
-                                                <!--                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>-->
-                                                <!--                                                <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>-->
+                                                <td class="text-start" style="color: #000 !important;background-color:white; border-right: 1px solid #dee2e6;">Other Seller ID:</td>
+                                                <td class="text-center" style="color: #000 !important;background-color:white;color: #333;border-color: #dee2e6;" colspan="2"><span t-esc="vendor.get_other_ids()"/></td>
+                                                 <td class="text-end" style="color: #000 !important;text-align: right;direction: rtl; background-color:#fff;border-color: #dee2e6;">معرفات التاجر الاخرى: </td>
                                             </tr>
+                                            </t>
                                         </table>
                                     </div>
                                 </div>

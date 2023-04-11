@@ -502,7 +502,7 @@ class AccountMove(models.Model):
             ]
 
             res["Delivery"] = {
-                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else "" ,
+                "ActualDeliveryDate": move.supply_date.strftime("%Y-%m-%d") if move.supply_date else "",
                 # "LatestDeliveryDate": move.supply_end_date.strftime("%Y-%m-%d") if move.supply_end_date else "",
             }
             res["PaymentMeans"] = {
@@ -713,8 +713,8 @@ class AccountMove(models.Model):
     invoice_time = fields.Datetime("Invoice Time", default=False, tracking=True, required=False)
     # invoice_date = fields.Date(compute="_compute_invoice_date", store=True)
     # date = fields.Date(compute="_compute_invoice_date", store=True)
-    supply_date = fields.Date("Supply Date", required=True)
-    supply_end_date = fields.Date("Supply End Date", required=True)
+    supply_date = fields.Date("Supply Date", required=False)
+    supply_end_date = fields.Date("Supply End Date", required=False)
 
 
     @api.depends('company_id', 'vendor_id', 'special_billing_agreement')
@@ -790,8 +790,8 @@ class AccountMove(models.Model):
             if inv.total_discount > 0:
                 inv.discount_allowance = True
 
-#    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", default=lambda self:self.env.ref("zatca_e_invoicing.payment_mean_30").id, domain=[('code','in',[10, 30, 42, 48, 1])])
-    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", domain=[('code','in',[10, 30, 42, 48, 1])])
+    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", default=lambda self:self.env.ref("arms_zatca_einvoicing.payment_mean_30").id, domain=[('code','in',[10, 30, 42, 48, 1])])
+#    payment_mean_id = fields.Many2one('account.payment.mean', string="Payment Mean", domain=[('code','in',[10, 30, 42, 48, 1])])
     discount_allowance = fields.Boolean("Allowance (Discount)", compute="_compute_discount_allowance")
     
     @api.constrains('special_billing_agreement')
@@ -831,7 +831,6 @@ class AccountMove(models.Model):
         self.invoice_date = res.get_invoice_time()
         return res
 
-    @api.onchange("invoice_time")
     def onchange_invoice_time(self):
         if self.invoice_time:
             # tz = pytz.timezone(self.env.user.tz or "UTC")
