@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_altayibat_pos_receipt_altayibat_pos_receipt,altayibat_pos_receipt.altayibat_pos_receipt,model_altayibat_pos_receipt_altayibat_pos_receipt,base.group_user,1,1,1,1
