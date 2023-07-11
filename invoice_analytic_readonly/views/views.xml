@@ -1,0 +1,14 @@
+<odoo>
+  	<data>
+	    <record id="view_inherited_invoice_form" model="ir.ui.view">
+	        <field name="name">account.move.form</field>
+	        <field name="model">account.move</field>
+	        <field name="inherit_id" ref="account.view_move_form"/>
+	        <field name="arch" type="xml">
+	   			<xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='analytic_account_id']" position="attributes">
+	                <attribute name="attrs">{'readonly':[('move_type','!=', 'in_invoice')]}</attribute>
+	            </xpath>
+	        </field>
+	    </record>
+  	</data>
+</odoo>

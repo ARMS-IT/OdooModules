@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <report
+            id="action_pos_gp_report_xlsx"
+            string="POS Gross Profit Report"
+            model="ts.pos.report"
+            report_type="xlsx"
+            file="ts_recipe_mgt.pos_report"
+            name="ts_recipe_mgt.pos_report"
+            menu="False"
+        />
+
+    </data>
+</odoo>

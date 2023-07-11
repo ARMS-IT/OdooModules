@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_letter_request_user,employee.letter.request.user,model_employee_letter_request,base.group_user,1,1,1,0
+access_employee_letter_request_manager,employee.letter.request.manager,model_employee_letter_request,hr.group_hr_user,1,1,1,1
+access_employee_region_user,employee.region.user,model_employee_region,hr.group_hr_user,1,1,1,1
+access_employee_region_employee,employee.region.employee,model_employee_region,base.group_user,1,0,0,0
+access_employee_region_line_user,employee.region.line.user,model_employee_region_line,hr.group_hr_user,1,1,1,1
+access_employee_region_line_employee,employee.region.line.employee,model_employee_region_line,base.group_user,1,0,0,0
+
+

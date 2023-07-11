@@ -1,0 +1,18 @@
+body{background: #f8f9fa!important;}
+.heading_h1{ font-size: 24px;font-weight: 600;}
+.trc_bg_primary{background-color:#2c5ea6!important}
+.trc_text_primary{color:#2c5ea6!important}
+.trc_btn_primary{color:#fff;background-color:#2c5ea6;border-color:#2c5ea6}
+.trc_btn_primary:hover{color:#fff;background-color:#1e4a89;border-color:#1e4a89}
+.trc_ms_auto{margin-left:auto!important}
+.trc_me_auto{margin-right:auto!important}
+.trc_text_end{text-align:right!important}
+.trc_text_start{text-align:left!important}
+.trc_float_end{float:right!important}
+.trc_float_start{float:left!important}
+
+.shadow-sm {box-shadow: 0 .125rem .25rem rgba(0,0,0,.045)!important;}
+input::placeholder, textarea::placeholder{transition: all 100ms linear;}
+input:focus::placeholder, textarea:focus::placeholder{padding-left: .5rem;transition: all 100ms linear;}
+.form-control{padding: .5rem .75rem;border-radius: .5rem;height:50px;}
+.form-control:focus{box-shadow: 0 0 0 0.2rem #2c5ea640;border-color: #75a6ed;}

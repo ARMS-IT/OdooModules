@@ -1,0 +1,225 @@
+<odoo>
+    <data>
+        <template id="payment_request_pdf_new">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <style>
+                            .top_container {
+                            color: #180063;
+                            text-align:center;
+                            font-weight:bold;
+                            font-size:50px;
+                            }
+                            .table_label {
+                            color: #180063;
+                            font-size: 16px;
+                            }
+                            .table_div {
+                            background-color: #f2f3fe;
+                            border: 1px solid #575863;
+                            color: #575863;
+                            font-size:14px;
+                            padding: 1px 1px 1px 2px;
+                            }
+                        </style>
+
+                        <div class="container top_container">
+                            <p>Payment Request Form</p>
+                        </div>
+
+
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Document Number</td>
+                                    <td width="17%" class="table_div">557</td>
+                                    <td width="53%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Requester Date</td>
+                                    <td width="42%" class="table_div"><span t-field="o.date"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Requester Name</td>
+                                    <td width="42%" class="table_div"><span t-field="o.current_user"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Payment Method</td>
+                                    <td width="42%" class="table_div"><span t-field="o.payment_method"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">TBA#</td>
+                                    <td width="42%" class="table_div"><span t-field="o.tba"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Payment Type</td>
+                                    <td width="42%" class="table_div"><span t-field="o.payment_type"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Amount Requested</td>
+                                    <td width="42%" class="table_div"><span t-field="o.amount_requested"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Currency</td>
+                                    <td width="42%" class="table_div"><span t-field="o.customer"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">QNET Bank Account Number</td>
+                                    <td width="42%" class="table_div"><span t-field="o.qnet_account"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Beneficiary Name</td>
+                                    <td width="42%" class="table_div"><span t-field="o.beneficiary_name"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Project WO</td>
+                                    <td width="42%" class="table_div"><span t-field="o.project_wo"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Project Name</td>
+                                    <td width="42%" class="table_div"><span t-field="o.project_name"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Customer Name</td>
+                                    <td width="42%" class="table_div"><span t-field="o.project_name"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Payment Purpose</td>
+                                    <td width="42%" style="height:6em" class="table_div"><span t-field="o.payment_purpose"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:15px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Requester Signature</td>
+                                    <td width="42%">________________________Date______________________</td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div>
+                            <hr/>
+                            <hr/>
+                        </div>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Finance Department Name</td>
+                                    <td width="42%" class="table_div"><span t-field="o.department"/></td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Signature</td>
+                                    <td width="42%">________________________Date______________________</td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Approved By</td>
+                                    <td width="42%" class="table_div"><span t-field="o.approved_by"/> </td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--                        <table width="100%" style="margin-top:5px;">-->
+<!--                            <tbody>-->
+<!--                                <tr width="100%">-->
+<!--                                    <td width="30%" class="table_label"></td>-->
+<!--                                    <td width="42%" class="table_div">00</td>-->
+<!--                                    <td width="28%"></td>-->
+<!--                                </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+                        <table width="100%" style="margin-top:10px;">
+                            <tbody>
+                                <tr width="100%">
+                                    <td width="30%" class="table_label">Signature</td>
+                                    <td width="42%">________________________Date______________________</td>
+                                    <td width="28%"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>
+

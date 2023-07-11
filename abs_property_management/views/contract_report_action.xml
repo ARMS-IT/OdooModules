@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_contract_report"
+            model="report.abs_property_management.contract_report"
+            string="Contract Report"
+            report_type="qweb-pdf"
+            name="abs_property_management.contract_report"
+            file="abs_property_management.contract_report_template"
+        />
+    </data>
+</odoo>

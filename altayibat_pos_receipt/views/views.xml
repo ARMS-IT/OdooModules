@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!-- 
+    <record model="ir.ui.view" id="altayibat_pos_receipt.list">
+      <field name="name">altayibat_pos_receipt list</field>
+      <field name="model">altayibat_pos_receipt.altayibat_pos_receipt</field>
+      <field name="inherit_id" ref="base.view_company_form"/>
+      <field name="arch" type="xml">
+        <field name="vat" position="after">
+            <field name="branch_company_id"
+        </field>
+      </field>
+    </record> -->
+
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="altayibat_pos_receipt.action_window">
+      <field name="name">altayibat_pos_receipt window</field>
+      <field name="res_model">altayibat_pos_receipt.altayibat_pos_receipt</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="altayibat_pos_receipt.action_server">
+      <field name="name">altayibat_pos_receipt server</field>
+      <field name="model_id" ref="model_altayibat_pos_receipt_altayibat_pos_receipt"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="altayibat_pos_receipt" id="altayibat_pos_receipt.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="altayibat_pos_receipt.menu_1" parent="altayibat_pos_receipt.menu_root"/>
+    <menuitem name="Menu 2" id="altayibat_pos_receipt.menu_2" parent="altayibat_pos_receipt.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="altayibat_pos_receipt.menu_1_list" parent="altayibat_pos_receipt.menu_1"
+              action="altayibat_pos_receipt.action_window"/>
+    <menuitem name="Server to list" id="altayibat_pos_receipt" parent="altayibat_pos_receipt.menu_2"
+              action="altayibat_pos_receipt.action_server"/>
+-->
+  </data>
+</odoo>

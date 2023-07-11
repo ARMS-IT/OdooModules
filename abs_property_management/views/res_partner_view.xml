@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tenant_detail_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]/group[1]" position='inside'>
+                <field name="user_is" readonly="1"/>
+            </xpath>
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page name="tenant_history" string="Tenant History" attrs="{'invisible': [('user_is', '=', 'buyer')]}">
+                    <field name="tenant_history_ids">
+                        <tree editable="1">
+                            <field name="date"/>
+                            <field name="tenancy_id"/>
+                            <field name="tenant_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="rent" sum="Total Rent"/>
+                            <field name="status"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_partner_tenant_form" model="ir.actions.act_window">
+        <field name="name">Tenant Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('user_is','=','tenant')]</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+            </p><p>
+                Odoo helps you easily track all activities related to
+                a customer: discussions, history of business opportunities,
+                documents, etc.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_partner_buyer_form" model="ir.actions.act_window">
+        <field name="name">Buyer Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('user_is','=', 'buyer')]</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+            </p><p>
+                Odoo helps you easily track all activities related to
+                a customer: discussions, history of business opportunities,
+                documents, etc.
+            </p>
+        </field>
+    </record>
+
+    <!--MENU [Customers]-->
+    <menuitem
+        id="main_customer_detail"
+        name="Customers"
+        parent="root_menu_property_management"        
+        action="base.action_partner_form"
+        groups="abs_property_management.group_company" 
+        sequence="1"/>
+
+    <!--MENU [Tenant]-->
+    <menuitem
+        id="main_tenant_detail"
+        name="Tenant Details"
+        parent="root_menu_property_management"        
+        action="abs_property_management.action_partner_tenant_form"
+        sequence="2"
+        groups= "abs_property_management.group_user_tenant,abs_property_management.group_company"/>
+
+    <!--MENU [Buyer]-->
+    <menuitem
+        id="main_buyer_detail"
+        name="Buyer Details"
+        parent="root_menu_property_management"        
+        action="abs_property_management.action_partner_buyer_form"
+        sequence="3"
+        groups= "abs_property_management.group_user_buyer,abs_property_management.group_company"/>
+
+</odoo>
+

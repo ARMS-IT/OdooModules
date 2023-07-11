@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_pos_order_form_consumption" model="ir.ui.view">
+        <field name="name">pos.order.form.consumption</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//div[@name='button_box']" position="inside">
+					<button name="pos_consumption_list" class="oe_stat_button" icon="fa-dollar" type="object" groups="">
+						<field name="pos_conpt_count" widget="statinfo" string="Consumption" />
+					</button>
+				</xpath>
+
+        </field>
+    </record>
+
+
+
+
+    <record id="view_pos_session_order_form_consumption" model="ir.ui.view">
+        <field name="name">pos.session.form.consumption</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//div[@name='button_box']" position="inside">
+					<button name="pos_session_consumption_list" class="oe_stat_button" icon="fa-dollar" type="object" groups="">
+						<field name="pos_session_conpt_count" widget="statinfo" string="Consumption" />
+					</button>
+				</xpath>
+
+        </field>
+    </record>
+</odoo>
+

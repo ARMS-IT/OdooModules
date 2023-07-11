@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,recipe.structure,model_recipe_structure,base.group_user,1,0,0,0
+2,recipe.structure,model_recipe_structure,group_manager_recipe_structure,1,1,1,1
+
+3,recipe.product.wizard,model_recipe_product_wizard,base.group_user,1,0,0,0
+4,recipe.product.wizard,model_recipe_product_wizard,group_manager_recipe_structure,1,1,1,1
+
+5,recipe.product.wizard.line,model_recipe_product_wizard_line,base.group_user,1,0,0,0
+6,recipe.product.wizard.line,model_recipe_product_wizard_line,group_manager_recipe_structure,1,1,1,1
+
+7,ts.pos.report,model_ts_pos_report,base.group_user,1,0,0,0
+8,ts.pos.report,model_ts_pos_report,group_manager_recipe_structure,1,1,1,1
+

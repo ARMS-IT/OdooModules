@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="po_approval_team" model="ir.module.category">
+        <field name="name">Purchase Order Approval</field>
+        <field name="description">User access for approving purchase orders.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="finance_user" model="res.groups">
+        <field name="name">Financial Manager</field>
+        <field name="category_id" ref="po_approval_team"/>
+        <!-- <field name="implied_ids" eval="[(4, ref('custom_purchase.management_user'))]"/> -->
+    </record>
+
+    <record id="management_user" model="res.groups">
+        <field name="name">Executive</field>
+        <field name="category_id" ref="po_approval_team"/>
+    </record>
+
+</odoo>
